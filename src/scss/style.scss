@@ -1,0 +1,44 @@
+/* Global styling */
+* {
+  box-sizing: border-box;
+  user-select: none;
+  font-size: 100%;
+}
+
+html {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(16px, 4vh, 32px);
+
+  body {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    background-color: #f1f1f1;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  a {
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  canvas {
+    image-rendering: pixelated;
+    position: relative;
+    z-index: 0;
+  }
+
+  .menu {
+    background-color: #333333;
+    border-radius: 0.25rem;
+    color: #ffffff;
+    font-size: 0.75rem;
+    padding: 0.5rem;
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    z-index: 1;
+  }
+}
