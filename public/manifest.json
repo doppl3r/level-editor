@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Boxel Dungeons",
+  "description": "Jump, explore, and loot dungeons.",
+  "version": "0.0.1",
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Boxel Dungeons"
+  },
+  "icons": { 
+    "16": "img/png/icon16.png", 
+    "48": "img/png/icon48.png", 
+    "128": "img/png/icon128.png"
+  }
+}

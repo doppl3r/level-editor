@@ -1,2 +1,2 @@
-# boxel-dungeons
+# Boxel Dungeons
 Jump, explore, and loot dungeons.

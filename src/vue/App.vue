@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import Menu from './Menu.vue';
-  import '../ts/main.js';
+  import '../js/app.js';
 </script>
 
 <template>
