@@ -1,4 +1,4 @@
-import { Clock, PCFSoftShadowMap, PerspectiveCamera, WebGLRenderer } from 'three';
+import { Clock, PCFSoftShadowMap, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 import { Assets } from './assets';
 import { Game } from './game';
 import Stats from './stats.js';
@@ -16,7 +16,7 @@ class App {
         this.physicsInterval = 1 / this.physicsTickRate;
         this.stats = new Stats();
         this.assets = new Assets();
-        this.game = new Game();
+        this.scene = new Scene();
         this.camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 100);
         this.camera.rotation.set(Math.PI / 2, 0, 0);
         this.renderer = new WebGLRenderer({ antialias: true, alpha: false });
@@ -42,49 +42,36 @@ class App {
     }
 
     init() {
+        this.game = new Game();
         this.game.init(this);
+        this.scene = this.game.scene;
     }
 
     loop() {
         // Update time factors
-        var delta = this.clock.getDelta() * this.clock.scale;
-        var alpha = this.physicsDeltaSum / this.physicsInterval; // Interpolation factor
-        var updateRen = false;
-        var updatePhy = false;
+        this.stats.begin(); // Begin FPS counter
+        var renderDelta = this.clock.getDelta() * this.clock.scale;
+        var renderAlpha = this.physicsDeltaSum / this.physicsInterval; // Interpolation factor
+        var physicsDelta = 0; // 0 = Do not update physics
 
         // Refresh renderer on a higher interval
-        this.renderDeltaSum += delta;
+        this.renderDeltaSum += renderDelta;
         if (this.renderDeltaSum > this.renderInterval) {
-            updateRen = true;
             this.renderDeltaSum %= this.renderInterval;
-            this.updateRender(delta, alpha);
+            if (this.renderTickRate > 0) renderDelta = this.renderInterval; // (optional) Lock render
+            this.renderer.render(this.scene, this.camera); // Repaint scene
         }
         
         // Update engine on a lessor interval
-        this.physicsDeltaSum += delta;
+        this.physicsDeltaSum += renderDelta;
         if (this.physicsDeltaSum > this.physicsInterval) {
-            updatePhy = true;
-            alpha = (this.physicsDeltaSum - delta) / this.physicsInterval; // Request new position from physics
             this.physicsDeltaSum %= this.physicsInterval; // reset with remainder
-            this.updatePhysics(this.physicsInterval, alpha);
+            physicsDelta = this.physicsInterval;
         }
-    }
-    
-    updateRender(delta, alpha) {
-        // Set delta to target renderInterval
-        if (this.renderTickRate > 0) delta = this.renderInterval;
 
-        // Loop through all child objects
-        this.game.updateRender(delta, alpha);
-
-        // Render new scene
-        this.renderer.render(this.game.scene, this.camera);
+        // Update game
+        this.game.update(renderDelta, renderAlpha, physicsDelta);
         this.stats.end(); // End FPS counter
-    }
-
-    updatePhysics(delta, alpha) {
-        this.stats.begin(); // Begin FPS counter
-        this.game.updatePhysics(delta, alpha);
     }
 
     setCamera(camera) {

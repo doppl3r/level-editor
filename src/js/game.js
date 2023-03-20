@@ -24,37 +24,22 @@ class Game {
         this.scene.add(hemisphere);
     }
 
-    updateRender(delta, alpha) {
+    update(renderDelta, renderAlpha, physicsDelta) {
         // Update children 3D objects
         for (var i = 0; i < this.scene.children.length; i++) {
             var child = this.scene.children[i];
 
             // Update 3D object to rigid body position
             if (child.update) {
-                child.update(delta, alpha);
-            }
-
-            // Update animations
-            if (child.animation) {
-                child.animation.update(delta);
-            }
-        }
-    }
-
-    updatePhysics(delta, alpha) {
-        // Update children physics
-        for (var i = 0; i < this.scene.children.length; i++) {
-            var child = this.scene.children[i];
-
-            // Update 3D object physics
-            if (child.updatePhysics) {
-                child.updatePhysics(delta, alpha);
+                child.update(renderDelta, renderAlpha, physicsDelta);
             }
         }
 
-        // Step world
-        this.world.step(delta);
-        if (this.debug) this.debugger.update();
+        // Step through world
+        if (physicsDelta > 0) {
+            this.world.step(physicsDelta);
+            if (this.debug) this.debugger.update();
+        }
     }
 }
 
