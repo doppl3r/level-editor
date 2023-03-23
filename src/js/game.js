@@ -1,6 +1,5 @@
 import { HemisphereLight, Scene } from 'three';
-import { Body, Box, Material, Vec3, World } from 'cannon-es';
-import CannonDebugger from 'cannon-es-debugger';
+import { Bodies, Engine } from 'matter-js';
 import { Background } from './background';
 import { Player } from './player';
 
@@ -9,9 +8,7 @@ class Game {
         this.scene = new Scene();
         this.player = new Player();
         this.background = new Background();
-        this.world = new World({ allowSleep: true, gravity: new Vec3(0, 0, -9.82) });
-        this.debugger = new CannonDebugger(this, this.world, { color: '#00ff00', scale: 1 });
-        this.debug = false;
+        this.engine = new Engine.create();
     }
 
     init(app) {
@@ -37,8 +34,7 @@ class Game {
 
         // Step through world
         if (physicsDelta > 0) {
-            this.world.step(physicsDelta);
-            if (this.debug) this.debugger.update();
+            Engine.update(this.engine);
         }
     }
 }
