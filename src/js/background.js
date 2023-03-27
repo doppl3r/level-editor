@@ -35,9 +35,6 @@ class Background extends Mesh {
             `,
             side: BackSide
         });
-
-        // Rotate to appear horizontal on z-axis
-        this.rotation.x = Math.PI / 2;
     }
 
     update(delta, alpha) {

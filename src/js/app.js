@@ -18,7 +18,6 @@ class App {
         this.assets = new Assets();
         this.scene = new Scene();
         this.camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 100);
-        this.camera.rotation.set(Math.PI / 2, 0, 0);
         this.renderer = new WebGLRenderer({ antialias: true, alpha: false });
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = PCFSoftShadowMap;
@@ -45,6 +44,7 @@ class App {
         this.game = new Game();
         this.game.init(this);
         this.scene = this.game.scene;
+        this.camera = this.game.camera;
     }
 
     loop() {
