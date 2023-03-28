@@ -8,7 +8,15 @@ class Editor {
         this.cameraDefault = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 100);
         this.camera = this.cameraDefault;
         this.camera.position.z = 4;
+    }
 
+    update(renderDelta, renderAlpha, physicsDelta) {
+        this.scene.getObjectByName('Rectangle').rotation.y += renderDelta * 0.5;
+    }
+
+    init(app) {
+        this.app = app;
+        
         // Test Shape logic
         this.test();
     }
@@ -21,7 +29,8 @@ class Editor {
 
         // Add basic rectangle
         var rectangle = new Rectangle();
-        rectangle.position.set(-2, -1, 0);
+        rectangle.setTexture(this.app.assets.textures.cache['bricks']);
+        rectangle.position.set(0, -1, 1);
         this.scene.add(rectangle);
     }
 }

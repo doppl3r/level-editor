@@ -18,6 +18,10 @@ class Game {
     }
 
     init(app) {
+        // Inherit app from instantiator
+        this.app = app;
+        this.editor.init(app);
+
         // Add background and bind to player position
         this.background.setTarget(this.camera);
         this.background.scale.set(100, 100, 100);
@@ -34,6 +38,9 @@ class Game {
     }
 
     update(renderDelta, renderAlpha, physicsDelta) {
+        // Update editor
+        this.editor.update(renderDelta, renderAlpha, physicsDelta);
+
         // Update children 3D objects
         for (var i = 0; i < this.scene.children.length; i++) {
             var child = this.scene.children[i];

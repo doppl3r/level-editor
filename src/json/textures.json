@@ -1,6 +1,6 @@
 {
-    "icon128": {
-        "url": "./img/png/icon128.png",
+    "bricks": {
+        "url": "./img/png/bricks.png",
         "magFilter": 1003
     }
 }
