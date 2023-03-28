@@ -1,4 +1,4 @@
-import { ExtrudeGeometry, Mesh, MeshPhongMaterial, Object3D, RepeatWrapping, Shape, Vector2 } from 'three';
+import { ExtrudeGeometry, Mesh, MeshPhongMaterial, Object3D, Points, PointsMaterial, RepeatWrapping, Shape, ShapeGeometry, Vector2 } from 'three';
 
 class Rectangle extends Object3D {
     constructor() {
@@ -33,9 +33,14 @@ class Rectangle extends Object3D {
         ];
         this.shape = new Shape(this.points);
         this.geometry = new ExtrudeGeometry(this.shape, this.settings.extrude);
+        this.geometryPoints = new ShapeGeometry(this.shape);
         this.material = new MeshPhongMaterial({ color: '#ff00ff' });
+        this.materialPoints = new PointsMaterial({ size: 0.25, color: '#ffffff' });
         this.mesh = new Mesh(this.geometry, this.material);
-        this.add(this.mesh);
+        this.meshPoints = new Points(this.geometryPoints, this.materialPoints);
+        this.meshPoints.renderOrder = 999;
+        this.meshPoints.onBeforeRender = function(renderer) { renderer.clearDepth(); }
+        this.add(this.mesh, this.meshPoints);
     }
 
     update() {
