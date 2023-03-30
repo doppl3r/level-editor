@@ -11,7 +11,7 @@ class Rectangle extends Object3D {
             },
             texture: {
                 center: new Vector2(0, 0),
-                offset: new Vector2(0, 0),
+                offset: new Vector2(0.5, 0.5),
                 repeat: new Vector2(1, 1),
                 rotation: 0,
                 wrapS: RepeatWrapping,
@@ -33,14 +33,9 @@ class Rectangle extends Object3D {
         ];
         this.shape = new Shape(this.points);
         this.geometry = new ExtrudeGeometry(this.shape, this.settings.extrude);
-        this.geometryPoints = new ShapeGeometry(this.shape);
-        this.material = new MeshPhongMaterial({ color: '#ff00ff' });
-        this.materialPoints = new PointsMaterial({ size: 0.25, color: '#ffffff' });
+        this.material = new MeshPhongMaterial({ color: '#ffffff' });
         this.mesh = new Mesh(this.geometry, this.material);
-        this.meshPoints = new Points(this.geometryPoints, this.materialPoints);
-        this.meshPoints.renderOrder = 999;
-        this.meshPoints.onBeforeRender = function(renderer) { renderer.clearDepth(); }
-        this.add(this.mesh, this.meshPoints);
+        this.add(this.mesh);
     }
 
     update() {

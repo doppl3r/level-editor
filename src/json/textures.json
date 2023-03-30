@@ -2,5 +2,9 @@
     "bricks": {
         "url": "./img/png/bricks.png",
         "magFilter": 1003
+    },
+    "crate": {
+        "url": "./img/png/crate.png",
+        "magFilter": 1003
     }
 }

@@ -41,4 +41,10 @@ html {
     top: 0.5rem;
     z-index: 1;
   }
+
+  .selectBox {
+    background-color: rgba(75, 160, 255, 0.3);
+    border: 1px solid #55aaff;
+    position: fixed;
+  }
 }
