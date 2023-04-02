@@ -1,7 +1,7 @@
 import { Clock, PCFSoftShadowMap, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
-import { Assets } from './assets';
-import { Game } from './game';
-import Stats from './stats.js';
+import { Assets } from './Assets';
+import { Game } from './Game';
+import Stats from './Stats.js';
 
 class App {
     constructor() {

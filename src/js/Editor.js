@@ -1,6 +1,6 @@
 import { HemisphereLight, PerspectiveCamera, Raycaster, Scene, Vector2 } from 'three';
-import { Rectangle } from './rectangle';
-import { Selector } from './selector';
+import { Rectangle } from './Rectangle';
+import { Selector } from './Selector';
 
 class Editor {
     constructor() {
@@ -73,7 +73,7 @@ class Editor {
     mouseDown(e) {
         // Reset selected items to default emission
         for (var item of this.selector.collection) {
-            item.material.emissive.set('#000000');
+            item.isSelected = false;
         }
 
         // Update selector start point
@@ -88,10 +88,11 @@ class Editor {
         // Update selector
         this.selector.mouseUp(e);
         var selected = this.selector.select();
-        
+
         for (var i = 0; i < selected.length; i++) {
-            selected[i].material.emissive.set('#ffffff');
+            selected[i].isSelected = true;
         }
+        console.log(selected);
     }
 }
 

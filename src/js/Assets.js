@@ -1,7 +1,7 @@
 import { LoadingManager } from 'three';
-import { Audio } from './audio.js';
-import { Models } from './models.js';
-import { Textures } from './textures.js';
+import { Audio } from './Audio.js';
+import { Models } from './Models.js';
+import { Textures } from './Textures.js';
 
 class Assets {
     constructor() {

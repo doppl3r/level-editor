@@ -140,9 +140,9 @@ class Selector {
 
 	searchChildInFrustum(frustum, object) {
 		if (object.isMesh || object.isLine || object.isPoints) {
-            // Check mesh types
+            // Check InstancedMesh type
 			if (object.isInstancedMesh) {
-				this.instances[ object.uuid ] = [];
+				this.instances[object.uuid] = [];
 
                 // Loop through groups of meshes
 				for (let instanceId = 0; instanceId < object.count; instanceId++) {
@@ -157,7 +157,7 @@ class Selector {
 				}
 			}
             else {
-                // Check non-mesh items (line or points)
+                // Check standard object type
 				if (object.geometry.boundingSphere === null) object.geometry.computeBoundingSphere();
 				_center.copy(object.geometry.boundingSphere.center);
 				_center.applyMatrix4(object.matrixWorld);

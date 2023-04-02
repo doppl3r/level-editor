@@ -1,8 +1,8 @@
 import { HemisphereLight, PerspectiveCamera, Scene } from 'three';
 import { Bodies, Engine } from 'matter-js';
-import { Background } from './background';
-import { Player } from './player';
-import { Editor } from './editor';
+import { Background } from './Background';
+import { Player } from './Player';
+import { Editor } from './Editor';
 
 class Game {
     constructor() {
