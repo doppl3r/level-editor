@@ -30,6 +30,7 @@ class Selector {
 		this.collection = [];
 		this.instances = {};
 		this.deep = Number.MAX_VALUE;
+		this.filter = { name: null, value: null };
         
         // HTML Helper elements
         this.element = document.createElement('div');
@@ -138,6 +139,10 @@ class Selector {
 		}
 	}
 
+	setPropertyFilter(name, value) {
+		this.filter = { name: name, value: value };
+	}
+
 	searchChildInFrustum(frustum, object) {
 		if (object.isMesh || object.isLine || object.isPoints) {
             // Check InstancedMesh type
@@ -152,7 +157,9 @@ class Selector {
 
                     // Check if the center is selected
 					if (frustum.containsPoint(_center)) {
-						this.instances[ object.uuid ].push(instanceId);
+						if (object[this.filter.name] == this.filter.value) {
+							this.instances[ object.uuid ].push(instanceId);
+						}
 					}
 				}
 			}
@@ -163,7 +170,9 @@ class Selector {
 				_center.applyMatrix4(object.matrixWorld);
 
 				if (frustum.containsPoint(_center)) {
-					this.collection.push(object);
+					if (object[this.filter.name] == this.filter.value) {
+						this.collection.push(object);
+					}
 				}
 			}
 		}

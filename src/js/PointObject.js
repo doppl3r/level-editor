@@ -1,21 +1,18 @@
-import { BufferGeometry, Float32BufferAttribute, Object3D, Points, PointsMaterial } from 'three';
+import { BufferGeometry, Float32BufferAttribute, Points, PointsMaterial, Vector3 } from 'three';
 
-class PointObject extends Object3D {
+class PointObject extends Points {
     constructor() {
         super();
 
         // Declare geometry and material
-        var geometry = new BufferGeometry();
-        var material = new PointsMaterial({ size: 0.25 });
-        var point = new Points(geometry, material);
-        point.renderOrder = 999;
-        point.onBeforeRender = function(renderer) { renderer.clearDepth(); }
+        this.name = 'PointObject';
+        this.geometry = new BufferGeometry();
+        this.material = new PointsMaterial({ size: 12, sizeAttenuation: false });
+        this.renderOrder = 999;
+        this.onBeforeRender = function(renderer) { renderer.clearDepth(); }
 
         // Define single point
-        geometry.setAttribute('position', new Float32BufferAttribute([0, 0, 0], 3));
-        
-        // Add point to object
-        this.add(point);
+        this.geometry.setAttribute('position', new Float32BufferAttribute([0, 0, 0], 3));
     }
 }
 

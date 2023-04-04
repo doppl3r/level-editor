@@ -1,4 +1,5 @@
 import { HemisphereLight, PerspectiveCamera, Raycaster, Scene, Vector2 } from 'three';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
 import { Rectangle } from './Rectangle';
 import { Selector } from './Selector';
 
@@ -18,15 +19,19 @@ class Editor {
     init(app) {
         this.app = app;
 
-        // Add event listeners
-        this.addEventListeners();
-
         // Update raycaster parameters
         this.raycaster.params.Points.threshold = 0.25;
 
-        // Initialize selectorHelper
+        // Initialize controls
+        this.controls = new TransformControls(this.camera, this.app.renderer.domElement);
+
+        // Initialize selector
         this.selector = new Selector(this.camera, this.scene, this.app.renderer, 'selectBox');
+        this.selector.setPropertyFilter('name', 'PointObject');
         
+        // Add event listeners
+        this.addEventListeners();
+
         // Test Shape logic
         this.test();
     }
@@ -50,6 +55,10 @@ class Editor {
         rectangle.position.set(-2, -2, 0);
         rectangle.rotation.set(0, Math.PI, 0);
         this.scene.add(rectangle);
+
+        // Add controls
+        this.controls.attach(rectangle);
+        this.scene.add(this.controls);
     }
 
     addEventListeners() {
@@ -57,15 +66,24 @@ class Editor {
         window.addEventListener('mousedown', function(e) { _this.handleInput(e); } , false);
         window.addEventListener('mousemove', function(e) { _this.handleInput(e); } , false);
         window.addEventListener('mouseup', function(e) { _this.handleInput(e); } , false);
+
+        // Add controls listeners
+        this.controls.addEventListener('mouseDown', function(e) { _this.controls.isActive = true; })
+        this.controls.addEventListener('mouseUp', function(e) { _this.controls.isActive = false; })
     }
 
     handleInput(e) {
         // Allow boolean to dictate event context
         if (this.isActive == true) {
-            switch(e.type) {
-                case 'mousedown': this.mouseDown(e); break;
-                case 'mousemove': this.mouseMove(e); break;
-                case 'mouseup': this.mouseUp(e); break;
+            if (this.controls.isActive == true) {
+            
+            }
+            else {
+                switch(e.type) {
+                    case 'mousedown': this.mouseDown(e); break;
+                    case 'mousemove': this.mouseMove(e); break;
+                    case 'mouseup': this.mouseUp(e); break;
+                }
             }
         }
     }

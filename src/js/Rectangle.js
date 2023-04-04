@@ -1,7 +1,7 @@
-import { ExtrudeGeometry, Mesh, MeshPhongMaterial, Object3D, Points, PointsMaterial, RepeatWrapping, Shape, ShapeGeometry, Vector2 } from 'three';
+import { ExtrudeGeometry, Mesh, MeshPhongMaterial, RepeatWrapping, Shape, Vector2 } from 'three';
 import { PointObject } from './PointObject';
 
-class Rectangle extends Object3D {
+class Rectangle extends Mesh {
     constructor() {
         super();
         this.name = 'Rectangle';
@@ -35,11 +35,12 @@ class Rectangle extends Object3D {
         this.shape = new Shape(this.points);
         this.geometry = new ExtrudeGeometry(this.shape, this.settings.extrude);
         this.material = new MeshPhongMaterial({ color: '#ffffff' });
-        this.mesh = new Mesh(this.geometry, this.material);
-
+        
+        // Add center point object to this rectangle
+        this.geometry.computeBoundingSphere();
         this.center = new PointObject();
-
-        this.add(this.mesh, this.center);
+        this.center.position.copy(this.geometry.boundingSphere.center);
+        this.add(this.center);
     }
 
     update() {
