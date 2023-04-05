@@ -1,6 +1,9 @@
-import { Clock, PCFSoftShadowMap, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
+import { Clock, HemisphereLight, PCFSoftShadowMap, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
+import { Engine } from 'matter-js';
 import { Assets } from './Assets';
-import { Game } from './Game';
+import { Background } from './Background';
+import { Player } from './Player';
+import { Editor } from './Editor';
 import Stats from './Stats.js';
 
 class App {
@@ -18,9 +21,16 @@ class App {
         this.assets = new Assets();
         this.scene = new Scene();
         this.camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 100);
+        this.camera.position.z = 10;
         this.renderer = new WebGLRenderer({ antialias: true, alpha: false });
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = PCFSoftShadowMap;
+
+        // Game library
+        this.player = new Player();
+        this.background = new Background();
+        this.engine = new Engine.create();
+        this.editor = new Editor();
 
         // Append renderer to canvas
         document.body.appendChild(this.renderer.domElement);
@@ -41,10 +51,22 @@ class App {
     }
 
     init() {
-        this.game = new Game();
-        this.game.init(this);
-        this.scene = this.game.scene;
-        this.camera = this.game.camera;
+        // Inherit app from instantiator
+        this.editor.init(this);
+
+        // Add background and bind to player position
+        this.background.setTarget(this.camera);
+        this.background.scale.set(100, 100, 100);
+        this.scene.add(this.background);
+
+        // Add basic environment light
+        var hemisphere = new HemisphereLight('#ffffff', '#000000', 1);
+        hemisphere.position.set(0, -1, 2);
+        this.scene.add(hemisphere);
+
+        // Set editor camera to current camera
+        this.camera = this.editor.camera;
+        this.scene = this.editor.scene;
     }
 
     loop() {
@@ -70,8 +92,28 @@ class App {
         }
 
         // Update game
-        this.game.update(renderDelta, renderAlpha, physicsDelta);
+        this.update(renderDelta, renderAlpha, physicsDelta);
         this.stats.end(); // End FPS counter
+    }
+
+    update(renderDelta, renderAlpha, physicsDelta) {
+        // Update editor
+        this.editor.update(renderDelta, renderAlpha, physicsDelta);
+
+        // Update children 3D objects
+        for (var i = 0; i < this.scene.children.length; i++) {
+            var child = this.scene.children[i];
+
+            // Update 3D object to rigid body position
+            if (child.update) {
+                child.update(renderDelta, renderAlpha, physicsDelta);
+            }
+        }
+
+        // Step through world
+        if (physicsDelta > 0) {
+            Engine.update(this.engine);
+        }
     }
 
     setCamera(camera) {
