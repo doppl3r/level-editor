@@ -39,7 +39,7 @@ class Rectangle extends Mesh {
         // Add center point object to this rectangle
         this.geometry.computeBoundingSphere();
         this.center = new PointObject();
-        this.center.position.copy(this.geometry.boundingSphere.center);
+        //this.center.position.copy(this.geometry.boundingSphere.center);
         this.add(this.center);
     }
 

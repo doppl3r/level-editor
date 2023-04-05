@@ -53,7 +53,7 @@ class Editor {
         var rectangle = new Rectangle();
         rectangle.setTexture(this.app.assets.textures.cache['bricks']);
         rectangle.position.set(-2, -2, 0);
-        rectangle.rotation.set(0, Math.PI, 0);
+        rectangle.rotation.set(0, 0, Math.PI);
         this.scene.add(rectangle);
 
         // Add controls
