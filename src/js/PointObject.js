@@ -1,4 +1,4 @@
-import { BufferGeometry, Float32BufferAttribute, Points, PointsMaterial, Vector3 } from 'three';
+import { BufferGeometry, Float32BufferAttribute, Points, PointsMaterial } from 'three';
 
 class PointObject extends Points {
     constructor() {
@@ -7,7 +7,7 @@ class PointObject extends Points {
         // Declare geometry and material
         this.name = 'PointObject';
         this.geometry = new BufferGeometry();
-        this.material = new PointsMaterial({ size: 12, sizeAttenuation: false });
+        this.material = new PointsMaterial({ color: '#ffffff', size: 0.25, sizeAttenuation: true });
         this.renderOrder = 999;
         this.onBeforeRender = function(renderer) { renderer.clearDepth(); }
 

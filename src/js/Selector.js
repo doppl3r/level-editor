@@ -1,4 +1,4 @@
-import { Frustum, Vector2, Vector3, Matrix4, Quaternion } from 'three';
+import { Frustum, Matrix4, Quaternion, Raycaster, Vector2, Vector3 } from 'three';
 
 const _frustum = new Frustum();
 const _center = new Vector3();
@@ -25,6 +25,8 @@ class Selector {
 	constructor(camera, scene, renderer, cssClassName) {
 		this.camera = camera;
 		this.scene = scene;
+		this.raycaster = new Raycaster();
+        this.raycaster.params.Points.threshold = 0.25;
 		this.startPoint = new Vector3();
 		this.endPoint = new Vector3();
 		this.collection = [];
@@ -48,6 +50,7 @@ class Selector {
 		this.endPoint = endPoint || this.endPoint;
 		this.collection = [];
 		this.updateFrustum(this.startPoint, this.endPoint);
+		this.searchChildInRay(this.startPoint);
 		this.searchChildInFrustum(_frustum, this.scene);
 		return this.collection;
 	}
@@ -143,6 +146,26 @@ class Selector {
 		this.filter = { name: name, value: value };
 	}
 
+	isCollectable(object) {
+		return object[this.filter.name] == this.filter.value;
+	}
+
+	searchChildInRay(coords) {
+		// Cast ray for initial collection item
+		this.raycaster.setFromCamera(coords, this.camera);
+		var intersects = this.raycaster.intersectObjects(this.scene.children);
+		
+		// Check if initial click intersects objects
+		if (intersects.length > 0) {
+			for (var i = 0; i < intersects.length; i++) {
+				var object = intersects[i].object;
+				if (this.isCollectable(object)) {
+					this.addToCollection(object);
+				}
+			}
+		}
+	}
+
 	searchChildInFrustum(frustum, object) {
 		if (object.isMesh || object.isLine || object.isPoints) {
             // Check InstancedMesh type
@@ -157,8 +180,8 @@ class Selector {
 
                     // Check if the center is selected
 					if (frustum.containsPoint(_center)) {
-						if (object[this.filter.name] == this.filter.value) {
-							this.instances[ object.uuid ].push(instanceId);
+						if (this.isCollectable(object)) {
+							this.instances[object.uuid].push(instanceId);
 						}
 					}
 				}
@@ -170,8 +193,8 @@ class Selector {
 				_center.applyMatrix4(object.matrixWorld);
 
 				if (frustum.containsPoint(_center)) {
-					if (object[this.filter.name] == this.filter.value) {
-						this.collection.push(object);
+					if (this.isCollectable(object)) {
+						this.addToCollection(object);
 					}
 				}
 			}
@@ -183,6 +206,13 @@ class Selector {
 				this.searchChildInFrustum(frustum, object.children[ x ]);
 			}
 		}
+	}
+
+	addToCollection(object) {
+		// Add unique object to collections array
+		var exists = false;
+		for (var i = 0; i < this.collection.length; i++) { if (this.collection[i].uuid == object.uuid) exists = true; };
+		if (exists == false) this.collection.push(object);
 	}
 
     connect() {

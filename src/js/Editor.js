@@ -1,5 +1,6 @@
-import { HemisphereLight, PerspectiveCamera, Raycaster, Scene, Vector2 } from 'three';
-import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
+import { HemisphereLight, PerspectiveCamera, Scene, Vector2 } from 'three';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Rectangle } from './Rectangle';
 import { Selector } from './Selector';
 
@@ -8,8 +9,9 @@ class Editor {
         this.scene = new Scene();
         this.camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 100);
         this.camera.position.z = 6;
-        this.raycaster = new Raycaster();
         this.mouse = { down: new Vector2(), move: new Vector2(), up: new Vector2(), isDown: false };
+        this.keys = {};
+        this.mode = 'object'; // 2 modes: "object" and "edit"
     }
 
     update(renderDelta, renderAlpha, physicsDelta) {
@@ -19,15 +21,16 @@ class Editor {
     init(app) {
         this.app = app;
 
-        // Update raycaster parameters
-        this.raycaster.params.Points.threshold = 0.25;
-
         // Initialize controls
-        this.controls = new TransformControls(this.camera, this.app.renderer.domElement);
+        this.controlsTransform = new TransformControls(this.camera, this.app.renderer.domElement);
+        this.controlsOrbit = new OrbitControls(this.camera, this.app.renderer.domElement);
+        this.controlsOrbit.enabled = false; // Disabled by default
+        this.controlsOrbit.enableRotate = false;
+        this.controlsOrbit.mouseButtons = { LEFT: 2, MIDDLE: 1, RIGHT: 2 };
 
         // Initialize selector
         this.selector = new Selector(this.camera, this.scene, this.app.renderer, 'selectBox');
-        this.selector.setPropertyFilter('name', 'PointObject');
+        this.selector.setPropertyFilter('name', 'Rectangle');
         
         // Add event listeners
         this.addEventListeners();
@@ -57,8 +60,8 @@ class Editor {
         this.scene.add(rectangle);
 
         // Add controls
-        this.controls.attach(rectangle);
-        this.scene.add(this.controls);
+        //this.controlsTransform.attach(rectangle);
+        //this.scene.add(this.controlsTransform);
     }
 
     addEventListeners() {
@@ -66,34 +69,31 @@ class Editor {
         window.addEventListener('mousedown', function(e) { _this.handleInput(e); } , false);
         window.addEventListener('mousemove', function(e) { _this.handleInput(e); } , false);
         window.addEventListener('mouseup', function(e) { _this.handleInput(e); } , false);
+        window.addEventListener('keydown', function(e) { _this.handleInput(e); } , false);
+        window.addEventListener('keyup', function(e) { _this.handleInput(e); } , false);
 
         // Add controls listeners
-        this.controls.addEventListener('mouseDown', function(e) { _this.controls.isActive = true; })
-        this.controls.addEventListener('mouseUp', function(e) { _this.controls.isActive = false; })
+        this.controlsTransform.addEventListener('mouseDown', function(e) { _this.controlsTransform.isActive = true; });
+        this.controlsTransform.addEventListener('mouseUp', function(e) { _this.controlsTransform.isActive = false; });
+        this.controlsOrbit.addEventListener('start', function(e) { _this.controlsOrbit.isActive = true; });
+        this.controlsOrbit.addEventListener('end', function(e) { _this.controlsOrbit.isActive = false; });
     }
 
     handleInput(e) {
         // Allow boolean to dictate event context
         if (this.isActive == true) {
-            if (this.controls.isActive == true) {
-            
-            }
-            else {
-                switch(e.type) {
-                    case 'mousedown': this.mouseDown(e); break;
-                    case 'mousemove': this.mouseMove(e); break;
-                    case 'mouseup': this.mouseUp(e); break;
-                }
+            // Use select box if controls are not visible
+            switch(e.type) {
+                case 'mousedown': this.mouseDown(e); break;
+                case 'mousemove': this.mouseMove(e); break;
+                case 'mouseup': this.mouseUp(e); break;
+                case 'keydown': this.keyDown(e); break;
+                case 'keyup': this.keyUp(e); break;
             }
         }
     }
 
     mouseDown(e) {
-        // Reset selected items to default emission
-        for (var item of this.selector.collection) {
-            item.isSelected = false;
-        }
-
         // Update selector start point
         this.selector.mouseDown(e);
     }
@@ -105,12 +105,17 @@ class Editor {
     mouseUp(e) {
         // Update selector
         this.selector.mouseUp(e);
-        var selected = this.selector.select();
 
-        for (var i = 0; i < selected.length; i++) {
-            selected[i].isSelected = true;
-        }
-        console.log(selected);
+        // Select within ray or frustum
+        this.selector.select();
+    }
+
+    keyDown(e) {
+        this.keys[e.code] = true;
+    }
+
+    keyUp(e) {
+        this.keys[e.code] = false;
     }
 }
 
