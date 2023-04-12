@@ -1,4 +1,4 @@
-import { ExtrudeGeometry, Mesh, MeshPhongMaterial, RepeatWrapping, Shape, Vector2 } from 'three';
+import { ExtrudeGeometry, Mesh, MeshPhongMaterial, RepeatWrapping, Shape, Vector2, Vector3 } from 'three';
 import { PointObject } from './PointObject';
 
 class Rectangle extends Mesh {
@@ -33,18 +33,30 @@ class Rectangle extends Mesh {
             new Vector2(2, -1),
         ];
         this.shape = new Shape(this.points);
+        this.center = new PointObject();
         this.geometry = new ExtrudeGeometry(this.shape, this.settings.extrude);
         this.material = new MeshPhongMaterial({ color: '#ffffff' });
+        this.updateCenter();
         
         // Add center point object to this rectangle
-        this.geometry.computeBoundingSphere();
-        this.center = new PointObject();
-        this.center.position.copy(this.geometry.boundingSphere.center);
         this.add(this.center);
     }
 
     update() {
         
+    }
+
+    updateCenter() {
+        // Recalculate center from geometry
+        this.geometry.computeBoundingSphere();
+
+        // Update geometry position
+        var position = this.geometry.boundingSphere.center.clone();
+        this.geometry.translate(-position.x, -position.y, -position.z);
+        this.position.copy(position);
+
+        // Update center PointObject position
+        this.center.position.copy(this.geometry.boundingSphere.center);
     }
 
     updateExtrusion() {

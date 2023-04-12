@@ -1,4 +1,4 @@
-import { Frustum, Matrix4, Quaternion, Raycaster, Vector2, Vector3 } from 'three';
+import { Frustum, Group, Matrix4, Quaternion, Raycaster, Vector2, Vector3 } from 'three';
 
 const _frustum = new Frustum();
 const _center = new Vector3();
@@ -30,6 +30,8 @@ class Selector {
 		this.startPoint = new Vector3();
 		this.endPoint = new Vector3();
 		this.collection = [];
+		this.group = new Group();
+		this.scene.attach(this.group);
 		this.instances = {};
 		this.deep = Number.MAX_VALUE;
 		this.filter = { name: null, value: null };
@@ -45,13 +47,35 @@ class Selector {
 		this.isDown = false;
 	}
 
-	select(startPoint, endPoint) {
-		this.startPoint = startPoint || this.startPoint;
-		this.endPoint = endPoint || this.endPoint;
-		this.collection = [];
-		this.updateFrustum(this.startPoint, this.endPoint);
+	select(emptyCollection = true) {
+		if (emptyCollection == true) {
+			// Empty collection
+			this.collection = [];
+		}
+
+		// Reattach objects back to scene before attaching new objects
+		for (var i = this.group.children.length - 1; i >= 0; i--) { this.scene.attach(this.group.children[i]); }
+
+		// Populate collection
 		this.searchChildInRay(this.startPoint);
+		this.updateFrustum(this.startPoint, this.endPoint);
 		this.searchChildInFrustum(_frustum, this.scene);
+		
+		// Attach collection to group
+		if (this.collection.length > 0) {
+			// Get average position of collection objects
+			var position = new Vector3();
+			for (var i = 0; i < this.collection.length; i++) { position.add(this.collection[i].position); }
+			position.divideScalar(this.collection.length);
+			this.group.position.copy(position);
+			
+			// Attach collection to selected object
+			for (var i = 0; i < this.collection.length; i++) {
+				this.group.attach(this.collection[i]);
+			}
+		}
+		
+		// Return collection
 		return this.collection;
 	}
 
@@ -146,6 +170,23 @@ class Selector {
 		this.filter = { name: name, value: value };
 	}
 
+	addToCollection(object) {
+		// Add unique object to collections array
+		if (this.isCollectable(object)) {
+			var exists = false;
+			for (var i = 0; i < this.collection.length; i++) { if (this.collection[i].uuid == object.uuid) exists = true; };
+			if (exists == false) {
+				this.collection.push(object);
+			}
+		}
+	}
+
+	addToInstances(object, instanceId) {
+		if (this.isCollectable(object)) {
+			this.instances[object.uuid].push(instanceId);
+		}
+	}
+
 	isCollectable(object) {
 		return object[this.filter.name] == this.filter.value;
 	}
@@ -159,9 +200,7 @@ class Selector {
 		if (intersects.length > 0) {
 			for (var i = 0; i < intersects.length; i++) {
 				var object = intersects[i].object;
-				if (this.isCollectable(object)) {
-					this.addToCollection(object);
-				}
+				this.addToCollection(object);
 			}
 		}
 	}
@@ -180,9 +219,7 @@ class Selector {
 
                     // Check if the center is selected
 					if (frustum.containsPoint(_center)) {
-						if (this.isCollectable(object)) {
-							this.instances[object.uuid].push(instanceId);
-						}
+						this.addToInstances(object, instanceId);
 					}
 				}
 			}
@@ -193,9 +230,7 @@ class Selector {
 				_center.applyMatrix4(object.matrixWorld);
 
 				if (frustum.containsPoint(_center)) {
-					if (this.isCollectable(object)) {
-						this.addToCollection(object);
-					}
+					this.addToCollection(object);
 				}
 			}
 		}
@@ -206,13 +241,6 @@ class Selector {
 				this.searchChildInFrustum(frustum, object.children[ x ]);
 			}
 		}
-	}
-
-	addToCollection(object) {
-		// Add unique object to collections array
-		var exists = false;
-		for (var i = 0; i < this.collection.length; i++) { if (this.collection[i].uuid == object.uuid) exists = true; };
-		if (exists == false) this.collection.push(object);
 	}
 
     connect() {

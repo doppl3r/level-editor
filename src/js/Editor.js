@@ -23,10 +23,13 @@ class Editor {
 
         // Initialize controls
         this.controlsTransform = new TransformControls(this.camera, this.app.renderer.domElement);
+        this.controlsTransform.showZ = false;
+        this.controlsTransform.mode = 'translate'; // Options: translate, rotate, scale
         this.controlsOrbit = new OrbitControls(this.camera, this.app.renderer.domElement);
         this.controlsOrbit.enabled = false; // Disabled by default
         this.controlsOrbit.enableRotate = false;
         this.controlsOrbit.mouseButtons = { LEFT: 2, MIDDLE: 1, RIGHT: 2 };
+        this.controlsOrbit.zoomSpeed = 3;
 
         // Initialize selector
         this.selector = new Selector(this.camera, this.scene, this.app.renderer, 'selectBox');
@@ -51,17 +54,17 @@ class Editor {
         // Add basic rectangle
         var rectangle = new Rectangle();
         rectangle.setTexture(this.app.assets.textures.cache['crate']);
+        rectangle.position.set(1, 2, 0);
         this.scene.add(rectangle);
 
         var rectangle = new Rectangle();
         rectangle.setTexture(this.app.assets.textures.cache['bricks']);
-        rectangle.position.set(-2, -2, 0);
+        rectangle.position.set(-1, -2, 0);
         rectangle.rotation.set(0, 0, Math.PI);
         this.scene.add(rectangle);
 
         // Add controls
-        //this.controlsTransform.attach(rectangle);
-        //this.scene.add(this.controlsTransform);
+        this.scene.add(this.controlsTransform);
     }
 
     addEventListeners() {
@@ -103,11 +106,17 @@ class Editor {
     }
 
     mouseUp(e) {
-        // Update selector
+        // Update selector box and populate collection
         this.selector.mouseUp(e);
+        this.selector.select(this.keys['ShiftLeft'] != true);
 
-        // Select within ray or frustum
-        this.selector.select();
+        // Attach transform controls to selected object
+        if (this.selector.group.children.length > 0) {
+            this.controlsTransform.attach(this.selector.group);
+        }
+        else {
+            this.controlsTransform.detach();
+        }
     }
 
     keyDown(e) {
