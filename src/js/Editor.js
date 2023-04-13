@@ -8,8 +8,7 @@ class Editor {
     constructor() {
         this.scene = new Scene();
         this.camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 100);
-        this.camera.position.z = 6;
-        this.mouse = { down: new Vector2(), move: new Vector2(), up: new Vector2(), isDown: false };
+        this.camera.position.z = 5;
         this.keys = {};
         this.mode = 'object'; // 2 modes: "object" and "edit"
     }
@@ -61,14 +60,14 @@ class Editor {
 
         // Add basic rectangle
         var rectangle = new Rectangle();
-        rectangle.setTexture(this.app.assets.textures.cache['crate']);
-        rectangle.position.set(1, 2, 0);
+        rectangle.setTexture(this.app.assets.textures.cache['grass-fairway']);
+        rectangle.position.set(-1, 1, -0.5);
+        rectangle.rotation.set(0, 0, Math.PI);
         this.scene.add(rectangle);
 
         var rectangle = new Rectangle();
-        rectangle.setTexture(this.app.assets.textures.cache['bricks']);
-        rectangle.position.set(-1, -2, 0);
-        rectangle.rotation.set(0, 0, Math.PI);
+        rectangle.setTexture(this.app.assets.textures.cache['crate']);
+        rectangle.position.set(1, -1, 0);
         this.scene.add(rectangle);
 
         // Add controls
@@ -77,11 +76,11 @@ class Editor {
 
     addEventListeners() {
         var _this = this;
-        window.addEventListener('mousedown', function(e) { _this.handleInput(e); } , false);
-        window.addEventListener('mousemove', function(e) { _this.handleInput(e); } , false);
-        window.addEventListener('mouseup', function(e) { _this.handleInput(e); } , false);
-        window.addEventListener('keydown', function(e) { _this.handleInput(e); } , false);
-        window.addEventListener('keyup', function(e) { _this.handleInput(e); } , false);
+        window.addEventListener('mousedown', function(e) { _this.handleInput(e); }, false);
+        window.addEventListener('mousemove', function(e) { _this.handleInput(e); }, false);
+        window.addEventListener('mouseup', function(e) { _this.handleInput(e); }, false);
+        window.addEventListener('keydown', function(e) { _this.handleInput(e); }, false);
+        window.addEventListener('keyup', function(e) { _this.handleInput(e); }, false);
 
         // Add controls listeners
         this.controlsTransform.addEventListener('mouseDown', function(e) { _this.controlsTransform.isActive = true; });
@@ -105,25 +104,34 @@ class Editor {
     }
 
     mouseDown(e) {
-        // Update selector start point
-        this.selector.mouseDown(e);
-    }
+        this.mouseIntent = 'select';
+        if (this.controlsTransform.dragging == true) this.mouseIntent = 'transform';
 
+        // Update selector start point
+        if (this.mouseIntent == 'select') {
+            this.selector.mouseDown(e);
+        }
+    }
+    
     mouseMove(e) {
-        this.selector.mouseMove(e);
+        if (this.mouseIntent == 'select') {
+            this.selector.mouseMove(e);
+        }
     }
 
     mouseUp(e) {
         // Update selector box and populate collection
-        this.selector.mouseUp(e);
-        this.selector.select(this.keys['ShiftLeft'] != true);
+        if (this.mouseIntent == 'select') {
+            this.selector.mouseUp(e);
+            this.selector.select(this.keys['ShiftLeft'] != true);
 
-        // Attach transform controls to selected object
-        if (this.selector.group.children.length > 0) {
-            this.controlsTransform.attach(this.selector.group);
-        }
-        else {
-            this.controlsTransform.detach();
+            // Attach transform controls to selected object
+            if (this.selector.group.children.length > 0) {
+                this.controlsTransform.attach(this.selector.group);
+            }
+            else {
+                this.controlsTransform.detach();
+            }
         }
     }
 

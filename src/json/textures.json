@@ -6,5 +6,13 @@
     "crate": {
         "url": "./img/png/crate.png",
         "magFilter": 1003
+    },
+    "goo": {
+        "url": "./img/png/goo.png",
+        "magFilter": 1003
+    },
+    "grass-fairway": {
+        "url": "./img/png/grass-fairway.png",
+        "magFilter": 1003
     }
 }

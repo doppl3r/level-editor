@@ -243,18 +243,6 @@ class Selector {
 		}
 	}
 
-    connect() {
-        this.renderer.domElement.addEventListener('mousedown', this.mouseDown);
-		this.renderer.domElement.addEventListener('mousemove', this.mouseMove);
-		this.renderer.domElement.addEventListener('mouseup', this.mouseUp);
-    }
-
-    dispose() {
-		this.renderer.domElement.removeEventListener('mousedown', this.mouseDown);
-		this.renderer.domElement.removeEventListener('mousemove', this.mouseMove);
-		this.renderer.domElement.removeEventListener('mouseup', this.mouseUp);
-	}
-
     getMouse(e) {
         return { x: (e.clientX / window.innerWidth) * 2 - 1, y: -(e.clientY / window.innerHeight) * 2 + 1, z: 0.5 };
     }
