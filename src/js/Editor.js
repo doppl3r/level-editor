@@ -1,4 +1,4 @@
-import { HemisphereLight, PerspectiveCamera, Scene, Vector2 } from 'three';
+import { Color, HemisphereLight, PerspectiveCamera, Scene, Vector2 } from 'three';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Rectangle } from './Rectangle';
@@ -35,6 +35,14 @@ class Editor {
         this.selector = new Selector(this.camera, this.scene, this.app.renderer, 'selectBox');
         this.selector.setPropertyFilter('name', 'Rectangle');
         
+        // Modify outline
+        this.app.outlinePass.edgeStrength = 3; // Default 3
+        this.app.outlinePass.edgeGlow = 0; // Default 0
+        this.app.outlinePass.edgeThickness = 1; // Default 1
+        this.app.outlinePass.visibleEdgeColor = new Color('#F59B3C');
+        this.app.outlinePass.hiddenEdgeColor = new Color('#F59B3C');
+        this.app.outlinePass.selectedObjects = [this.selector.group];
+
         // Add event listeners
         this.addEventListeners();
 

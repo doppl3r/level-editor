@@ -1,4 +1,8 @@
 import { Clock, HemisphereLight, PCFSoftShadowMap, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
+import { OutlinePass } from './OutlinePass.js';
 import { Engine } from 'matter-js';
 import { Assets } from './Assets';
 import { Background } from './Background';
@@ -22,9 +26,19 @@ class App {
         this.scene = new Scene();
         this.camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 100);
         this.camera.position.z = 10;
-        this.renderer = new WebGLRenderer({ antialias: true, alpha: false });
+        this.renderer = new WebGLRenderer();
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = PCFSoftShadowMap;
+
+        // Assign post processing on top of renderer
+        this.renderPass = new RenderPass(this.scene, this.camera);
+        this.outlinePass = new OutlinePass({}, this.scene, this.camera);
+        this.smaaPass = new SMAAPass(0, 0); // Use window resize to set width/height
+        this.composer = new EffectComposer(this.renderer);
+        this.composer.addPass(this.renderPass); // Renderer
+        this.composer.addPass(this.outlinePass); // Border glow
+        this.composer.addPass(this.smaaPass); // Anti-aliasing
 
         // Game library
         this.player = new Player();
@@ -64,9 +78,9 @@ class App {
         hemisphere.position.set(0, -1, 2);
         this.scene.add(hemisphere);
 
-        // Set editor camera to current camera
-        this.camera = this.editor.camera;
-        this.scene = this.editor.scene;
+        // Set editor camera to current camera (Including Postprocessing objects)
+        this.camera = this.renderPass.camera = this.outlinePass.renderCamera = this.editor.camera;
+        this.scene = this.renderPass.scene = this.outlinePass.renderScene = this.editor.scene;
     }
 
     loop() {
@@ -81,7 +95,7 @@ class App {
         if (this.renderDeltaSum > this.renderInterval) {
             this.renderDeltaSum %= this.renderInterval;
             if (this.renderTickRate > 0) renderDelta = this.renderInterval; // (optional) Lock render
-            this.renderer.render(this.scene, this.camera); // Repaint scene
+            this.composer.render(); // Similar to this.renderer.render(this.scene, this.camera);
         }
         
         // Update engine on a lessor interval
@@ -128,6 +142,7 @@ class App {
         this.camera.aspect = width / height;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(width, height);
+        this.composer.setSize(width, height);
     }
 
     pause(play = false) {
