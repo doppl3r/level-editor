@@ -53,8 +53,12 @@ class Selector {
 			this.collection = [];
 		}
 
-		// Reattach objects back to scene before attaching new objects
-		for (var i = this.group.children.length - 1; i >= 0; i--) { this.scene.attach(this.group.children[i]); }
+		// Reattach objects back to previous parent
+		for (var i = this.group.children.length - 1; i >= 0; i--) {
+			var child = this.group.children[i];
+			var parentPrevious = child.parentPrevious;
+			parentPrevious.attach(child);
+		}
 
 		// Populate collection
 		this.searchChildInRay(this.startPoint);
@@ -69,9 +73,11 @@ class Selector {
 			position.divideScalar(this.collection.length);
 			this.group.position.copy(position);
 			
-			// Attach collection to selected object
+			// Attach collection to selected object after assigning previous parent
 			for (var i = 0; i < this.collection.length; i++) {
-				this.group.attach(this.collection[i]);
+				var child = this.collection[i];
+				child.parentPrevious = child.parent;
+				this.group.attach(child);
 			}
 		}
 		
