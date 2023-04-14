@@ -253,7 +253,7 @@ class Selector {
         return { x: (e.clientX / window.innerWidth) * 2 - 1, y: -(e.clientY / window.innerHeight) * 2 + 1, z: 0.5 };
     }
 
-	mouseDown(event) {
+	pointerDown(event) {
         // Must start on renderer DOM element
         if (event.target == this.renderer.domElement) {
             // Update 3D start point
@@ -272,7 +272,7 @@ class Selector {
         }
 	}
 
-	mouseMove(event) {
+	pointerMove(event) {
         if (this.isDown) {
             this.element.style.display = 'block';
             this.pointBottomRight.x = Math.max(this.startBox.x, event.clientX);
@@ -286,7 +286,7 @@ class Selector {
         }
 	}
 
-	mouseUp(event) {
+	pointerUp(event) {
         // Update 3D end point
         this.endPoint.copy(this.getMouse(event));
 

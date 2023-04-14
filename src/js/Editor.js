@@ -76,17 +76,11 @@ class Editor {
 
     addEventListeners() {
         var _this = this;
-        window.addEventListener('mousedown', function(e) { _this.handleInput(e); }, false);
-        window.addEventListener('mousemove', function(e) { _this.handleInput(e); }, false);
-        window.addEventListener('mouseup', function(e) { _this.handleInput(e); }, false);
+        window.addEventListener('pointerdown', function(e) { _this.handleInput(e); }, false);
+        window.addEventListener('pointermove', function(e) { _this.handleInput(e); }, false);
+        window.addEventListener('pointerup', function(e) { _this.handleInput(e); }, false);
         window.addEventListener('keydown', function(e) { _this.handleInput(e); }, false);
         window.addEventListener('keyup', function(e) { _this.handleInput(e); }, false);
-
-        // Add controls listeners
-        this.controlsTransform.addEventListener('mouseDown', function(e) { _this.controlsTransform.isActive = true; });
-        this.controlsTransform.addEventListener('mouseUp', function(e) { _this.controlsTransform.isActive = false; });
-        this.controlsOrbit.addEventListener('start', function(e) { _this.controlsOrbit.isActive = true; });
-        this.controlsOrbit.addEventListener('end', function(e) { _this.controlsOrbit.isActive = false; });
     }
 
     handleInput(e) {
@@ -94,35 +88,35 @@ class Editor {
         if (this.isActive == true) {
             // Use select box if controls are not visible
             switch(e.type) {
-                case 'mousedown': this.mouseDown(e); break;
-                case 'mousemove': this.mouseMove(e); break;
-                case 'mouseup': this.mouseUp(e); break;
+                case 'pointerdown': this.pointerDown(e); break;
+                case 'pointermove': this.pointerMove(e); break;
+                case 'pointerup': this.pointerUp(e); break;
                 case 'keydown': this.keyDown(e); break;
                 case 'keyup': this.keyUp(e); break;
             }
         }
     }
 
-    mouseDown(e) {
-        this.mouseIntent = 'select';
-        if (this.controlsTransform.dragging == true) this.mouseIntent = 'transform';
+    pointerDown(e) {
+        this.pointerIntent = 'select';
+        if (this.controlsTransform.dragging == true) this.pointerIntent = 'transform';
 
         // Update selector start point
-        if (this.mouseIntent == 'select') {
-            this.selector.mouseDown(e);
+        if (this.pointerIntent == 'select') {
+            this.selector.pointerDown(e);
         }
     }
     
-    mouseMove(e) {
-        if (this.mouseIntent == 'select') {
-            this.selector.mouseMove(e);
+    pointerMove(e) {
+        if (this.pointerIntent == 'select') {
+            this.selector.pointerMove(e);
         }
     }
 
-    mouseUp(e) {
+    pointerUp(e) {
         // Update selector box and populate collection
-        if (this.mouseIntent == 'select') {
-            this.selector.mouseUp(e);
+        if (this.pointerIntent == 'select') {
+            this.selector.pointerUp(e);
             this.selector.select(this.keys['ShiftLeft'] != true);
 
             // Attach transform controls to selected object

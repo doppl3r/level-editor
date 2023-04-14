@@ -28,6 +28,7 @@ class App {
         this.camera.position.z = 10;
         this.renderer = new WebGLRenderer({ alpha: true });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = PCFSoftShadowMap;
 
