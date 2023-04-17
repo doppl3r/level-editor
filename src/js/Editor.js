@@ -98,14 +98,17 @@ class Editor {
     pointerDown(e) {
         // Set pointer intent based on input
         this.setPointerIntent('select', false); // Soft reset intent to default 'select'
-        if (e.button == 2) this.setPointerIntent('pan_camera');
-        if (this.controlsTransform.dragging == true) this.setPointerIntent('transform');
+        if (this.controlsTransform.dragging == true) { this.setPointerIntent('transform'); }
+        else if (e.button == 1 || e.button == 2) this.setPointerIntent('pan_camera');
 
-        // Update selector start point
+        // Perform action based on pointer intent
         if (this.pointerIntent == 'select') {
+            this.selector.pointerDown(e);
+            this.controlsOrbit.panSpeed = 0;
+        }
+        else if (this.pointerIntent == 'transform') {
             this.controlsTransform.enabled = true;
             this.controlsOrbit.panSpeed = 0;
-            this.selector.pointerDown(e);
         }
         else if (this.pointerIntent == 'pan_camera') {
             this.controlsTransform.enabled = false;
