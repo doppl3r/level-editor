@@ -25,9 +25,8 @@ class Editor {
         this.controlsTransform.showZ = false;
         this.controlsTransform.mode = 'translate'; // Options: translate, rotate, scale
         this.controlsOrbit = new OrbitControls(this.camera, this.app.renderer.domElement);
-        this.controlsOrbit.enabled = false; // Disabled by default
         this.controlsOrbit.enableRotate = false;
-        this.controlsOrbit.mouseButtons = { LEFT: 2, MIDDLE: 1, RIGHT: 2 };
+        this.controlsOrbit.mouseButtons = { LEFT: 2, MIDDLE: 2, RIGHT: 2 };
         this.controlsOrbit.zoomSpeed = 3;
 
         // Initialize selector
@@ -97,12 +96,20 @@ class Editor {
     }
 
     pointerDown(e) {
-        this.pointerIntent = 'select';
-        if (this.controlsTransform.dragging == true) this.pointerIntent = 'transform';
+        // Set pointer intent based on input
+        this.setPointerIntent('select', false); // Soft reset intent to default 'select'
+        if (e.button == 2) this.setPointerIntent('pan_camera');
+        if (this.controlsTransform.dragging == true) this.setPointerIntent('transform');
 
         // Update selector start point
         if (this.pointerIntent == 'select') {
+            this.controlsTransform.enabled = true;
+            this.controlsOrbit.panSpeed = 0;
             this.selector.pointerDown(e);
+        }
+        else if (this.pointerIntent == 'pan_camera') {
+            this.controlsTransform.enabled = false;
+            this.controlsOrbit.panSpeed = 1;
         }
     }
     
@@ -126,9 +133,23 @@ class Editor {
                 this.controlsTransform.detach();
             }
         }
+        else if (this.pointerIntent == 'pan_camera') {
+            this.controlsTransform.enabled = true;
+            this.resetPointerIntent();
+        }
+    }
+
+    setPointerIntent(intent, setOrigin = true) {
+        this.pointerIntent = intent;
+        this.pointerIntentPrevious = (setOrigin) ? intent : this.pointerIntentPrevious;
+    }
+
+    resetPointerIntent() {
+        this.pointerIntent = this.pointerIntentPrevious;
     }
 
     keyDown(e) {
+        if (e.code == 'Tab') e.preventDefault();
         this.keys[e.code] = true;
     }
 
