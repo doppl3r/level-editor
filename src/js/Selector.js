@@ -22,23 +22,22 @@ const _scale = new Vector3();
 // This class combines the SelectionBox.js and SelectionHelper.js functionality to leverage context based event listeners
 
 class Selector {
-	constructor(camera, scene, renderer, cssClassName) {
+	constructor(camera, object, renderer) {
 		this.camera = camera;
-		this.scene = scene;
+		this.object = object;
 		this.raycaster = new Raycaster();
         this.raycaster.params.Points.threshold = 0.25;
 		this.startPoint = new Vector3();
 		this.endPoint = new Vector3();
 		this.collection = [];
-		this.group = new Group();
-		this.scene.attach(this.group);
 		this.instances = {};
+		this.selectedObjects = new Group();
+		this.object.add(this.selectedObjects);
 		this.deep = Number.MAX_VALUE;
-		this.filter = { name: null, value: null };
         
         // HTML Helper elements
         this.element = document.createElement('div');
-		this.element.classList.add(cssClassName);
+		this.element.classList.add('selectBox');
 		this.element.style.pointerEvents = 'none';
 		this.renderer = renderer;
 		this.startBox = new Vector2();
@@ -53,17 +52,13 @@ class Selector {
 			this.collection = [];
 		}
 
-		// Reattach objects back to previous parent
-		for (var i = this.group.children.length - 1; i >= 0; i--) {
-			var child = this.group.children[i];
-			var parentPrevious = child.parentPrevious;
-			parentPrevious.attach(child);
-		}
+		// Deselect group each time
+		this.deselect();
 
 		// Populate collection
-		this.searchChildInRay(this.startPoint);
 		this.updateFrustum(this.startPoint, this.endPoint);
-		this.searchChildInFrustum(_frustum, this.scene);
+		this.searchChildInRay(this.startPoint);
+		this.searchChildInFrustum(_frustum, this.object);
 		
 		// Attach collection to group
 		if (this.collection.length > 0) {
@@ -71,18 +66,27 @@ class Selector {
 			var position = new Vector3();
 			for (var i = 0; i < this.collection.length; i++) { position.add(this.collection[i].position); }
 			position.divideScalar(this.collection.length);
-			this.group.position.copy(position);
+			this.selectedObjects.position.copy(position);
 			
 			// Attach collection to selected object after assigning previous parent
 			for (var i = 0; i < this.collection.length; i++) {
 				var child = this.collection[i];
 				child.parentPrevious = child.parent;
-				this.group.attach(child);
+				this.selectedObjects.attach(child);
 			}
 		}
 		
 		// Return collection
 		return this.collection;
+	}
+
+	deselect() {
+		// Reattach objects back to previous parent
+		for (var i = this.selectedObjects.children.length - 1; i >= 0; i--) {
+			var child = this.selectedObjects.children[i];
+			var parentPrevious = child.parentPrevious;
+			parentPrevious.attach(child);
+		}
 	}
 
 	updateFrustum(startPoint, endPoint) {
@@ -172,8 +176,10 @@ class Selector {
 		}
 	}
 
-	setPropertyFilter(name, value) {
-		this.filter = { name: name, value: value };
+	setObject(object) {
+		// Set the scope for collecting objects
+		this.object = object;
+		this.object.attach(this.selectedObjects);
 	}
 
 	addToCollection(object) {
@@ -194,19 +200,24 @@ class Selector {
 	}
 
 	isCollectable(object) {
-		return object[this.filter.name] == this.filter.value;
+		var isCollectable = false;
+		if (object.parent == this.object) {
+			if (object.isTransformControls == null) {
+				isCollectable = true;
+			}
+		}
+		return isCollectable;
 	}
 
 	searchChildInRay(coords) {
 		// Cast ray for initial collection item
 		this.raycaster.setFromCamera(coords, this.camera);
-		var intersects = this.raycaster.intersectObjects(this.scene.children);
+		var intersects = this.raycaster.intersectObjects(this.object.children);
 		
 		// Check if initial click intersects objects
 		if (intersects.length > 0) {
 			for (var i = 0; i < intersects.length; i++) {
-				var object = intersects[i].object;
-				this.addToCollection(object);
+				this.addToCollection(intersects[i].object);
 			}
 		}
 	}
@@ -244,7 +255,7 @@ class Selector {
         // Recursively check objects
 		if (object.children.length > 0) {
 			for (let x = 0; x < object.children.length; x++) {
-				this.searchChildInFrustum(frustum, object.children[ x ]);
+				this.searchChildInFrustum(frustum, object.children[x]);
 			}
 		}
 	}

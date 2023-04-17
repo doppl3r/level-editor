@@ -31,8 +31,7 @@ class Editor {
         this.controlsOrbit.zoomSpeed = 3;
 
         // Initialize selector
-        this.selector = new Selector(this.camera, this.scene, this.app.renderer, 'selectBox');
-        this.selector.setPropertyFilter('name', 'Rectangle');
+        this.selector = new Selector(this.camera, this.scene, this.app.renderer);
         
         // Modify outline
         this.app.outlinePass.edgeStrength = 3; // Default 3
@@ -40,7 +39,7 @@ class Editor {
         this.app.outlinePass.edgeThickness = 1; // Default 1
         this.app.outlinePass.visibleEdgeColor = new Color('#F59B3C');
         this.app.outlinePass.hiddenEdgeColor = new Color('#F59B3C');
-        this.app.outlinePass.selectedObjects = [this.selector.group];
+        this.app.outlinePass.selectedObjects = [this.selector.selectedObjects];
 
         // Add event listeners
         this.addEventListeners();
@@ -120,8 +119,8 @@ class Editor {
             this.selector.select(this.keys['ShiftLeft'] != true);
 
             // Attach transform controls to selected object
-            if (this.selector.group.children.length > 0) {
-                this.controlsTransform.attach(this.selector.group);
+            if (this.selector.selectedObjects.children.length > 0) {
+                this.controlsTransform.attach(this.selector.selectedObjects);
             }
             else {
                 this.controlsTransform.detach();
