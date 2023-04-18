@@ -29,8 +29,8 @@ class Selector {
         this.raycaster.params.Points.threshold = 0.25;
 		this.startPoint = new Vector3();
 		this.endPoint = new Vector3();
-		this.collection = [];
 		this.instances = {};
+		this.collection = [];
 		this.selectedObjects = new Group();
 		this.object.add(this.selectedObjects);
 		this.deep = Number.MAX_VALUE;
@@ -46,21 +46,17 @@ class Selector {
 		this.isDown = false;
 	}
 
-	select(emptyCollection = true) {
-		if (emptyCollection == true) {
-			// Empty collection
-			this.collection = [];
-		}
-
-		// Deselect group each time
-		this.deselect();
-
+	select(emptyCollection) {
 		// Populate collection
+		this.deselectObjects(emptyCollection); // Deselect visible objects for a new search
 		this.updateFrustum(this.startPoint, this.endPoint);
 		this.searchChildInRay(this.startPoint);
 		this.searchChildInFrustum(_frustum, this.object);
-		
-		// Attach collection to group
+		this.selectObjectsFromCollection(); // Attach collection to visible selected objects
+	}
+
+	selectObjectsFromCollection() {
+		// Attach collection objects to selected objects
 		if (this.collection.length > 0) {
 			// Get average position of collection objects
 			var position = new Vector3();
@@ -75,17 +71,22 @@ class Selector {
 				this.selectedObjects.attach(child);
 			}
 		}
-		
-		// Return collection
-		return this.collection;
 	}
 
-	deselect() {
-		// Reattach objects back to previous parent
+	deselectObject(object) {
+		// Reattach object back to previous parent
+		var parentPrevious = object.parentPrevious;
+		parentPrevious.attach(object);
+	}
+
+	deselectObjects(emptyCollection = true) {
+		// Empty collection
+		if (emptyCollection == true) this.collection = [];
+
+		// Reattach all objects back to previous parent
 		for (var i = this.selectedObjects.children.length - 1; i >= 0; i--) {
-			var child = this.selectedObjects.children[i];
-			var parentPrevious = child.parentPrevious;
-			parentPrevious.attach(child);
+			var object = this.selectedObjects.children[i];
+			this.deselectObject(object);
 		}
 	}
 
@@ -176,12 +177,6 @@ class Selector {
 		}
 	}
 
-	setObject(object) {
-		// Set the scope for collecting objects
-		this.object = object;
-		this.object.attach(this.selectedObjects);
-	}
-
 	addToCollection(object) {
 		// Add unique object to collections array
 		if (this.isCollectable(object)) {
@@ -258,6 +253,13 @@ class Selector {
 				this.searchChildInFrustum(frustum, object.children[x]);
 			}
 		}
+	}
+
+	setObject(object) {
+		// Set the scope for collecting objects
+		this.deselectObjects(true); // Empty collection
+		this.object = object;
+		this.object.attach(this.selectedObjects);
 	}
 
     getMouse(e) {
