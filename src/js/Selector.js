@@ -46,13 +46,13 @@ class Selector {
 		this.isDown = false;
 	}
 
-	select(emptyCollection) {
+	select(shiftKey = false) {
 		// Populate collection
-		this.deselectObjects(emptyCollection); // Deselect visible objects for a new search
+		this.deselectObjects(shiftKey);
 		this.updateFrustum(this.startPoint, this.endPoint);
-		this.searchChildInRay(this.startPoint);
+		this.searchChildInRay(this.startPoint, shiftKey);
 		this.searchChildInFrustum(_frustum, this.object);
-		this.selectObjectsFromCollection(); // Attach collection to visible selected objects
+		this.selectObjectsFromCollection();
 	}
 
 	selectObjectsFromCollection() {
@@ -79,9 +79,11 @@ class Selector {
 		parentPrevious.attach(object);
 	}
 
-	deselectObjects(emptyCollection = true) {
-		// Empty collection
-		if (emptyCollection == true) this.collection = [];
+	deselectObjects(shiftKey = false) {
+		// Empty collection if "shift" is not selected
+		if (shiftKey == false) {
+			this.collection = [];
+		}
 
 		// Reattach all objects back to previous parent
 		for (var i = this.selectedObjects.children.length - 1; i >= 0; i--) {
@@ -177,11 +179,19 @@ class Selector {
 		}
 	}
 
-	addToCollection(object) {
+	addToCollection(object, shiftKey) {
 		// Add unique object to collections array
 		if (this.isCollectable(object)) {
 			var exists = false;
-			for (var i = 0; i < this.collection.length; i++) { if (this.collection[i].uuid == object.uuid) exists = true; };
+			for (var i = this.collection.length - 1; i >= 0; i--) {
+				if (this.collection[i].uuid == object.uuid) {
+					exists = true;
+					// Remove object from collection if "shift" is selected
+					if (shiftKey == true) {
+						this.collection.splice(i, 1);
+					}
+				}
+			};
 			if (exists == false) {
 				this.collection.push(object);
 			}
@@ -204,7 +214,7 @@ class Selector {
 		return isCollectable;
 	}
 
-	searchChildInRay(coords) {
+	searchChildInRay(coords, shiftKey) {
 		// Cast ray for initial collection item
 		this.raycaster.setFromCamera(coords, this.camera);
 		var intersects = this.raycaster.intersectObjects(this.object.children);
@@ -212,7 +222,7 @@ class Selector {
 		// Check if initial click intersects objects
 		if (intersects.length > 0) {
 			for (var i = 0; i < intersects.length; i++) {
-				this.addToCollection(intersects[i].object);
+				this.addToCollection(intersects[i].object, shiftKey);
 			}
 		}
 	}
@@ -242,7 +252,7 @@ class Selector {
 				_center.applyMatrix4(object.matrixWorld);
 
 				if (frustum.containsPoint(_center)) {
-					this.addToCollection(object);
+					this.addToCollection(object, false); // Add to frustum with false "shift" value
 				}
 			}
 		}

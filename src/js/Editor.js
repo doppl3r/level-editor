@@ -9,7 +9,7 @@ class Editor {
         this.scene = new Scene();
         this.camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 100);
         this.camera.position.z = 5;
-        this.keys = {};
+        this.keys = { ShiftLeft: false };
         this.mode = 'object'; // 2 modes: "object" and "edit"
     }
 
@@ -126,7 +126,7 @@ class Editor {
         // Update selector box and populate collection
         if (this.pointerIntent == 'select') {
             this.selector.pointerUp(e);
-            this.selector.select(this.keys['ShiftLeft'] != true);
+            this.selector.select(this.keys['ShiftLeft']);
 
             // Attach transform controls to selected object
             if (this.selector.selectedObjects.children.length > 0) {
