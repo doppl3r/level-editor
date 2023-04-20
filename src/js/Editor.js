@@ -163,11 +163,19 @@ class Editor {
     keyDown(e) {
         if (e.code == 'Tab') e.preventDefault();
         if (e.code == 'KeyG') this.transformSelected();
+        if (e.code == 'ControlLeft') this.setSnap(1);
         this.keys[e.code] = true;
     }
 
     keyUp(e) {
         this.keys[e.code] = false;
+        if (e.code == 'ControlLeft') this.setSnap(null);
+    }
+
+    setSnap(snap) {
+        this.controlsTransform.setTranslationSnap(snap);
+        this.controlsTransform.setRotationSnap(snap);
+        this.controlsTransform.setScaleSnap(snap);
     }
 
     transformSelected() {
