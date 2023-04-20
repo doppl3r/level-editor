@@ -1,4 +1,4 @@
-import { Color, HemisphereLight, PerspectiveCamera, Scene, Vector2 } from 'three';
+import { Color, HemisphereLight, PerspectiveCamera, Scene, Vector3 } from 'three';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Rectangle } from './Rectangle';
@@ -22,6 +22,7 @@ class Editor {
 
         // Initialize controls
         this.controlsTransform = new TransformControls(this.camera, this.app.renderer.domElement);
+        this.controlsTransform.pointer = new Vector3();
         this.controlsTransform.showZ = false;
         this.controlsTransform.mode = 'translate'; // Options: translate, rotate, scale
         this.controlsOrbit = new OrbitControls(this.camera, this.app.renderer.domElement);
@@ -117,8 +118,16 @@ class Editor {
     }
     
     pointerMove(e) {
+        // Copy coordinates from selector
+        this.controlsTransform.pointer.copy(this.selector.getMouse(e));
+
+        // Update selector
         if (this.pointerIntent == 'select') {
             this.selector.pointerMove(e);
+        }
+        else if (this.pointerIntent == 'transform_hover') {
+            // Transform controls
+            this.controlsTransform.pointerMove(Object.assign({ button: -1 }, this.controlsTransform.pointer));
         }
     }
 
@@ -153,11 +162,19 @@ class Editor {
 
     keyDown(e) {
         if (e.code == 'Tab') e.preventDefault();
+        if (e.code == 'KeyG') this.transformSelected();
         this.keys[e.code] = true;
     }
 
     keyUp(e) {
         this.keys[e.code] = false;
+    }
+
+    transformSelected() {
+        // Transform pointerDown
+        this.setPointerIntent('transform_hover');
+        this.controlsTransform.axis = 'XY';
+        this.controlsTransform.pointerDown(Object.assign({ button: 0 }, this.controlsTransform.pointer));
     }
 }
 
