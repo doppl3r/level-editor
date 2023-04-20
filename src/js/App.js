@@ -55,13 +55,11 @@ class App {
         document.addEventListener('visibilitychange', function(e) { _this.visibilityChange(); });
         window.addEventListener('resize', function(e) { _this.resizeWindow(e); });
 
-        // Resize window
-        this.resizeWindow();
-
         // Initialize app after loading assets
         this.assets.load(function() {
             _this.init();
             _this.renderer.setAnimationLoop(function() { _this.loop(); });
+            _this.resizeWindow();
         });
     }
 

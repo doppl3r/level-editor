@@ -161,6 +161,7 @@ class Editor {
     }
 
     keyDown(e) {
+        if (e.repeat) return;
         if (e.code == 'Tab') e.preventDefault();
         if (e.code == 'KeyG') this.transformSelected();
         if (e.code == 'ControlLeft') this.setSnap(1, 15, 1);
