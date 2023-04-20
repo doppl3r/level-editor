@@ -163,19 +163,19 @@ class Editor {
     keyDown(e) {
         if (e.code == 'Tab') e.preventDefault();
         if (e.code == 'KeyG') this.transformSelected();
-        if (e.code == 'ControlLeft') this.setSnap(1);
+        if (e.code == 'ControlLeft') this.setSnap(1, 15, 1);
         this.keys[e.code] = true;
     }
 
     keyUp(e) {
         this.keys[e.code] = false;
-        if (e.code == 'ControlLeft') this.setSnap(null);
+        if (e.code == 'ControlLeft') this.setSnap(null, null, null);
     }
 
-    setSnap(snap) {
-        this.controlsTransform.setTranslationSnap(snap);
-        this.controlsTransform.setRotationSnap(snap);
-        this.controlsTransform.setScaleSnap(snap);
+    setSnap(translate = 1, rotate = 15, scale = 1) {
+        this.controlsTransform.setTranslationSnap(translate);
+        this.controlsTransform.setRotationSnap(rotate * (Math.PI / 180)); // Convert to radians
+        this.controlsTransform.setScaleSnap(scale);
     }
 
     transformSelected() {
