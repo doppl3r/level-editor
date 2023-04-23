@@ -181,26 +181,18 @@ class Selector {
 
 	addToCollection(object, shiftKey) {
 		// Add unique object to collections array
-		if (this.isCollectable(object)) {
-			var exists = false;
-			for (var i = this.collection.length - 1; i >= 0; i--) {
-				if (this.collection[i].uuid == object.uuid) {
-					exists = true;
-					// Remove object from collection if "shift" is selected
-					if (shiftKey == true) {
-						this.collection.splice(i, 1);
-					}
+		var exists = false;
+		for (var i = this.collection.length - 1; i >= 0; i--) {
+			if (this.collection[i].uuid == object.uuid) {
+				exists = true;
+				// Remove object from collection if "shift" is selected
+				if (shiftKey == true) {
+					this.collection.splice(i, 1);
 				}
-			};
-			if (exists == false) {
-				this.collection.push(object);
 			}
-		}
-	}
-
-	addToInstances(object, instanceId) {
-		if (this.isCollectable(object)) {
-			this.instances[object.uuid].push(instanceId);
+		};
+		if (exists == false) {
+			this.collection.push(object);
 		}
 	}
 
@@ -222,7 +214,11 @@ class Selector {
 		// Check if initial click intersects objects
 		if (intersects.length > 0) {
 			for (var i = 0; i < intersects.length; i++) {
-				this.addToCollection(intersects[i].object, shiftKey);
+				var object = intersects[i].object;
+				if (this.isCollectable(object)) {
+					this.addToCollection(object, shiftKey);
+					break; // Select the nearest object
+				}
 			}
 		}
 	}
@@ -241,7 +237,9 @@ class Selector {
 
                     // Check if the center is selected
 					if (frustum.containsPoint(_center)) {
-						this.addToInstances(object, instanceId);
+						if (this.isCollectable(object)) {
+							this.instances[object.uuid].push(instanceId);
+						}
 					}
 				}
 			}
@@ -252,7 +250,9 @@ class Selector {
 				_center.applyMatrix4(object.matrixWorld);
 
 				if (frustum.containsPoint(_center)) {
-					this.addToCollection(object, false); // Add to frustum with false "shift" value
+					if (this.isCollectable(object)) {
+						this.addToCollection(object, false); // Add to frustum with false "shift" value
+					}
 				}
 			}
 		}
