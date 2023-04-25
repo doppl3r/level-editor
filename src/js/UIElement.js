@@ -1,6 +1,6 @@
 // This class mixes design patterns from jQuery and ThreeJS Editor (https://github.com/mrdoob/three.js/blob/master/editor/js/libs/ui.js)
 
-class ElementUI {
+class UIElement {
 	constructor(dom = 'div', attributes = {}) {
 		this.dom = dom;
 		if (typeof dom == 'string') this.dom = this.createElement(dom);
@@ -12,28 +12,18 @@ class ElementUI {
 		// Append dom elements
 		for (let i = 0; i < arguments.length; i++) {
 			const argument = arguments[i];
-			if (argument instanceof ElementUI) { this.dom.appendChild(argument.dom); }
-			else { console.error('ElementUI:', argument, 'is not an instance of ElementUI.'); }
+			if (argument instanceof UIElement) { this.dom.append(argument.dom); }
+			else { console.error('UIElement:', argument, 'is not an instance of UIElement.'); }
 		}
 		return this;
-	}
-
-	appendTo(dom) {
-		// Append DOM element to another DOM element
-		dom.append(this.dom);
-	}
-
-	prependTo(dom) {
-		// Prepend DOM elemen to another DOM
-		dom.prepend(this.dom);
 	}
 
 	remove() {
 		if (arguments.length > 0) {
 			for (let i = 0; i < arguments.length; i++) {
 				const argument = arguments[i];
-				if (argument instanceof ElementUI) { this.dom.removeChild(argument.dom) }
-				else { console.error('ElementUI:', argument, 'is not an instance of ElementUI.'); }
+				if (argument instanceof UIElement) { this.dom.removeChild(argument.dom) }
+				else { console.error('UIElement:', argument, 'is not an instance of UIElement.'); }
 			}
 		}
 		else {
@@ -42,7 +32,22 @@ class ElementUI {
 		return this;
 	}
 
+	appendTo(dom) {
+		// Append DOM element to another DOM element
+		if (typeof dom == 'string') { this.appendTo(document.querySelector(dom)); }
+		else if (dom != null) dom.append(this.dom);
+		return this;
+	}
+
+	prependTo(dom) {
+		// Prepend DOM elemen to another DOM element
+		if (typeof dom == 'string') { this.prependTo(document.querySelector(dom)); }
+		else if (dom != null) dom.prepend(this.dom);
+		return this;
+	}
+
 	clear() {
+		// Clear dom children
 		while (this.dom.children.length) {
 			this.dom.removeChild(this.dom.lastChild);
 		}
@@ -117,4 +122,4 @@ class ElementUI {
 	}
 }
 
-export { ElementUI }
+export { UIElement }
