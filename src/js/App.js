@@ -11,7 +11,7 @@ import { Editor } from './Editor';
 import Stats from './Stats.js';
 
 class App {
-    constructor() {
+    constructor(canvas) {
         var _this = this;
         this.clock = new Clock();
         this.clock.scale = 1;
@@ -26,7 +26,14 @@ class App {
         this.scene = new Scene();
         this.camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 100);
         this.camera.position.z = 10;
-        this.renderer = new WebGLRenderer({ alpha: true });
+
+        // Set renderer with HTML canvas element
+        if (canvas) this.renderer = new WebGLRenderer({ alpha: true, canvas: canvas });
+        else {
+            // Append renderer to canvas
+            this.renderer = new WebGLRenderer({ alpha: true });
+            document.body.appendChild(this.renderer.domElement);
+        }
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.shadowMap.enabled = true;
@@ -47,10 +54,6 @@ class App {
         this.engine = new Engine.create();
         this.editor = new Editor();
 
-        // Append renderer to canvas
-        document.body.appendChild(this.renderer.domElement);
-        document.body.appendChild(this.stats.dom);
-        
         // Add event listeners
         document.addEventListener('visibilitychange', function(e) { _this.visibilityChange(); });
         window.addEventListener('resize', function(e) { _this.resizeWindow(e); });
@@ -162,5 +165,4 @@ class App {
     }
 }
 
-// Expose app to window for debugging
-window.app = new App();
+export { App }
