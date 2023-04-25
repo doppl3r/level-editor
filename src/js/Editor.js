@@ -3,7 +3,7 @@ import { TransformControls } from 'three/examples/jsm/controls/TransformControls
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Rectangle } from './Rectangle';
 import { Selector } from './Selector';
-import { UIElement as $ } from './UIElement';
+import { UI as $ } from './UI';
 
 class Editor {
     constructor() {
@@ -20,12 +20,6 @@ class Editor {
 
     init(app) {
         this.app = app;
-
-        // Build UI
-        this.ui = new $('div', { class: 'ui' });
-        this.menu = new $('div', { class: 'top-menu' });
-        this.ui.prependTo('body');
-        this.ui.append(this.menu);
 
         // Initialize controls
         this.controlsTransform = new TransformControls(this.camera, this.app.renderer.domElement);

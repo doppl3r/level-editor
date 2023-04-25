@@ -1,9 +1,9 @@
 // This class mixes design patterns from jQuery and ThreeJS Editor (https://github.com/mrdoob/three.js/blob/master/editor/js/libs/ui.js)
 
-class UIElement {
-	constructor(dom = 'div', attributes = {}) {
+class UI {
+	constructor(dom, attributes = {}) {
 		this.dom = dom;
-		if (typeof dom == 'string') this.dom = this.createElement(dom);
+		if (dom == null || typeof dom == 'string') this.dom = this.createElement(dom);
 		if (attributes !== 'undefined') this.attr(null, attributes);
 		if (attributes.id == null) this.attr('id', this.generateUUID());
 	}
@@ -12,8 +12,8 @@ class UIElement {
 		// Append dom elements
 		for (let i = 0; i < arguments.length; i++) {
 			const argument = arguments[i];
-			if (argument instanceof UIElement) { this.dom.append(argument.dom); }
-			else { console.error('UIElement:', argument, 'is not an instance of UIElement.'); }
+			if (argument instanceof UI) { this.dom.append(argument.dom); }
+			else { console.error('UI:', argument, 'is not an instance of UI.'); }
 		}
 		return this;
 	}
@@ -22,8 +22,8 @@ class UIElement {
 		if (arguments.length > 0) {
 			for (let i = 0; i < arguments.length; i++) {
 				const argument = arguments[i];
-				if (argument instanceof UIElement) { this.dom.removeChild(argument.dom) }
-				else { console.error('UIElement:', argument, 'is not an instance of UIElement.'); }
+				if (argument instanceof UI) { this.dom.removeChild(argument.dom) }
+				else { console.error('UI:', argument, 'is not an instance of UI.'); }
 			}
 		}
 		else {
@@ -53,15 +53,15 @@ class UIElement {
 		}
 	}
 
-	attr(name, value) {
-		// Get or set attribute if value exists
-		if (value == null) return this.dom[name];
-		else if (typeof value == 'object') { // Apply multiple attributes
-			for (const [key, val] of Object.entries(value)) {
+	attr() {
+		// Get or set attribute by name (argument[0]) if value (argument[1]) exists
+		if (arguments[1] == null) return this.dom[arguments[0]];
+		else if (typeof arguments[1] == 'object') { // Apply multiple attributes
+			for (const [key, val] of Object.entries(arguments[1])) {
 				this.attr(key, val);
 			}
 		}
-		else this.dom.setAttribute(name, value);
+		else this.dom.setAttribute(arguments[0], arguments[1]);
 		return this;
 	}
 
@@ -75,17 +75,18 @@ class UIElement {
 		return this;
 	}
 
-	css(name, value) {
-		if (value == null) {
-			if (typeof name == 'object') { // Set multiple styles from object
-				for (const [key, val] of Object.entries(name)) {
+	css() {
+		if (arguments[1] == null) {
+			// Set multiple styles from object
+			if (typeof arguments[0] == 'object') {
+				for (const [key, val] of Object.entries(arguments[0])) {
 					this.dom.style[key] = val;
 				}
 			}
-			else return getComputedStyle(this.dom)[name]; // Else return existing style
+			else return getComputedStyle(this.dom)[arguments[0]]; // Return existing style
 		}
 		else { // Set Non-object styling to value
-			this.dom.style[name] = value;
+			this.dom.style[arguments[0]] = arguments[1];
 		}
 		return this;
 	}
@@ -115,11 +116,11 @@ class UIElement {
 		return uuid.toLowerCase();
 	}
 
-	createElement(name) {
+	createElement(name = 'div') {
 		return document.createElement(name);
 
 		// TODO: Conditionally create elements with unique behaviors
 	}
 }
 
-export { UIElement }
+export { UI }
