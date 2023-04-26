@@ -6,8 +6,11 @@
   function newFile() {
     console.log('Menu.vue: newFile()');
   }
-
 </script>
+
+<style lang="scss">
+  @import "../scss/menu";
+</style>
 
 <template>
   <div class="menu">

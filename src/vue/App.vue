@@ -1,7 +1,7 @@
 <script setup>
 	import Menu from './Menu.vue';
 	import { App } from '../js/App.js';
-	import { ref, onMounted, onUpdated } from 'vue';
+	import { ref, onMounted } from 'vue';
 
 	// Initialize app
 	var canvas = ref();
@@ -14,5 +14,5 @@
 
 <template>
 	<Menu msg="UI created using src/vue/App.vue" />
-	<canvas ref="canvas" id="pizza"></canvas>
+	<canvas ref="canvas"></canvas>
 </template>
