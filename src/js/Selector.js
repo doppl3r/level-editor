@@ -26,7 +26,7 @@ class Selector {
 		this.camera = camera;
 		this.object = object;
 		this.raycaster = new Raycaster();
-        this.raycaster.params.Points.threshold = 0.25;
+		this.raycaster.params.Points.threshold = 0.25;
 		this.startPoint = new Vector3();
 		this.endPoint = new Vector3();
 		this.instances = {};
@@ -34,9 +34,9 @@ class Selector {
 		this.selectedObjects = new Group();
 		this.object.add(this.selectedObjects);
 		this.deep = Number.MAX_VALUE;
-        
-        // HTML Helper elements
-        this.element = document.createElement('div');
+		
+		// HTML Helper elements
+		this.element = document.createElement('div');
 		this.element.classList.add('selectBox');
 		this.element.style.pointerEvents = 'none';
 		this.renderer = renderer;
@@ -144,7 +144,7 @@ class Selector {
 			planes[ 5 ].setFromCoplanarPoints(_vectemp3, _vectemp2, _vectemp1);
 			planes[ 5 ].normal.multiplyScalar(- 1);
 		}
-        else if (this.camera.isOrthographicCamera) {
+		else if (this.camera.isOrthographicCamera) {
 			const left = Math.min(startPoint.x, endPoint.x);
 			const top = Math.max(startPoint.y, endPoint.y);
 			const right = Math.max(startPoint.x, endPoint.x);
@@ -174,7 +174,7 @@ class Selector {
 			planes[ 5 ].setFromCoplanarPoints(_vecFarDownRight, _vecFarTopRight, _vecFarTopLeft);
 			planes[ 5 ].normal.multiplyScalar(- 1);
 		}
-        else {
+		else {
 			console.error('THREE.Selector: Unsupported camera type.');
 		}
 	}
@@ -225,17 +225,17 @@ class Selector {
 
 	searchChildInFrustum(frustum, object) {
 		if (object.isMesh || object.isLine || object.isPoints) {
-            // Check InstancedMesh type
+			// Check InstancedMesh type
 			if (object.isInstancedMesh) {
 				this.instances[object.uuid] = [];
 
-                // Loop through groups of meshes
+				// Loop through groups of meshes
 				for (let instanceId = 0; instanceId < object.count; instanceId++) {
 					object.getMatrixAt(instanceId, _matrix);
 					_matrix.decompose(_center, _quaternion, _scale);
 					_center.applyMatrix4(object.matrixWorld);
 
-                    // Check if the center is selected
+					// Check if the center is selected
 					if (frustum.containsPoint(_center)) {
 						if (this.isCollectable(object)) {
 							this.instances[object.uuid].push(instanceId);
@@ -243,8 +243,8 @@ class Selector {
 					}
 				}
 			}
-            else {
-                // Check standard object type
+			else {
+				// Check standard object type
 				if (object.geometry.boundingSphere === null) object.geometry.computeBoundingSphere();
 				_center.copy(object.geometry.boundingSphere.center);
 				_center.applyMatrix4(object.matrixWorld);
@@ -257,7 +257,7 @@ class Selector {
 			}
 		}
 
-        // Recursively check objects
+		// Recursively check objects
 		if (object.children.length > 0) {
 			for (let x = 0; x < object.children.length; x++) {
 				this.searchChildInFrustum(frustum, object.children[x]);
@@ -272,52 +272,52 @@ class Selector {
 		this.object.attach(this.selectedObjects);
 	}
 
-    getMouse(e) {
-        return { x: (e.clientX / window.innerWidth) * 2 - 1, y: -(e.clientY / window.innerHeight) * 2 + 1, z: 0.5 };
-    }
+	getMouse(e) {
+		return { x: (e.clientX / window.innerWidth) * 2 - 1, y: -(e.clientY / window.innerHeight) * 2 + 1, z: 0.5 };
+	}
 
 	pointerDown(event) {
-        // Must start on renderer DOM element
-        if (event.target == this.renderer.domElement) {
-            // Update 3D start point
-            this.startPoint.copy(this.getMouse(event));
-            
-            // Update 2D start point
-            this.isDown = true;
-            this.element.style.display = 'none';
-            this.renderer.domElement.parentElement.appendChild(this.element);
-            this.element.style.left = event.clientX + 'px';
-            this.element.style.top = event.clientY + 'px';
-            this.element.style.width = '0px';
-            this.element.style.height = '0px';
-            this.startBox.x = event.clientX;
-            this.startBox.y = event.clientY;
-        }
+		// Must start on renderer DOM element
+		if (event.target == this.renderer.domElement) {
+			// Update 3D start point
+			this.startPoint.copy(this.getMouse(event));
+			
+			// Update 2D start point
+			this.isDown = true;
+			this.element.style.display = 'none';
+			this.renderer.domElement.parentElement.appendChild(this.element);
+			this.element.style.left = event.clientX + 'px';
+			this.element.style.top = event.clientY + 'px';
+			this.element.style.width = '0px';
+			this.element.style.height = '0px';
+			this.startBox.x = event.clientX;
+			this.startBox.y = event.clientY;
+		}
 	}
 
 	pointerMove(event) {
-        if (this.isDown) {
-            this.element.style.display = 'block';
-            this.pointBottomRight.x = Math.max(this.startBox.x, event.clientX);
-            this.pointBottomRight.y = Math.max(this.startBox.y, event.clientY);
-            this.pointTopLeft.x = Math.min(this.startBox.x, event.clientX);
-            this.pointTopLeft.y = Math.min(this.startBox.y, event.clientY);
-            this.element.style.left = this.pointTopLeft.x + 'px';
-            this.element.style.top = this.pointTopLeft.y + 'px';
-            this.element.style.width = (this.pointBottomRight.x - this.pointTopLeft.x) + 'px';
-            this.element.style.height = (this.pointBottomRight.y - this.pointTopLeft.y) + 'px';
-        }
+		if (this.isDown) {
+			this.element.style.display = 'block';
+			this.pointBottomRight.x = Math.max(this.startBox.x, event.clientX);
+			this.pointBottomRight.y = Math.max(this.startBox.y, event.clientY);
+			this.pointTopLeft.x = Math.min(this.startBox.x, event.clientX);
+			this.pointTopLeft.y = Math.min(this.startBox.y, event.clientY);
+			this.element.style.left = this.pointTopLeft.x + 'px';
+			this.element.style.top = this.pointTopLeft.y + 'px';
+			this.element.style.width = (this.pointBottomRight.x - this.pointTopLeft.x) + 'px';
+			this.element.style.height = (this.pointBottomRight.y - this.pointTopLeft.y) + 'px';
+		}
 	}
 
 	pointerUp(event) {
-        // Update 3D end point
-        this.endPoint.copy(this.getMouse(event));
+		// Update 3D end point
+		this.endPoint.copy(this.getMouse(event));
 
-        // Remove 2D select box
-        if (this.isDown) {
-            this.element.parentElement.removeChild(this.element);
-            this.isDown = false;
-        }
+		// Remove 2D select box
+		if (this.isDown) {
+			this.element.parentElement.removeChild(this.element);
+			this.isDown = false;
+		}
 	}
 }
 

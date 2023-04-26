@@ -1,0 +1,10 @@
+.icon {
+    display: inline-block;
+    height: 0.875rem; // 14px
+    width: 0.875rem; // 14px
+    vertical-align: top;
+
+    &.icon-new { background-image: url('../img/svg/icon-new.svg'); }
+    &.icon-open { background-image: url('../img/svg/icon-open.svg'); }
+    &.icon-save { background-image: url('../img/svg/icon-save.svg'); }
+}

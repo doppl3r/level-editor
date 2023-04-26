@@ -1,19 +1,18 @@
 <script setup>
-  import Menu from './Menu.vue';
-  import { App } from '../js/App.js';
-  import { ref, onMounted } from 'vue';
+	import Menu from './Menu.vue';
+	import { App } from '../js/App.js';
+	import { ref, onMounted, onUpdated } from 'vue';
 
-  // Initialize app
-  var canvas = ref();
-  var app;
+	// Initialize app
+	var canvas = ref();
+	var app;
 
-  onMounted(function() {
-    window.app = app = new App(canvas.value);
-  });
-
+	onMounted(function() {
+		window.app = app = new App(canvas.value);
+	});
 </script>
 
 <template>
-  <canvas ref="canvas"></canvas>
-  <Menu msg="UI created using src/vue/App.vue" />
+	<Menu msg="UI created using src/vue/App.vue" />
+	<canvas ref="canvas" id="pizza"></canvas>
 </template>
