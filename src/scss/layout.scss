@@ -3,7 +3,7 @@
 	grid-auto-rows: 1fr;
 	grid-template-columns: 1fr 1fr 25%;
 	grid-template-rows: min-content 33% 1fr;
-	gap: 0.125em 0.125em;
+	gap: 0.125rem 0.125rem;
 	grid-template-areas:
 		"top top top"
 		"view view side-top"
@@ -25,5 +25,6 @@
 
 	.view {
 		grid-area: view;
+		overflow: hidden; // Prevent resizeWindow() loop
 	}
 }
