@@ -19,12 +19,9 @@
 			<Menu msg="UI created using src/vue/App.vue" />
 		</div>
 		<div class="view">
-			<div class="container">
-				<canvas ref="canvas"></canvas>
-			</div>
+			<canvas ref="canvas"></canvas>
 		</div>
-		<div class="side">
-
-		</div>
+		<div class="side-top"></div>
+		<div class="side-bottom"></div>
 	</div>
 </template>
