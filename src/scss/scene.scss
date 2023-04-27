@@ -1,0 +1,75 @@
+.scene {
+	background-color: #282828;
+	color: #DCDCDC;
+	font-size: 0.75rem;
+	line-height: 0.75rem;
+	overflow-y: overlay;
+	position: relative;
+	height: 100%;
+	width: 100%;
+	z-index: 1;
+
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		li {
+			align-items: center;
+			display: flex;
+			padding: 0.0625rem 0.5rem;
+			position: relative;
+			
+			&:first-of-type {
+				padding: 0.5rem;
+				background-color: none;
+
+				&:hover:before {
+					background-color: transparent;
+				}
+			}
+
+			* {
+				z-index: 1;
+			}
+			
+			&:nth-child(2n+2) {
+				background-color: #2B2B2B;
+			}
+
+			&:hover {
+				&:before {
+					background-color: rgba(255, 255, 255, 0.1);
+					position: absolute;
+					content: '';
+					width: 100%;
+					height: 100%;
+					top: 0;
+					left: 0;
+					z-index: 0;
+				}
+			}
+
+			&.selected {
+				background-color: #4772B3;
+			}
+
+			label {
+				.icon {
+					margin-right: 0.25rem;
+				}
+			}
+
+			button {
+				background-color: transparent;
+				border: none;
+				padding: 0rem 0.125rem;
+				cursor: pointer;
+		
+				&:first-of-type {
+					margin-left: auto;
+				}
+			}
+		}
+	}
+}

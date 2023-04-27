@@ -1,6 +1,7 @@
 <script setup>
 	import '../scss/style.scss';
 	import Menu from './Menu.vue';
+	import Scene from './Scene.vue';
 	import { App } from '../js/App.js';
 	import { ref, onMounted } from 'vue';
 
@@ -16,12 +17,19 @@
 <template>
 	<div class="layout">
 		<div class="top">
-			<Menu msg="UI created using src/vue/App.vue" />
+			<Menu />
 		</div>
 		<div class="view">
 			<canvas ref="canvas"></canvas>
 		</div>
-		<div class="side-top"></div>
-		<div class="side-bottom"></div>
+		<div class="side-top">
+			<Scene />
+		</div>
+		<div class="side-bottom">
+			<div class="properties">
+				<div class="nav-tabs"></div>
+				<div class="tab-content"></div>
+			</div>
+		</div>
 	</div>
 </template>

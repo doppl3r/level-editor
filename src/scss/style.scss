@@ -38,3 +38,9 @@ html {
 		z-index: 0;
 	}
 }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 0.75rem; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0); }
+::-webkit-scrollbar-thumb { background: rgba(#545454, 0.5); border-radius: 999rem; border: 0.25rem solid transparent; background-clip: content-box; }
+::-webkit-scrollbar-thumb:hover { background: rgba(#545454, 1); border: 0.125rem solid transparent; background-clip: content-box; }

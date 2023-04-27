@@ -37,9 +37,9 @@ class Editor {
 		// Modify outline
 		this.app.outlinePass.edgeStrength = 3; // Default 3
 		this.app.outlinePass.edgeGlow = 0; // Default 0
-		this.app.outlinePass.edgeThickness = 1; // Default 1
-		this.app.outlinePass.visibleEdgeColor = new Color('#F59B3C');
-		this.app.outlinePass.hiddenEdgeColor = new Color('#F59B3C');
+		this.app.outlinePass.edgeThickness = 0.25; // Default 1
+		this.app.outlinePass.visibleEdgeColor = new Color('#E8BE7F');
+		this.app.outlinePass.hiddenEdgeColor = new Color('#E8BE7F');
 		this.app.outlinePass.selectedObjects = [this.selector.selectedObjects];
 
 		// Add event listeners
