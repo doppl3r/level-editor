@@ -86,13 +86,21 @@ class Editor {
 	handleInput(e) {
 		// Allow boolean to dictate event context
 		if (this.isActive == true) {
-			// Use select box if controls are not visible
-			switch(e.type) {
-				case 'pointerdown': this.pointerDown(e); break;
-				case 'pointermove': this.pointerMove(e); break;
-				case 'pointerup': this.pointerUp(e); break;
-				case 'keydown': this.keyDown(e); break;
-				case 'keyup': this.keyUp(e); break;
+
+			// Check if target equals renderer.domElement
+			if (e.target == this.app.renderer.domElement) {
+				// Use select box if controls are not visible
+				switch(e.type) {
+					case 'pointerdown': this.pointerDown(e); break;
+					case 'pointermove': this.pointerMove(e); break;
+					case 'pointerup': this.pointerUp(e); break;
+				}
+			}
+			else {
+				switch(e.type) {
+					case 'keydown': this.keyDown(e); break;
+					case 'keyup': this.keyUp(e); break;
+				}
 			}
 		}
 	}

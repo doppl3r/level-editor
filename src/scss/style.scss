@@ -1,3 +1,4 @@
+@import 'layout';
 @import 'selector';
 @import 'icons';
 
@@ -15,12 +16,12 @@ html {
 	line-height: clamp(16px, 4vh, 32px);
 
 	body {
-		height: 100vh;
-		width: 100vw;
 		min-width: 640px;
 		min-height: 360px;
+		width: 100%;
+		height: 100%;
 		margin: 0;
-		background-color: #333333;
+		background-color: #161616;
 		overflow: hidden;
 	}
 
@@ -31,6 +32,7 @@ html {
 	}
 
 	canvas {
+		background-color: #333333;
 		image-rendering: pixelated;
 		position: relative;
 		z-index: 0;

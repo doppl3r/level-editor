@@ -273,7 +273,17 @@ class Selector {
 	}
 
 	getMouse(e) {
-		return { x: (e.clientX / window.innerWidth) * 2 - 1, y: -(e.clientY / window.innerHeight) * 2 + 1, z: 0.5 };
+		var parent = this.renderer.domElement.parentElement;
+		var width = window.innerWidth;
+		var height = window.innerHeight;
+		
+		// Use parent width
+		if (parent != null) {
+			width = parent.clientWidth;
+			height = parent.clientHeight;
+		}
+
+		return { x: ((e.clientX - e.target.offsetLeft) / width) * 2 - 1, y: -((e.clientY - e.target.offsetTop) / height) * 2 + 1, z: 0.5 };
 	}
 
 	pointerDown(event) {

@@ -140,8 +140,16 @@ class App {
 	}
 
 	resizeWindow(e) {
+		var parent = this.renderer.domElement.parentElement;
 		var width = window.innerWidth;
 		var height = window.innerHeight;
+
+		// Use parent width
+		if (parent != null) {
+			width = parent.clientWidth;
+			height = parent.clientHeight;
+		}
+		
 		this.camera.aspect = width / height;
 		this.camera.updateProjectionMatrix();
 		this.renderer.setSize(width, height);

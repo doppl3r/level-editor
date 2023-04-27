@@ -1,4 +1,5 @@
 <script setup>
+	import '../scss/style.scss';
 	import Menu from './Menu.vue';
 	import { App } from '../js/App.js';
 	import { ref, onMounted } from 'vue';
@@ -13,6 +14,17 @@
 </script>
 
 <template>
-	<Menu msg="UI created using src/vue/App.vue" />
-	<canvas ref="canvas"></canvas>
+	<div class="layout">
+		<div class="top">
+			<Menu msg="UI created using src/vue/App.vue" />
+		</div>
+		<div class="view">
+			<div class="container">
+				<canvas ref="canvas"></canvas>
+			</div>
+		</div>
+		<div class="side">
+
+		</div>
+	</div>
 </template>
