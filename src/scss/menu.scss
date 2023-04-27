@@ -1,6 +1,6 @@
 .menu {
 	background-color: #1D1D1D;
-	color: #ffffff;
+	color: #DCDCDC;
 	font-size: 0.75rem;
 	line-height: 0.75rem;
 	padding: 0.125rem 0.5rem; // 2px 8px
@@ -53,12 +53,12 @@
 		background-color: transparent;
 		border: 0.0625rem solid transparent;
 		border-radius: 0.125rem;
-		color: #ffffff;
+		color: #DCDCDC;
 		padding: 0.125rem 0.5rem; // 3px 8px
 		text-align: left;
 
 		.icon {
-			margin-right: 0.5rem;
+			margin-right: 0.25rem;
 		}
 
 		&:hover {
