@@ -283,35 +283,35 @@ class Selector {
 			height = parent.clientHeight;
 		}
 
-		return { x: ((e.clientX - e.target.offsetLeft) / width) * 2 - 1, y: -((e.clientY - e.target.offsetTop) / height) * 2 + 1, z: 0.5 };
+		return { x: ((e.clientX - e.target.parentElement.offsetLeft) / width) * 2 - 1, y: -((e.clientY - e.target.parentElement.offsetTop) / height) * 2 + 1, z: 0.5 };
 	}
 
-	pointerDown(event) {
+	pointerDown(e) {
 		// Must start on renderer DOM element
-		if (event.target == this.renderer.domElement) {
+		if (e.target == this.renderer.domElement) {
 			// Update 3D start point
-			this.startPoint.copy(this.getMouse(event));
+			this.startPoint.copy(this.getMouse(e));
 			
 			// Update 2D start point
 			this.isDown = true;
 			this.element.style.display = 'none';
 			this.renderer.domElement.parentElement.appendChild(this.element);
-			this.element.style.left = event.clientX + 'px';
-			this.element.style.top = event.clientY + 'px';
+			this.startBox.x = (e.clientX - e.target.parentElement.offsetLeft);
+			this.startBox.y = (e.clientY - e.target.parentElement.offsetTop);
+			this.element.style.left = this.startBox.x + 'px';
+			this.element.style.top = this.startBox.y + 'px';
 			this.element.style.width = '0px';
 			this.element.style.height = '0px';
-			this.startBox.x = event.clientX;
-			this.startBox.y = event.clientY;
 		}
 	}
 
-	pointerMove(event) {
+	pointerMove(e) {
 		if (this.isDown) {
 			this.element.style.display = 'block';
-			this.pointBottomRight.x = Math.max(this.startBox.x, event.clientX);
-			this.pointBottomRight.y = Math.max(this.startBox.y, event.clientY);
-			this.pointTopLeft.x = Math.min(this.startBox.x, event.clientX);
-			this.pointTopLeft.y = Math.min(this.startBox.y, event.clientY);
+			this.pointBottomRight.x = Math.max(this.startBox.x, (e.clientX - e.target.parentElement.offsetLeft));
+			this.pointBottomRight.y = Math.max(this.startBox.y, (e.clientY - e.target.parentElement.offsetTop));
+			this.pointTopLeft.x = Math.min(this.startBox.x, (e.clientX - e.target.parentElement.offsetLeft));
+			this.pointTopLeft.y = Math.min(this.startBox.y, (e.clientY - e.target.parentElement.offsetTop));
 			this.element.style.left = this.pointTopLeft.x + 'px';
 			this.element.style.top = this.pointTopLeft.y + 'px';
 			this.element.style.width = (this.pointBottomRight.x - this.pointTopLeft.x) + 'px';
@@ -319,9 +319,9 @@ class Selector {
 		}
 	}
 
-	pointerUp(event) {
+	pointerUp(e) {
 		// Update 3D end point
-		this.endPoint.copy(this.getMouse(event));
+		this.endPoint.copy(this.getMouse(e));
 
 		// Remove 2D select box
 		if (this.isDown) {

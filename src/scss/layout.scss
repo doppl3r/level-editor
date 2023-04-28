@@ -13,18 +13,22 @@
 
 	.top {
 		grid-area: top;
+		position: relative;
 	}
 
 	.side-top {
 		grid-area: side-top;
+		position: relative;
 	}
 
 	.side-bottom {
 		grid-area: side-bottom;
+		position: relative;
 	}
 
 	.view {
 		grid-area: view;
 		overflow: hidden; // Prevent resizeWindow() loop
+		position: relative;
 	}
 }

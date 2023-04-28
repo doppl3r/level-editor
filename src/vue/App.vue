@@ -2,6 +2,7 @@
 	import '../scss/style.scss';
 	import Menu from './Menu.vue';
 	import Scene from './Scene.vue';
+	import Properties from './Properties.vue';
 	import { App } from '../js/App.js';
 	import { ref, onMounted } from 'vue';
 
@@ -26,10 +27,7 @@
 			<Scene />
 		</div>
 		<div class="side-bottom">
-			<div class="properties">
-				<div class="nav-tabs"></div>
-				<div class="tab-content"></div>
-			</div>
+			<Properties />
 		</div>
 	</div>
 </template>
