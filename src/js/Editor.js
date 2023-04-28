@@ -173,6 +173,8 @@ class Editor {
 		if (e.repeat) return;
 		if (e.code == 'Tab') e.preventDefault();
 		if (e.code == 'KeyG') this.transformSelected();
+		if (e.code == 'KeyS') this.setTransformMode('scale');
+		if (e.code == 'KeyR') this.setTransformMode('rotate');
 		if (e.code == 'ControlLeft') this.setSnap(1, 15, 1);
 		this.keys[e.code] = true;
 	}
@@ -190,9 +192,22 @@ class Editor {
 
 	transformSelected() {
 		// Transform pointerDown
+		this.setTransformMode('translate');
 		this.setPointerIntent('transform_hover');
 		this.controlsTransform.axis = 'XY';
 		this.controlsTransform.pointerDown(Object.assign({ button: 0 }, this.controlsTransform.pointer));
+	}
+
+	setTransformMode(mode = 'translate') {
+		this.controlsTransform.setMode(mode)
+		if (mode == 'translate' || mode == 'scale') {
+			this.controlsTransform.showX = this.controlsTransform.showY = true;
+			this.controlsTransform.showZ = false;
+		}
+		else if (mode == 'rotate') {
+			this.controlsTransform.showX = this.controlsTransform.showY = false;
+			this.controlsTransform.showZ = true;
+		}
 	}
 }
 
