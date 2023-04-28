@@ -1,8 +1,8 @@
 .layout {
 	display: grid;
 	grid-auto-rows: 1fr;
-	grid-template-columns: 1fr 1fr 25%;
-	grid-template-rows: min-content 33% 1fr;
+	grid-template-columns: 1fr 1fr 30%;
+	grid-template-rows: min-content 30% 1fr;
 	gap: 0.125rem 0.125rem;
 	grid-template-areas:
 		"top top top"
@@ -10,19 +10,23 @@
 		"view view side-bottom";
 	width: 100vw;
 	height: 100vh;
+	position: relative;
 
 	.top {
 		grid-area: top;
+		overflow: hidden;
 		position: relative;
 	}
 
 	.side-top {
 		grid-area: side-top;
+		overflow: hidden;
 		position: relative;
 	}
 
 	.side-bottom {
 		grid-area: side-bottom;
+		overflow: hidden;
 		position: relative;
 	}
 
