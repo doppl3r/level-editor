@@ -9,7 +9,9 @@
 		"tabs tab-content";
 	font-size: 0.75rem;
 	line-height: 0.75rem;
-	overflow: hidden;
+	position: absolute; // Allow children to scroll
+	left: 0;
+	top: 0;
 	height: 100%;
 	width: 100%;
 	z-index: 1;
