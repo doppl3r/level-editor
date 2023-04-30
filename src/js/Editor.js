@@ -173,8 +173,9 @@ class Editor {
 		if (e.repeat) return;
 		if (e.code == 'Tab') e.preventDefault();
 		if (e.code == 'KeyG') this.transformSelected();
-		if (e.code == 'KeyS') this.setTransformMode('scale');
 		if (e.code == 'KeyR') this.setTransformMode('rotate');
+		if (e.code == 'KeyS') this.setTransformMode('scale');
+		if (e.code == 'KeyT') this.setTransformMode('translate');
 		if (e.code == 'ControlLeft') this.setSnap(1, 15, 1);
 		this.keys[e.code] = true;
 	}

@@ -81,7 +81,7 @@
 				background-color: transparent;
 				border: none;
 				color: inherit;
-				padding: 0;
+				padding: 0rem 0rem 0.25rem;
 				text-align: inherit;
 				width: 100%;
 				white-space: nowrap;
@@ -89,6 +89,58 @@
 
 				.icon {
 					margin-right: 0.25rem;
+				}
+			}
+
+			ul {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+
+				li {
+					padding: 0rem;
+
+					label {
+						display: block;
+						padding: 0.25rem 0rem;
+					}
+
+					.row {
+						display: flex;
+						margin-left: -0.03125rem;
+						margin-right: -0.03125rem;
+
+						.col {
+							margin-left: 0.03125rem;
+							margin-right: 0.03125rem;
+
+							input {
+								background-color: #545454;
+								border-radius: 0.125rem;
+								border: none;
+								color: inherit;
+								height: 1rem;
+								line-height: 0.75rem;
+								outline: none;
+								padding: 0.125rem 0rem;
+								text-align: center;
+								text-shadow: inherit;
+								width: 100%;
+							}
+
+							textarea {
+								background-color: #545454;
+								border-radius: 0.125rem;
+								border: none;
+								color: inherit;
+								line-height: 0.75rem;
+								outline: none;
+								padding: 0.25rem;
+								text-shadow: inherit;
+								width: 100%;
+							}
+						}
+					}
 				}
 			}
 		}
