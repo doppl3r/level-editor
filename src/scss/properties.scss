@@ -78,26 +78,33 @@
 			.group {
 				background-color: #3D3D3D;
 				border-radius: 0.125rem;
+				margin-bottom: 0.125rem;
 				padding: 0.5rem;
 	
 				button {
 					background-color: transparent;
 					border: none;
 					color: inherit;
-					padding: 0rem 0rem 0.25rem;
+					padding: 0rem;
 					text-align: inherit;
 					width: 100%;
 					white-space: nowrap;
 					text-shadow: inherit;
 	
+					&.closed {
+						.icon {
+							transform: rotate(180deg);
+						}
+					}
+
 					.icon {
 						margin-right: 0.25rem;
 					}
 				}
 	
 				ul {
-					margin: 0;
-					padding: 0;
+					margin: 0rem;
+					padding: 0.25rem 0rem 0rem;
 					list-style: none;
 	
 					li {
@@ -110,12 +117,20 @@
 	
 						.row {
 							display: flex;
+							align-items: center;
 							margin-left: -0.03125rem;
 							margin-right: -0.03125rem;
+							margin-bottom: 0.0625rem;
 	
 							.col {
+								flex-basis: 0;
+								flex-grow: 1;
 								margin-left: 0.03125rem;
 								margin-right: 0.03125rem;
+
+								label {
+									padding: 0.125rem 0rem;
+								}
 	
 								input {
 									background-color: #545454;
@@ -130,6 +145,13 @@
 									text-align: center;
 									text-shadow: inherit;
 									width: 100%;
+
+									&::-webkit-outer-spin-button,
+									&::-webkit-inner-spin-button,
+									&[type="number"] {
+										-webkit-appearance: none;
+										-moz-appearance: textfield;
+									}
 
 									&[type="checkbox"] {
 										width: 0;

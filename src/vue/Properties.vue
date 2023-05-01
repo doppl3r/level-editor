@@ -23,12 +23,13 @@
 			<div v-for="pane of properties.children">
 				<div class="tab-pane" v-if="selectedTab == pane.name">
 					<div class="group" v-for="group of pane.children">
-						<button><span class="icon icon-opened"></span>{{ group.name }}</button>
-						<ul>
+						<button @click="group.selected = !group.selected" :class="{ 'closed': group.selected }"><span class="icon icon-opened"></span>{{ group.name }}</button>
+						<ul v-if="!group.selected">
 							<li v-for="row of group.children">
 								<label v-if="!!row.name">{{ row.name }}</label>
 								<div class="row">
 									<div class="col" v-for="col of row.children">
+										<label v-if="col.element == 'label'" v-bind:title="col.title">{{ col.name }}</label>
 										<input v-if="col.element == 'input'" v-bind:id="col.name" v-bind:type="col.type" v-model="col.value">
 										<label v-if="col.type == 'checkbox'" v-bind:for="col.name">{{ col.name }}</label>
 										<textarea v-if="col.element == 'textarea'" v-model="col.value"></textarea>

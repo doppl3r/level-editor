@@ -125,6 +125,70 @@
                                     "type": "checkbox"
                                 }
                             ]
+                        },
+                        {
+                            "type": "row",
+                            "children": [
+                                {
+                                    "name": "Mass",
+                                    "element": "label",
+                                    "title": "Object mass"
+                                },
+                                {
+                                    "name": "mass",
+                                    "element": "input",
+                                    "type": "text",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "type": "row",
+                            "children": [
+                                {
+                                    "name": "Friction",
+                                    "element": "label",
+                                    "title": "Objects collision deceleration"
+                                },
+                                {
+                                    "name": "friction",
+                                    "element": "input",
+                                    "type": "text",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "type": "row",
+                            "children": [
+                                {
+                                    "name": "Air Friction",
+                                    "element": "label",
+                                    "title": "Object air deceleration"
+                                },
+                                {
+                                    "name": "air-friction",
+                                    "element": "input",
+                                    "type": "text",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "type": "row",
+                            "children": [
+                                {
+                                    "name": "Restitution",
+                                    "element": "label",
+                                    "title": "Object bounciness"
+                                },
+                                {
+                                    "name": "restitution",
+                                    "element": "input",
+                                    "type": "text",
+                                    "value": 0
+                                }
+                            ]
                         }
                     ]
                 }

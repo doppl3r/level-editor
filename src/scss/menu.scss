@@ -19,8 +19,11 @@
 		position: relative;
 
 		> li {
-			&:hover > ul {
-				display: block;
+			&:focus-within,
+			&:hover {
+				> ul {
+					display: block;
+				}
 			}
 
 			> ul {
