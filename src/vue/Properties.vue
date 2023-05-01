@@ -1,62 +1,44 @@
 <script setup>
-  import { ref } from 'vue'
+	import { ref } from 'vue'
+	import json from '../json/editor-tabs.json';
+
+	var selectedTab = ref('Object Properties');
+	var properties = ref(json);
 </script>
 
 <style lang="scss">
-  @import "../scss/properties";
+	@import "../scss/properties";
 </style>
 
 <template>
-    <div class="properties">
-        <div class="tabs">
-            <ul>
-                <li>
-                    <button class="selected"><span class="icon icon-properties"></span></button>
-                </li>
-                <li>
-                    <button><span class="icon icon-physics"></span></button>
-                </li>
-                <li>
-                    <button><span class="icon icon-texture"></span></button>
-                </li>
-            </ul>
-        </div>
-        <div class="tabs-content">
-            <div class="group">
-                <button><span class="icon icon-opened"></span>Object Properties</button>
-                <ul>
-                    <li>
-                        <label>Position (XYZ)</label>
-                        <div class="row">
-                            <div class="col"><input class="number" name="positionX" value="0"></div>
-                            <div class="col"><input class="number" name="positionY" value="0"></div>
-                            <div class="col"><input class="number" name="positionZ" value="0"></div>
-                        </div>
-                    </li>
-                    <li>
-                        <label>Rotation (XYZ)</label>
-                        <div class="row">
-                            <div class="col"><input class="number" name="rotationX" value="0"></div>
-                            <div class="col"><input class="number" name="rotationY" value="0"></div>
-                            <div class="col"><input class="number" name="rotationZ" value="0"></div>
-                        </div>
-                    </li>
-                    <li>
-                        <label>Scale (XYZ)</label>
-                        <div class="row">
-                            <div class="col"><input class="number" name="scaleX" value="0"></div>
-                            <div class="col"><input class="number" name="scaleY" value="0"></div>
-                            <div class="col"><input class="number" name="scaleZ" value="0"></div>
-                        </div>
-                    </li>
-                    <li>
-                        <label>User Data</label>
-                        <div class="row">
-                            <div class="col"><textarea class="number left" name="userData" value="{}">{}</textarea></div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+	<div class="properties">
+		<div class="tabs">
+			<ul>
+				<li v-for="tab of properties.children">
+					<button :class="{ selected: selectedTab == tab.name }" @click="selectedTab = tab.name"><span class="icon" :class="tab.icon"></span></button>
+				</li>
+			</ul>
+		</div>
+		<div class="tab-content">
+			<div v-for="pane of properties.children">
+				<div class="tab-pane" v-if="selectedTab == pane.name">
+					<div class="group" v-for="group of pane.children">
+						<button><span class="icon icon-opened"></span>{{ group.name }}</button>
+						<ul>
+							<li v-for="row of group.children">
+								<label v-if="!!row.name">{{ row.name }}</label>
+								<div class="row">
+									<div class="col" v-for="col of row.children">
+										<input v-if="col.element == 'input'" v-bind:id="col.name" v-bind:type="col.type" v-model="col.value">
+										<label v-if="col.type == 'checkbox'" v-bind:for="col.name">{{ col.name }}</label>
+										<textarea v-if="col.element == 'textarea'" v-model="col.value"></textarea>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>

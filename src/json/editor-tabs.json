@@ -1,0 +1,140 @@
+{
+    "name": "Editor Tabs",
+    "children": [
+        {
+            "name": "Object Properties",
+            "icon": "icon-properties",
+            "type": "tab",
+            "children": [
+                {
+                    "name": "Object Properties",
+                    "type": "group",
+                    "children": [
+                        {
+                            "name": "Position (XYZ)",
+                            "type": "row",
+                            "children": [
+                                {
+                                    "name": "positionX",
+                                    "element": "input",
+                                    "type": "text",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "positionY",
+                                    "element": "input",
+                                    "type": "text",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "positionZ",
+                                    "element": "input",
+                                    "type": "text",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Rotation (XYZ)",
+                            "type": "row",
+                            "children": [
+                                {
+                                    "name": "rotationX",
+                                    "element": "input",
+                                    "type": "text",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "rotationY",
+                                    "element": "input",
+                                    "type": "text",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "rotationZ",
+                                    "element": "input",
+                                    "type": "text",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Scale (XYZ)",
+                            "type": "row",
+                            "children": [
+                                {
+                                    "name": "scaleX",
+                                    "element": "input",
+                                    "type": "text",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "scaleY",
+                                    "element": "input",
+                                    "type": "text",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "scaleZ",
+                                    "element": "input",
+                                    "type": "text",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "User Data",
+                            "type": "row",
+                            "children": [
+                                {
+                                    "name": "userData",
+                                    "element": "textarea",
+                                    "value": "{}"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Object Physics",
+            "icon": "icon-physics",
+            "type": "tab",
+            "children": [
+                {
+                    "name": "Object Physics",
+                    "type": "group",
+                    "children": [
+                        {
+                            "type": "row",
+                            "children": [
+                                {
+                                    "name": "Static",
+                                    "element": "input",
+                                    "type": "checkbox"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "row",
+                            "children": [
+                                {
+                                    "name": "Sensor",
+                                    "element": "input",
+                                    "type": "checkbox"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Object Texture",
+            "icon": "icon-texture",
+            "type": "tab",
+            "children": []
+        }
+    ]
+}

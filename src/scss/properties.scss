@@ -68,78 +68,113 @@
 		}
 	}
 
-	.tabs-content {
+	.tab-content {
 		background-color: #303030;
 		grid-area: tab-content;
 		overflow-y: overlay;
 		padding: 0.5rem;
 
-		.group {
-			background-color: #3D3D3D;
-			border-radius: 0.125rem;
-			padding: 0.5rem;
-
-			button {
-				background-color: transparent;
-				border: none;
-				color: inherit;
-				padding: 0rem 0rem 0.25rem;
-				text-align: inherit;
-				width: 100%;
-				white-space: nowrap;
-				text-shadow: inherit;
-
-				.icon {
-					margin-right: 0.25rem;
-				}
-			}
-
-			ul {
-				margin: 0;
-				padding: 0;
-				list-style: none;
-
-				li {
-					padding: 0rem;
-
-					label {
-						display: block;
-						padding: 0.25rem 0rem;
+		.tab-pane {
+			.group {
+				background-color: #3D3D3D;
+				border-radius: 0.125rem;
+				padding: 0.5rem;
+	
+				button {
+					background-color: transparent;
+					border: none;
+					color: inherit;
+					padding: 0rem 0rem 0.25rem;
+					text-align: inherit;
+					width: 100%;
+					white-space: nowrap;
+					text-shadow: inherit;
+	
+					.icon {
+						margin-right: 0.25rem;
 					}
+				}
+	
+				ul {
+					margin: 0;
+					padding: 0;
+					list-style: none;
+	
+					li {
+						padding: 0rem;
+	
+						label {
+							display: block;
+							padding: 0.25rem 0rem;
+						}
+	
+						.row {
+							display: flex;
+							margin-left: -0.03125rem;
+							margin-right: -0.03125rem;
+	
+							.col {
+								margin-left: 0.03125rem;
+								margin-right: 0.03125rem;
+	
+								input {
+									background-color: #545454;
+									border-radius: 0.125rem;
+									border: none;
+									color: inherit;
+									height: 1rem;
+									line-height: 0.75rem;
+									margin: 0rem;
+									outline: none;
+									padding: 0.125rem 0rem;
+									text-align: center;
+									text-shadow: inherit;
+									width: 100%;
 
-					.row {
-						display: flex;
-						margin-left: -0.03125rem;
-						margin-right: -0.03125rem;
+									&[type="checkbox"] {
+										width: 0;
+										height: 0;
+										position: absolute;
 
-						.col {
-							margin-left: 0.03125rem;
-							margin-right: 0.03125rem;
+										&:checked {
+											& + label {
+												&:before {
+													background-color: #4772B3;
+													background-image: url('/img/svg/icon-checked.svg');
+												}
+											}
+										}
 
-							input {
-								background-color: #545454;
-								border-radius: 0.125rem;
-								border: none;
-								color: inherit;
-								height: 1rem;
-								line-height: 0.75rem;
-								outline: none;
-								padding: 0.125rem 0rem;
-								text-align: center;
-								text-shadow: inherit;
-								width: 100%;
-							}
+										& + label {
+											display: flex;
+											align-items: center;
 
-							textarea {
-								background-color: #545454;
-								border-radius: 0.125rem;
-								border: none;
-								color: inherit;
-								line-height: 0.75rem;
-								outline: none;
-								padding: 0.25rem;
-								text-shadow: inherit;
-								width: 100%;
+											&:before {
+												background-color: #545454;
+												border-radius: 0.125rem;
+												margin-right: 0.25rem;
+												width: 0.75rem;
+												height: 0.75rem;
+												content: '';
+												display: inline-block;
+											}
+										}
+									}
+								}
+	
+								textarea {
+									background-color: #545454;
+									border-radius: 0.125rem;
+									border: none;
+									color: inherit;
+									display: block;
+									line-height: 0.75rem;
+									outline: none;
+									padding: 0.25rem;
+									resize: vertical;
+									text-shadow: inherit;
+									width: 100%;
+								}
 							}
 						}
 					}
