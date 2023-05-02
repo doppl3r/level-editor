@@ -15,14 +15,14 @@
 	}
 
 	function changeImage(data, event) {
-		// Update data.img to base64 format
+		// Update data.image to base64 format
 		var file = event.target.files[0];
 		if (file) {
 			var reader = new FileReader();
 			var rawImage;
 			reader.onloadend = function() {
 				rawImage = reader.result;
-				data.img = rawImage;
+				data.image = rawImage;
 			}
 			reader.readAsDataURL(file);
 		}
@@ -43,8 +43,8 @@
 	<!-- Input file image type -->
 	<div class="input-image" v-else-if="data.type == 'file'">
 		<input :id="data.name" :type="data.type" :value="data.value" @change="changeImage(data, $event)" accept="image/png, image/jpeg">
-		<label :for="data.name" :style="{ 'background-image': data.img != undefined ? 'url(' + data.img + ')' : '' }"></label>
-		<button @click="data.img = null"><span class="icon icon-delete"></span></button>
+		<label :for="data.name" :style="{ 'background-image': data.image != undefined ? 'url(' + data.image + ')' : '' }"></label>
+		<button @click="data.image = null"><span class="icon icon-delete"></span></button>
 	</div>
 
 	<!-- Input default -->

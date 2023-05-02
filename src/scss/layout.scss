@@ -15,6 +15,7 @@
 	.top {
 		grid-area: top;
 		position: relative;
+		z-index: 1;
 	}
 
 	.side-top {
@@ -28,8 +29,27 @@
 	}
 
 	.view {
-		grid-area: view;
-		overflow: hidden; // Prevent resizeWindow() loop
-		position: relative;
+		display: grid; 
+		grid-area: view; // Move to parent layout "view"
+		grid-auto-columns: 1fr; 
+		grid-template-columns: 1fr; 
+		grid-template-rows: min-content 1fr; 
+		gap: 0rem 0rem; 
+		grid-template-areas: 
+			"menu"
+			"content"; 
+		position: static;
+		overflow: hidden;
+		z-index: 0; // Let top take priority
+
+		.menu {
+			grid-area: menu;
+		}
+
+		.content {
+			grid-area: content;
+			overflow: hidden; // Prevent resizeWindow() loop
+			position: relative;
+		}
 	}
 }

@@ -1,0 +1,33 @@
+.view-controls {
+	position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        li {
+            margin-bottom: 0.125rem;
+
+            button {
+                background-color: #282828;
+                border: 0.0625rem solid #3D3D3D;
+                border-radius: 0.125rem;
+                padding: 0rem;
+                width: 2rem;
+                height: 2rem;
+
+                &.selected {
+                    background-color: #4772B3;
+                }
+
+                .icon {
+                    width: 1.5rem;
+                    height: 1.5rem;
+                }
+            }
+        }
+    }
+}

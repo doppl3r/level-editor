@@ -3,7 +3,7 @@
 </script>
 
 <style lang="scss">
-  @import "../scss/scene";
+  @import "../scss/scene-objects";
 </style>
 
 <template>

@@ -55,13 +55,13 @@ class Editor {
 
 		// Add basic environment light
 		var hemisphere = new HemisphereLight('#ffffff', '#000000', 1);
-		hemisphere.position.set(0, 1, 2);
+		hemisphere.position.set(0, 0, 2);
 		this.scene.add(hemisphere);
 
 		// Add basic rectangle
 		var rectangle = new Rectangle();
 		rectangle.setTexture(this.app.assets.textures.cache['grass-fairway']);
-		rectangle.position.set(-1, 1, -0.5);
+		rectangle.position.set(-1, 1.5, -0.5);
 		rectangle.rotation.set(0, 0, Math.PI);
 		this.scene.add(rectangle);
 

@@ -7,11 +7,11 @@
 </script>
 
 <style lang="scss">
-  @import "../scss/menu";
+  @import "../scss/menu-main";
 </style>
 
 <template>
-  <div class="menu">
+  <div class="menu-main">
     <ul>
       <li>
         <button>File</button>
