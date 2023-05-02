@@ -207,6 +207,10 @@
 									&:focus-within {
 										input {
 											background-color: #797979;
+
+											&:focus {
+												background-color: #222222;
+											}
 										}
 
 										.arrow {
