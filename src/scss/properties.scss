@@ -197,6 +197,49 @@
 									text-shadow: inherit;
 									width: 100%;
 								}
+
+								.input-number {
+									border-radius: 0.125rem;
+									overflow: hidden;
+									position: relative;
+
+									&:hover,
+									&:focus-within {
+										input {
+											background-color: #797979;
+										}
+
+										.arrow {
+											background-color: #656565;
+											opacity: 1;
+										}
+									}
+
+									.arrow {
+										display: flex;
+										opacity: 0;
+										align-items: center;
+										width: 0.5rem;
+										height: 1rem;
+										position: absolute;
+										top: 0;
+										z-index: 1;
+
+										.icon {
+											width: 0.5rem;
+											height: 0.5rem;
+											margin: 0;
+										}
+	
+										&.left {
+											left: 0;
+										}
+	
+										&.right {
+											right: 0;
+										}
+									}
+								}
 							}
 						}
 					}

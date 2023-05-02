@@ -1,6 +1,7 @@
 <script setup>
 	import { ref } from 'vue'
 	import json from '../json/editor-tabs.json';
+	import Field from './Field.vue';
 
 	var selectedTab = ref('Object Properties');
 	var properties = ref(json);
@@ -28,11 +29,8 @@
 							<li v-for="row of group.children">
 								<label v-if="!!row.name">{{ row.name }}</label>
 								<div class="row">
-									<div class="col" v-for="col of row.children">
-										<label v-if="col.element == 'label'" v-bind:title="col.title">{{ col.name }}</label>
-										<input v-if="col.element == 'input'" v-bind:id="col.name" v-bind:type="col.type" v-model="col.value">
-										<label v-if="col.type == 'checkbox'" v-bind:for="col.name">{{ col.name }}</label>
-										<textarea v-if="col.element == 'textarea'" v-model="col.value"></textarea>
+									<div class="col" v-for="field of row.children">
+										<Field :data="field" />
 									</div>
 								</div>
 							</li>
