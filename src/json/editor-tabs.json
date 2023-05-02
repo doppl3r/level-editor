@@ -108,6 +108,7 @@
                     "children": [
                         {
                             "type": "row",
+                            "name": "Behavior",
                             "children": [
                                 {
                                     "name": "Static",
@@ -209,7 +210,146 @@
             "name": "Object Texture",
             "icon": "icon-texture",
             "type": "tab",
-            "children": []
+            "children": [
+                {
+                    "name": "Object Texture",
+                    "type": "group",
+                    "children": [
+                        {
+                            "type": "row",
+                            "name": "Texture settings",
+                            "children": [
+                                {
+                                    "name": "Wrap",
+                                    "element": "input",
+                                    "checked": true,
+                                    "type": "checkbox"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "row",
+                            "children": [
+                                {
+                                    "name": "Image",
+                                    "element": "label",
+                                    "title": "Local image (16x16)"
+                                },
+                                {
+                                    "name": "Local File",
+                                    "element": "input",
+                                    "type": "file"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "row",
+                            "children": [
+                                {
+                                    "name": "Color",
+                                    "element": "label",
+                                    "title": "Texture Color"
+                                },
+                                {
+                                    "name": "Color",
+                                    "element": "input",
+                                    "value": "#1B1B1B",
+                                    "type": "color"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "row",
+                            "children": [
+                                {
+                                    "name": "Angle",
+                                    "element": "label",
+                                    "title": "Texture angle (Degrees)"
+                                },
+                                {
+                                    "name": "textureAngle",
+                                    "element": "input",
+                                    "type": "number",
+                                    "value": 0,
+                                    "step": 5
+                                }
+                            ]
+                        },
+                        {
+                            "type": "row",
+                            "children": [
+                                {
+                                    "name": "Scale",
+                                    "element": "label",
+                                    "title": "Texture Scale (XY)"
+                                },
+                                {
+                                    "name": "textureScaleX",
+                                    "element": "input",
+                                    "type": "number",
+                                    "value": 1,
+                                    "step": 0.1
+                                },
+                                {
+                                    "name": "textureScaleY",
+                                    "element": "input",
+                                    "type": "number",
+                                    "value": 1,
+                                    "step": 0.1
+                                }
+                            ]
+                        },
+                        {
+                            "type": "row",
+                            "children": [
+                                {
+                                    "name": "Offset",
+                                    "element": "label",
+                                    "title": "Texture offset (XY)"
+                                },
+                                {
+                                    "name": "textureOffsetX",
+                                    "element": "input",
+                                    "type": "number",
+                                    "value": 0,
+                                    "step": 0.1
+                                },
+                                {
+                                    "name": "textureOffsetY",
+                                    "element": "input",
+                                    "type": "number",
+                                    "value": 0,
+                                    "step": 0.1
+                                }
+                            ]
+                        },
+                        {
+                            "type": "row",
+                            "children": [
+                                {
+                                    "name": "Center",
+                                    "element": "label",
+                                    "title": "Texture center (XY)"
+                                },
+                                {
+                                    "name": "textureCenterX",
+                                    "element": "input",
+                                    "type": "number",
+                                    "value": 0,
+                                    "step": 0.1
+                                },
+                                {
+                                    "name": "textureCenterY",
+                                    "element": "input",
+                                    "type": "number",
+                                    "value": 0,
+                                    "step": 0.1
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

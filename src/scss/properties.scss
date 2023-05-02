@@ -113,6 +113,7 @@
 						label {
 							display: block;
 							padding: 0.25rem 0rem;
+							white-space: nowrap;
 						}
 	
 						.row {
@@ -182,6 +183,24 @@
 											}
 										}
 									}
+
+									&[type="color"] {
+										-webkit-appearance: none;
+  										-moz-appearance: none;
+										display: block;
+										width: 100%;
+										height: 1rem;
+										padding: 0rem;
+										background-color: transparent;
+										border: none;
+										border-radius: 0.125rem;
+										overflow: hidden;
+
+										&::-webkit-color-swatch-wrapper { padding: 0; }
+										&::-webkit-color-swatch { border: 0; border-radius: 0; }
+										&::-moz-color-swatch,
+										&::-moz-focus-inner { border: 0; padding: 0; }
+									}
 								}
 	
 								textarea {
@@ -241,6 +260,46 @@
 	
 										&.right {
 											right: 0;
+										}
+									}
+								}
+
+								.input-image {
+									display: flex;
+
+									input {
+										display: none;
+									}
+
+									label {
+										background-color: #1B1B1B;
+										background-size: contain;
+										background-repeat: repeat;
+										background-image: linear-gradient(45deg, #000 25%, transparent 25%), linear-gradient(-45deg, #000 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #000 75%), linear-gradient(-45deg, transparent 75%, #000 75%);
+										background-size: 1rem 1rem;
+										background-position: 0 0, 0 0.5rem, 0.5rem -0.5rem, -0.5rem 0rem;
+										border-top-left-radius: 0.125rem;
+										border-bottom-left-radius: 0.125rem;
+										height: 1rem;
+										width: 100%;
+										image-rendering: pixelated;
+									}
+
+									button {
+										background-color: #545454;
+										border-top-right-radius: 0.125rem;
+										border-bottom-right-radius: 0.125rem;
+										flex-shrink: 0;
+										text-align: center;
+										height: 1rem;
+										width: 1rem;
+
+										&:hover {
+											background-color: #656565;
+										}
+
+										.icon {
+											margin: 0;
 										}
 									}
 								}
