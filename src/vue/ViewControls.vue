@@ -2,7 +2,6 @@
   import { ref, onMounted } from 'vue'
 
   var selectedControls = ref('translate');
-
   
   // Set controls mode
   function setControlsMode(mode) {

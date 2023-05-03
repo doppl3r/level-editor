@@ -8,12 +8,12 @@
 	import { Game } from '../js/Game.js';
 	import { ref, onMounted } from 'vue';
 
-	// Initialize app
+	// Initialize app and expose to window scope
 	var canvas = ref();
-	var game;
+	var game = window.game = new Game();
 
 	onMounted(function() {
-		window.game = game = new Game(canvas.value);
+		game.init(canvas.value);
 	});
 </script>
 
@@ -24,7 +24,7 @@
 		</div>
 		<div class="view">
 			<div class="menu">
-				<MenuView ref="game"/>
+				<MenuView />
 			</div>
 			<div class="content">
 				<canvas ref="canvas"></canvas>

@@ -11,8 +11,7 @@ import { Editor } from './Editor.js';
 import Stats from './Stats.js';
 
 class Game {
-	constructor(canvas) {
-		var _this = this;
+	constructor() {
 		this.clock = new Clock();
 		this.clock.scale = 1;
 		this.renderDeltaSum = 0;
@@ -27,13 +26,22 @@ class Game {
 		this.camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 100);
 		this.camera.position.z = 10;
 
-		// Set renderer with HTML canvas element
+		// Game library
+		this.player = new Player();
+		this.background = new Background();
+		this.engine = new Engine.create();
+		this.editor = new Editor();
+	}
+
+	init(canvas) {
+		// Set renderer with HTML required canvas element
+		var _this = this;
 		if (canvas) this.renderer = new WebGLRenderer({ alpha: true, canvas: canvas });
 		else {
 			// Append renderer to canvas
 			this.renderer = new WebGLRenderer({ alpha: true });
 			document.body.appendChild(this.renderer.domElement);
-			document.body.appendChild(this.stats.dom);
+			//document.body.appendChild(this.stats.dom);
 		}
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
 		this.renderer.setPixelRatio(window.devicePixelRatio);
@@ -49,25 +57,17 @@ class Game {
 		this.composer.addPass(this.outlinePass); // Border glow
 		this.composer.addPass(this.smaaPass); // Anti-aliasing
 
-		// Game library
-		this.player = new Player();
-		this.background = new Background();
-		this.engine = new Engine.create();
-		this.editor = new Editor();
-
 		// Add event listeners
 		document.addEventListener('visibilitychange', function(e) { _this.visibilityChange(); });
 		window.addEventListener('resize', function(e) { _this.resizeWindow(e); });
 
 		// Initialize game after loading assets
 		this.assets.load(function() {
-			_this.init();
-			_this.renderer.setAnimationLoop(function() { _this.loop(); });
-			_this.resizeWindow();
+			_this.load();
 		});
 	}
 
-	init() {
+	load() {
 		// Inherit game from instantiator
 		this.editor.init(this);
 
@@ -84,6 +84,11 @@ class Game {
 		// Set editor camera to current camera (Including Postprocessing objects)
 		this.camera = this.renderPass.camera = this.outlinePass.renderCamera = this.editor.camera;
 		this.scene = this.renderPass.scene = this.outlinePass.renderScene = this.editor.scene;
+
+		// Start game loop
+		var _this = this;
+		this.renderer.setAnimationLoop(function() { _this.loop(); });
+		this.resizeWindow();
 	}
 
 	loop() {
