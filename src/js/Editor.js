@@ -18,29 +18,29 @@ class Editor {
 		//this.scene.getObjectByName('Rectangle').rotation.y += renderDelta * 0.5;
 	}
 
-	init(app) {
-		this.app = app;
+	init(game) {
+		this.game = game;
 
 		// Initialize controls
-		this.controlsTransform = new TransformControls(this.camera, this.app.renderer.domElement);
+		this.controlsTransform = new TransformControls(this.camera, this.game.renderer.domElement);
 		this.controlsTransform.pointer = new Vector3();
 		this.controlsTransform.showZ = false;
 		this.controlsTransform.mode = 'translate'; // Options: translate, rotate, scale
-		this.controlsOrbit = new OrbitControls(this.camera, this.app.renderer.domElement);
+		this.controlsOrbit = new OrbitControls(this.camera, this.game.renderer.domElement);
 		this.controlsOrbit.enableRotate = false;
 		this.controlsOrbit.mouseButtons = { LEFT: 2, MIDDLE: 2, RIGHT: 2 };
 		this.controlsOrbit.zoomSpeed = 3;
 
 		// Initialize selector
-		this.selector = new Selector(this.camera, this.scene, this.app.renderer);
+		this.selector = new Selector(this.camera, this.scene, this.game.renderer);
 		
 		// Modify outline
-		this.app.outlinePass.edgeStrength = 3; // Default 3
-		this.app.outlinePass.edgeGlow = 0; // Default 0
-		this.app.outlinePass.edgeThickness = 0.25; // Default 1
-		this.app.outlinePass.visibleEdgeColor = new Color('#E8BE7F');
-		this.app.outlinePass.hiddenEdgeColor = new Color('#E8BE7F');
-		this.app.outlinePass.selectedObjects = [this.selector.selectedObjects];
+		this.game.outlinePass.edgeStrength = 3; // Default 3
+		this.game.outlinePass.edgeGlow = 0; // Default 0
+		this.game.outlinePass.edgeThickness = 0.25; // Default 1
+		this.game.outlinePass.visibleEdgeColor = new Color('#E8BE7F');
+		this.game.outlinePass.hiddenEdgeColor = new Color('#E8BE7F');
+		this.game.outlinePass.selectedObjects = [this.selector.selectedObjects];
 
 		// Add event listeners
 		this.addEventListeners();
@@ -60,13 +60,13 @@ class Editor {
 
 		// Add basic rectangle
 		var rectangle = new Rectangle();
-		rectangle.setTexture(this.app.assets.textures.cache['grass-fairway']);
+		rectangle.setTexture(this.game.assets.textures.cache['grass-fairway']);
 		rectangle.position.set(-1, 1.5, -0.5);
 		rectangle.rotation.set(0, 0, Math.PI);
 		this.scene.add(rectangle);
 
 		var rectangle = new Rectangle();
-		rectangle.setTexture(this.app.assets.textures.cache['crate']);
+		rectangle.setTexture(this.game.assets.textures.cache['crate']);
 		rectangle.position.set(1, -1, 0);
 		this.scene.add(rectangle);
 
@@ -88,7 +88,7 @@ class Editor {
 		if (this.isActive == true) {
 
 			// Check if target equals renderer.domElement
-			if (e.target == this.app.renderer.domElement) {
+			if (e.target == this.game.renderer.domElement) {
 				// Use select box if controls are not visible
 				switch(e.type) {
 					case 'pointerdown': this.pointerDown(e); break;

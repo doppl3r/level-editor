@@ -4,13 +4,13 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
 import { OutlinePass } from './OutlinePass.js';
 import { Engine } from 'matter-js';
-import { Assets } from './Assets';
-import { Background } from './Background';
-import { Player } from './Player';
-import { Editor } from './Editor';
+import { Assets } from './Assets.js';
+import { Background } from './Background.js';
+import { Player } from './Player.js';
+import { Editor } from './Editor.js';
 import Stats from './Stats.js';
 
-class App {
+class Game {
 	constructor(canvas) {
 		var _this = this;
 		this.clock = new Clock();
@@ -59,7 +59,7 @@ class App {
 		document.addEventListener('visibilitychange', function(e) { _this.visibilityChange(); });
 		window.addEventListener('resize', function(e) { _this.resizeWindow(e); });
 
-		// Initialize app after loading assets
+		// Initialize game after loading assets
 		this.assets.load(function() {
 			_this.init();
 			_this.renderer.setAnimationLoop(function() { _this.loop(); });
@@ -68,7 +68,7 @@ class App {
 	}
 
 	init() {
-		// Inherit app from instantiator
+		// Inherit game from instantiator
 		this.editor.init(this);
 
 		// Add background and bind to player position
@@ -174,4 +174,4 @@ class App {
 	}
 }
 
-export { App }
+export { Game }

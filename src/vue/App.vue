@@ -5,16 +5,15 @@
 	import ViewControls from './ViewControls.vue';
 	import SceneObjects from './SceneObjects.vue';
 	import Properties from './Properties.vue';
-	import { App } from '../js/App.js';
+	import { Game } from '../js/Game.js';
 	import { ref, onMounted } from 'vue';
 
 	// Initialize app
 	var canvas = ref();
-	var app;
+	var game;
 
 	onMounted(function() {
-		window.app = app = new App(canvas.value);
-		console.log(ViewControls);
+		window.game = game = new Game(canvas.value);
 	});
 </script>
 
@@ -25,7 +24,7 @@
 		</div>
 		<div class="view">
 			<div class="menu">
-				<MenuView />
+				<MenuView ref="game"/>
 			</div>
 			<div class="content">
 				<canvas ref="canvas"></canvas>
