@@ -22,7 +22,7 @@
 	});
 
 	// Refresh UI when game object dispatches custom events
-	window.addEventListener('select', function(e) { keyScene.value++; });
+	window.addEventListener('selectObjects', function(e) { keyScene.value++; });
 </script>
 
 <template>

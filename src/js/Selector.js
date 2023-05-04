@@ -55,7 +55,7 @@ class Selector {
 		this.selectObjectsFromCollection();
 
 		// Dispatch custom select event with collection
-		window.dispatchEvent(new CustomEvent('select', { detail: this.collection }));
+		window.dispatchEvent(new CustomEvent('selectObjects', { detail: this.collection }));
 	}
 
 	selectObjectsFromCollection() {
