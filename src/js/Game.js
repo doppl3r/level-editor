@@ -33,7 +33,7 @@ class Game {
 		this.editor = new Editor();
 	}
 
-	init(canvas) {
+	init(canvas, callback = function(){}) {
 		// Set renderer with HTML required canvas element
 		var _this = this;
 		if (canvas) this.renderer = new WebGLRenderer({ alpha: true, canvas: canvas });
@@ -63,11 +63,11 @@ class Game {
 
 		// Initialize game after loading assets
 		this.assets.load(function() {
-			_this.load();
+			_this.load(callback);
 		});
 	}
 
-	load() {
+	load(callback = function(){}) {
 		// Inherit game from instantiator
 		this.editor.init(this);
 
@@ -89,6 +89,9 @@ class Game {
 		var _this = this;
 		this.renderer.setAnimationLoop(function() { _this.loop(); });
 		this.resizeWindow();
+		
+		// Run game callback
+		callback();
 	}
 
 	loop() {

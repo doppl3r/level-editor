@@ -5,6 +5,8 @@
 
 	var selectedTab = ref('Object Properties');
 	var properties = ref(json);
+
+	defineProps(['scene']);
 </script>
 
 <style lang="scss">

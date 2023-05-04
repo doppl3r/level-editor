@@ -53,6 +53,9 @@ class Selector {
 		this.searchChildInRay(this.startPoint, shiftKey);
 		this.searchChildInFrustum(_frustum, this.object);
 		this.selectObjectsFromCollection();
+
+		// Dispatch custom select event with collection
+		window.dispatchEvent(new CustomEvent('select', { detail: this.collection }));
 	}
 
 	selectObjectsFromCollection() {
