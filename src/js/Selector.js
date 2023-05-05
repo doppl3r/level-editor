@@ -32,6 +32,7 @@ class Selector {
 		this.instances = {};
 		this.collection = [];
 		this.selectedObjects = new Group();
+		this.selectedObjects.name = 'selectedObjects';
 		this.object.add(this.selectedObjects);
 		this.deep = Number.MAX_VALUE;
 		
@@ -53,9 +54,6 @@ class Selector {
 		this.searchChildInRay(this.startPoint, shiftKey);
 		this.searchChildInFrustum(_frustum, this.object);
 		this.selectObjectsFromCollection();
-
-		// Dispatch custom select event with collection
-		window.dispatchEvent(new CustomEvent('selectObjects', { detail: this.collection }));
 	}
 
 	selectObjectsFromCollection() {
@@ -71,6 +69,7 @@ class Selector {
 			for (var i = 0; i < this.collection.length; i++) {
 				var child = this.collection[i];
 				child.parentPrevious = child.parent;
+				child.selected = true;
 				this.selectedObjects.attach(child);
 			}
 		}
@@ -79,6 +78,7 @@ class Selector {
 	deselectObject(object) {
 		// Reattach object back to previous parent
 		var parentPrevious = object.parentPrevious;
+		object.selected = false;
 		parentPrevious.attach(object);
 	}
 

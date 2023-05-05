@@ -36,6 +36,7 @@ class Rectangle extends Mesh {
 		this.center = new PointObject();
 		this.geometry = new ExtrudeGeometry(this.shape, this.settings.extrude);
 		this.material = new MeshPhongMaterial({ color: '#ffffff' });
+		this.isSelectable = true;
 		this.updateCenter();
 		
 		// Add center point object to this rectangle

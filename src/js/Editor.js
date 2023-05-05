@@ -72,6 +72,7 @@ class Editor {
 
 		// Add controls
 		this.scene.add(this.controlsTransform);
+		this.updateObjectNames();
 	}
 
 	addEventListeners() {
@@ -153,6 +154,9 @@ class Editor {
 			else {
 				this.controlsTransform.detach();
 			}
+
+			// Dispatch scene update
+			window.dispatchEvent(new CustomEvent('sceneSelected', { detail: this.getSceneChildren() }));
 		}
 		else if (this.pointerIntent == 'pan_camera') {
 			this.controlsTransform.enabled = true;
@@ -208,6 +212,37 @@ class Editor {
 			this.controlsTransform.showX = this.controlsTransform.showY = false;
 			this.controlsTransform.showZ = true;
 		}
+	}
+
+	updateObjectNames() {
+		// Ensure unique names for objects by append indexes
+		for (var i = 0; i < this.scene.children.length; i++) {
+			var child = this.scene.children[i];
+			if (child.name == '') child.name = child.constructor.name||'Object';
+		}
+	}
+
+	getSceneChildren() {
+		// Create a shallow list of scene children
+		var children = [];
+		for (var i = 0; i < this.scene.children.length; i++) {
+			var child = this.scene.children[i];
+			
+			// Ignore selectedObjects
+			if (child.name == 'selectedObjects') {
+				for (var j = 0; j < child.children.length; j++) {
+					var selectedChild = child.children[j];
+					children.push(selectedChild);
+				}
+			}
+			else {
+				if (child.isSelectable) children.push(child);
+			}
+		}
+		
+		// Sort by class name
+		children.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+		return children;
 	}
 }
 

@@ -11,18 +11,10 @@
 	// Initialize app and expose to window scope
 	var canvas = ref();
 	var game = window.game = new Game();
-	var gameRef = ref(game);
-
-	// Initialize keys for 2-way refresh (ex: game object to Vue list refresh)
-	var keyScene = ref(0);
-	var keyObject = ref(0);
 
 	onMounted(function() {
 		game.init(canvas.value);
 	});
-
-	// Refresh UI when game object dispatches custom events
-	window.addEventListener('selectObjects', function(e) { keyScene.value++; });
 </script>
 
 <template>
@@ -40,10 +32,10 @@
 			</div>
 		</div>
 		<div class="side-top">
-			<SceneObjects :scene="gameRef.scene" :key="keyScene" />
+			<SceneObjects />
 		</div>
 		<div class="side-bottom">
-			<Properties :scene="gameRef.scene" :key="keyScene" />
+			<Properties />
 		</div>
 	</div>
 </template>
