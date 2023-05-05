@@ -69,7 +69,7 @@ class Selector {
 			for (var i = 0; i < this.collection.length; i++) {
 				var child = this.collection[i];
 				child.parentPrevious = child.parent;
-				child.selected = true;
+				child.isSelected = true;
 				this.selectedObjects.attach(child);
 			}
 		}
@@ -78,7 +78,7 @@ class Selector {
 	deselectObject(object) {
 		// Reattach object back to previous parent
 		var parentPrevious = object.parentPrevious;
-		object.selected = false;
+		object.isSelected = false;
 		parentPrevious.attach(object);
 	}
 

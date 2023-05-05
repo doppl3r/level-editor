@@ -6,7 +6,7 @@
 	var scene = ref({ children: [] });
 
 	// Refresh UI when game object dispatches custom events
-	window.addEventListener('sceneSelected', function(e) {
+	window.addEventListener('updateScene', function(e) {
 		scene.value.children = e.detail;
 		sceneKey.value++; // Refresh Vue list
 	});
@@ -18,14 +18,14 @@
 
 <template>
 	<div class="scene">
+		<label>Scene Objects</label>
 		<ul :key="sceneKey">
-			<li>
-				<label>Scene Objects</label>
-			</li>
 			<li v-for="(child, index) of scene.children">
-				<label><span class="icon icon-object-rectangle"></span>{{ child.name }}</label>
-				<button><span class="icon icon-trash"></span></button>
-				<button><span class="icon icon-eye"></span></button>
+				<div class="row" :class="{ selected: child.isSelected }" :title="child.uuid">
+					<label><span class="icon icon-object-rectangle"></span>{{ child.name }}</label>
+					<button><span class="icon icon-trash"></span></button>
+					<button><span class="icon icon-eye"></span></button>
+				</div>
 			</li>
 		</ul>
 	</div>

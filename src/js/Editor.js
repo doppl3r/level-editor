@@ -73,6 +73,7 @@ class Editor {
 		// Add controls
 		this.scene.add(this.controlsTransform);
 		this.updateObjectNames();
+		this.updateScene(); // Send custom event to Vue
 	}
 
 	addEventListeners() {
@@ -155,8 +156,8 @@ class Editor {
 				this.controlsTransform.detach();
 			}
 
-			// Dispatch scene update
-			window.dispatchEvent(new CustomEvent('sceneSelected', { detail: this.getSceneChildren() }));
+			// Update UI with scene data
+			this.updateScene();
 		}
 		else if (this.pointerIntent == 'pan_camera') {
 			this.controlsTransform.enabled = true;
@@ -214,11 +215,18 @@ class Editor {
 		}
 	}
 
+	updateScene() {
+		// Dispatch scene update
+		window.dispatchEvent(new CustomEvent('updateScene', { detail: this.getSceneChildren() }));
+	}
+
 	updateObjectNames() {
 		// Ensure unique names for objects by append indexes
 		for (var i = 0; i < this.scene.children.length; i++) {
-			var child = this.scene.children[i];
-			if (child.name == '') child.name = child.constructor.name||'Object';
+			var object = this.scene.children[i];
+			
+			// Update object name if missing
+			if (object.name == '') object.name = object.constructor.name||'Object';
 		}
 	}
 
@@ -240,8 +248,11 @@ class Editor {
 			}
 		}
 		
-		// Sort by class name
-		children.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+		// Sort by name and then uuid
+		children.sort((a, b)=> {
+			if (a.name === b.name){ return a.uuid < b.uuid ? -1 : 1 }
+			else { return a.name < b.name ? -1 : 1 }
+		});
 		return children;
 	}
 }
