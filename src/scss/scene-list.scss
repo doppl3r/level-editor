@@ -20,7 +20,8 @@
 		padding: 0;
 
 		li {
-			&:nth-child(2n+1) {
+			padding: 0rem 0rem 0rem 0.5rem;
+			&:nth-child(odd) {
 				.row {
 					background-color: #2B2B2B;
 				}
@@ -29,7 +30,7 @@
 			.row {
 				align-items: center;
 				display: flex;
-				padding: 0.0625rem 0.5rem;
+				padding: 0.0625rem 0.5rem 0.0625rem 0rem;
 				position: relative;
 				z-index: 1;
 
@@ -51,6 +52,8 @@
 				}
 	
 				label {
+					display: flex;
+					
 					.icon {
 						margin-right: 0.25rem;
 					}

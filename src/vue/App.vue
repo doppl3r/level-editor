@@ -3,7 +3,7 @@
 	import MenuMain from './MenuMain.vue';
 	import MenuView from './MenuView.vue';
 	import ViewControls from './ViewControls.vue';
-	import SceneObjects from './SceneObjects.vue';
+	import SceneList from './SceneList.vue';
 	import Properties from './Properties.vue';
 	import { Game } from '../js/Game.js';
 	import { ref, onMounted } from 'vue';
@@ -32,7 +32,7 @@
 			</div>
 		</div>
 		<div class="side-top">
-			<SceneObjects />
+			<SceneList />
 		</div>
 		<div class="side-bottom">
 			<Properties />

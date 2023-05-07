@@ -1,5 +1,6 @@
 <script setup>
 	import { ref } from 'vue';
+	import SceneItem from './SceneItem.vue';
 
 	// Used to refresh list
 	var sceneKey = ref(0);
@@ -13,20 +14,14 @@
 </script>
 
 <style lang="scss">
-	@import "../scss/scene-objects";
+	@import "../scss/scene-list";
 </style>
 
 <template>
 	<div class="scene">
 		<label>Scene Objects</label>
 		<ul :key="sceneKey">
-			<li v-for="(child, index) of scene.children">
-				<div class="row" :class="{ selected: child.isSelected }" :title="child.uuid">
-					<label><span class="icon icon-object-rectangle"></span>{{ child.name }}</label>
-					<button><span class="icon icon-trash"></span></button>
-					<button><span class="icon icon-eye"></span></button>
-				</div>
-			</li>
+			<SceneItem :children="scene.children"/>
 		</ul>
 	</div>
 </template>
