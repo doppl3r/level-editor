@@ -24,8 +24,7 @@ class Editor {
 		// Initialize controls
 		this.controlsTransform = new TransformControls(this.camera, this.game.renderer.domElement);
 		this.controlsTransform.pointer = new Vector3();
-		this.controlsTransform.showZ = false;
-		this.controlsTransform.mode = 'translate'; // Options: translate, rotate, scale
+		this.setTransformMode('translate');
 		this.controlsOrbit = new OrbitControls(this.camera, this.game.renderer.domElement);
 		this.controlsOrbit.enableRotate = false;
 		this.controlsOrbit.mouseButtons = { LEFT: 2, MIDDLE: 2, RIGHT: 2 };
@@ -213,6 +212,9 @@ class Editor {
 			this.controlsTransform.showX = this.controlsTransform.showY = false;
 			this.controlsTransform.showZ = true;
 		}
+
+		// Dispatch controls to Vue
+		window.dispatchEvent(new CustomEvent('updateControls', { detail: this }));
 	}
 
 	updateScene() {
