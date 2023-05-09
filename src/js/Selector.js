@@ -47,12 +47,17 @@ class Selector {
 		this.isDown = false;
 	}
 
-	select(shiftKey = false) {
+	select(object, shiftKey = false) {
 		// Populate collection
 		this.deselectObjects(shiftKey);
 		this.updateFrustum(this.startPoint, this.endPoint);
-		this.searchChildInRay(this.startPoint, shiftKey);
-		this.searchChildInFrustum(_frustum, this.object);
+
+		// Select object by existing object or Ray/Frustum
+		if (object) this.searchChildByUUID(object, shiftKey);
+		else {
+			this.searchChildInRay(this.startPoint, shiftKey);
+			this.searchChildInFrustum(_frustum, this.object);
+		}
 		this.selectObjectsFromCollection();
 	}
 
@@ -264,6 +269,14 @@ class Selector {
 		if (object.children.length > 0) {
 			for (let x = 0; x < object.children.length; x++) {
 				this.searchChildInFrustum(frustum, object.children[x]);
+			}
+		}
+	}
+
+	searchChildByUUID(object, shiftKey) {
+		if (object) {
+			if (this.isCollectable(object)) {
+				this.addToCollection(object, shiftKey);
 			}
 		}
 	}

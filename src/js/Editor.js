@@ -82,6 +82,7 @@ class Editor {
 		window.addEventListener('pointerup', function(e) { _this.handleInput(e); }, false);
 		window.addEventListener('keydown', function(e) { _this.handleInput(e); }, false);
 		window.addEventListener('keyup', function(e) { _this.handleInput(e); }, false);
+		window.addEventListener('selectObject', function(e) { _this.selectObjectFromEvent(e); })
 	}
 
 	handleInput(e) {
@@ -145,22 +146,33 @@ class Editor {
 		// Update selector box and populate collection
 		if (this.pointerIntent == 'select') {
 			this.selector.pointerUp(e);
-			this.selector.select(this.keys['ShiftLeft']);
+			this.selector.select(null, this.keys['ShiftLeft']);
 
 			// Attach transform controls to selected object
-			if (this.selector.selectedObjects.children.length > 0) {
-				this.controlsTransform.attach(this.selector.selectedObjects);
-			}
-			else {
-				this.controlsTransform.detach();
-			}
+			this.attachControls();
 
-			// Update UI with scene data
+			// Update Vue SceneList with scene data
 			this.updateScene();
 		}
 		else if (this.pointerIntent == 'pan_camera') {
 			this.controlsTransform.enabled = true;
 			this.resetPointerIntent();
+		}
+	}
+
+	selectObjectFromEvent(event) {
+		// Get non-proxy object
+		var object = this.scene.getObjectByProperty('uuid', event.detail.object.uuid);
+		var shiftKey = event.detail.shiftKey;
+		this.selector.select(object, shiftKey);
+	}
+
+	attachControls() {
+		if (this.selector.selectedObjects.children.length > 0) {
+			this.controlsTransform.attach(this.selector.selectedObjects);
+		}
+		else {
+			this.controlsTransform.detach();
 		}
 	}
 
