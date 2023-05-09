@@ -57,15 +57,14 @@
 						cursor: default;
 						color: #ffffff;
 						flex-grow: 1;
+						height: 0.875rem;
 						min-width: 0;
 						width: 100%;
 
 						&:focus-visible {
 							outline: none;
+							background: #222222;
 						}
-
-						/* Selected text */
-						&::selection { background: #bb7f4e; }
 					}
 				}
 	

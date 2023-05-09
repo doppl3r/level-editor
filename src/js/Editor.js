@@ -98,7 +98,8 @@ class Editor {
 					case 'pointerup': this.pointerUp(e); break;
 				}
 			}
-			else {
+			else if (e.target.type == undefined) {
+				// Only do shortcuts on non-input types
 				switch(e.type) {
 					case 'keydown': this.keyDown(e); break;
 					case 'keyup': this.keyUp(e); break;
