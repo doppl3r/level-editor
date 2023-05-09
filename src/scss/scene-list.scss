@@ -34,6 +34,12 @@
 
 				&.selected {
 					background-color: #4772B3;
+
+					label {
+						input {
+							cursor: auto;
+						}
+					}
 				}
 	
 				label {
@@ -48,6 +54,7 @@
 					input {
 						background-color: transparent;
 						border: none;
+						cursor: default;
 						color: #ffffff;
 						flex-grow: 1;
 						min-width: 0;
@@ -56,6 +63,9 @@
 						&:focus-visible {
 							outline: none;
 						}
+
+						/* Selected text */
+						&::selection { background: #bb7f4e; }
 					}
 				}
 	
@@ -70,7 +80,6 @@
 					}
 				}
 			}
-
 		}
 	}
 }

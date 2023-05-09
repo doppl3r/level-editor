@@ -21,9 +21,10 @@
 
 	// Select object
     function selectObject(child, shiftKey = false) {
+		var isSelected = child.isSelected == true;
 		window.dispatchEvent(new CustomEvent('selectObject', { detail: { object: child, shiftKey: shiftKey } }));
         editor.value.attachControls();
-		updateScene();
+		if (isSelected == false || shiftKey == true) updateScene();
     }
 	
     // Delete object
@@ -31,6 +32,11 @@
 		child.removeFromParent();
 		editor.value.attachControls(); // Hide controls
         updateScene();
+    }
+
+	// Toggle 3D object visibility
+    function toggleVisible(child) {
+        child.visible = !child.visible;
     }
 </script>
 
@@ -42,7 +48,7 @@
 	<div class="scene">
 		<label>Scene Objects</label>
 		<ul :key="sceneKey">
-			<SceneItem :children="scene.children" @select-object="selectObject" @delete-object="deleteObject" />
+			<SceneItem :children="scene.children" @select-object="selectObject" @delete-object="deleteObject" @toggle-visible="toggleVisible"/>
 		</ul>
 	</div>
 </template>
