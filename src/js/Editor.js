@@ -202,7 +202,7 @@ class Editor {
 		this.controlsTransform.pointerDown(Object.assign({ button: 0 }, this.controlsTransform.pointer));
 	}
 
-	setTransformMode(mode = 'translate') {
+	setTransformMode(mode = 'translate', dispatchEvent = true) {
 		this.controlsTransform.setMode(mode)
 		if (mode == 'translate' || mode == 'scale') {
 			this.controlsTransform.showX = this.controlsTransform.showY = true;
@@ -214,12 +214,12 @@ class Editor {
 		}
 
 		// Dispatch controls to Vue
-		window.dispatchEvent(new CustomEvent('updateControls', { detail: this }));
+		if (dispatchEvent == true) window.dispatchEvent(new CustomEvent('updateControls', { detail: this }));
 	}
 
 	updateScene() {
-		// Dispatch scene update
-		window.dispatchEvent(new CustomEvent('updateScene', { detail: this.getSceneChildren() }));
+		// Dispatch editor to SceneList Vue
+		window.dispatchEvent(new CustomEvent('updateScene', { detail: this }));
 	}
 
 	updateObjectNames() {

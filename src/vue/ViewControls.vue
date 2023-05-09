@@ -1,12 +1,12 @@
 <script setup>
   import { ref } from 'vue'
 
-  var editor = ref({ controlsTransform: { mode: 'translate' } });
+  var editor = ref({ controlsTransform: { mode: 'translate' }});
   var selectedKey = ref(0);
   
   // Set controls mode
   function setControlsMode(mode) {
-    editor.value.setTransformMode(mode);
+    editor.value.setTransformMode(mode, false); // set without dispatching event
   }
 
   // Refresh UI when game object dispatches custom events
