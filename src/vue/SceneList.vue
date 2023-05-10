@@ -21,9 +21,29 @@
 
 	// Select object
     function selectObject(child, shiftKey = false) {
+		// Define empty child if null
+		if (child == null) child = {
+			uuid: '',
+			isSelected: false
+		};
+
+		// Store isSelected state before sending event
 		var isSelected = child.isSelected == true;
-		window.dispatchEvent(new CustomEvent('selectObject', { detail: { object: child, shiftKey: shiftKey } }));
-        editor.value.attachControls();
+
+		// Send event to Game editor listener
+		window.dispatchEvent(new CustomEvent('selectObject',
+			{
+				detail: {
+					object: child,
+					shiftKey: shiftKey
+				}
+			})
+		);
+
+		// Select/Deselect 3D controls
+		editor.value.attachControls();
+
+		// Refresh scene list if it selected an object or shiftKey is held
 		if (isSelected == false || shiftKey == true) updateScene();
     }
 	
@@ -45,10 +65,11 @@
 </style>
 
 <template>
-	<div class="scene">
+	<div class="scene-list">
 		<label>Scene Objects</label>
 		<ul :key="sceneKey">
-			<SceneItem :children="scene.children" @select-object="selectObject" @delete-object="deleteObject" @toggle-visible="toggleVisible"/>
+			<SceneItem :children="scene.children" @update-scene="updateScene" @select-object="selectObject" @delete-object="deleteObject" @toggle-visible="toggleVisible"/>
 		</ul>
+		<div class="deselect" @click="selectObject(null, $event.shiftKey)"></div>
 	</div>
 </template>

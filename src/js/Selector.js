@@ -48,13 +48,13 @@ class Selector {
 	}
 
 	select(object, shiftKey = false) {
-		// Populate collection
+		// Deselect objects before repopulation from collection
 		this.deselectObjects(shiftKey);
-		this.updateFrustum(this.startPoint, this.endPoint);
-
+		
 		// Select object by existing object or Ray/Frustum
 		if (object) this.searchChildByUUID(object, shiftKey);
 		else {
+			this.updateFrustum(this.startPoint, this.endPoint);
 			this.searchChildInRay(this.startPoint, shiftKey);
 			this.searchChildInFrustum(_frustum, this.object);
 		}

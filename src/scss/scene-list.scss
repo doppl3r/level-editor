@@ -1,6 +1,8 @@
-.scene {
+.scene-list {
 	background-color: #282828;
 	color: #DCDCDC;
+	display: flex;
+	flex-direction: column;
 	font-size: 0.75rem;
 	line-height: 0.75rem;
 	overflow-y: overlay;
@@ -80,5 +82,11 @@
 				}
 			}
 		}
+	}
+
+	// Used for deselecting objects from scene list
+	.deselect {
+		min-height: 2rem;
+		flex-grow: 1;
 	}
 }

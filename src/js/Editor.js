@@ -82,7 +82,7 @@ class Editor {
 		window.addEventListener('pointerup', function(e) { _this.handleInput(e); }, false);
 		window.addEventListener('keydown', function(e) { _this.handleInput(e); }, false);
 		window.addEventListener('keyup', function(e) { _this.handleInput(e); }, false);
-		window.addEventListener('selectObject', function(e) { _this.selectObjectFromEvent(e); })
+		window.addEventListener('selectObject', function(e) { _this.selectObjectEvent(e); })
 	}
 
 	handleInput(e) {
@@ -161,10 +161,13 @@ class Editor {
 		}
 	}
 
-	selectObjectFromEvent(event) {
+	selectObjectEvent(event) {
 		// Get non-proxy object
 		var object = this.scene.getObjectByProperty('uuid', event.detail.object.uuid);
 		var shiftKey = event.detail.shiftKey;
+
+		// Spoof 'deselect' by defining object with empty uuid
+		if (object == undefined) object = { uuid: '' };
 		this.selector.select(object, shiftKey);
 	}
 
