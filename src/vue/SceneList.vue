@@ -4,8 +4,8 @@
 
 	// Used to refresh list
 	var sceneKey = ref(0);
+	var sceneList = ref({ children: [] });
 	var editor = ref({});
-	var scene = ref({ children: [] });
 
 	// Refresh UI when game object dispatches custom events
 	window.addEventListener('updateScene', function(e) {
@@ -15,7 +15,7 @@
 
 	// Refresh Vue list
 	function updateScene() {
-		scene.value.children = editor.value.getSceneChildren();
+		sceneList.value.children = editor.value.getSceneChildren();
 		sceneKey.value++;
 	}
 
@@ -68,7 +68,7 @@
 	<div class="scene-list">
 		<label>Scene Objects</label>
 		<ul :key="sceneKey">
-			<SceneItem :children="scene.children" @update-scene="updateScene" @select-object="selectObject" @delete-object="deleteObject" @toggle-visible="toggleVisible"/>
+			<SceneItem :children="sceneList.children" @update-scene="updateScene" @select-object="selectObject" @delete-object="deleteObject" @toggle-visible="toggleVisible"/>
 		</ul>
 		<div class="deselect" @click="selectObject(null, $event.shiftKey)"></div>
 	</div>
