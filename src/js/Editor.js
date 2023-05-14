@@ -72,7 +72,7 @@ class Editor {
 		// Add controls
 		this.scene.add(this.controlsTransform);
 		this.updateObjectNames();
-		this.updateScene(); // Send custom event to Vue
+		this.updateEditor(); // Send custom event to Vue
 	}
 
 	addEventListeners() {
@@ -153,7 +153,7 @@ class Editor {
 			this.attachControls();
 
 			// Update Vue SceneList with scene data
-			this.updateScene();
+			this.updateEditor();
 		}
 		else if (this.pointerIntent == 'pan_camera') {
 			this.controlsTransform.enabled = true;
@@ -169,6 +169,9 @@ class Editor {
 		// Spoof 'deselect' by defining object with empty uuid
 		if (object == undefined) object = { uuid: '' };
 		this.selector.select(object, shiftKey);
+
+		// Update Vue SceneList with scene data
+		//this.updateEditor();
 	}
 
 	attachControls() {
@@ -233,9 +236,9 @@ class Editor {
 		if (dispatchEvent == true) window.dispatchEvent(new CustomEvent('updateControls', { detail: this }));
 	}
 
-	updateScene() {
-		// Dispatch editor to SceneList Vue
-		window.dispatchEvent(new CustomEvent('updateScene', { detail: this }));
+	updateEditor() {
+		// Dispatch editor to Vue
+		window.dispatchEvent(new CustomEvent('updateEditor', { detail: this }));
 	}
 
 	updateObjectNames() {

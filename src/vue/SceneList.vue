@@ -8,13 +8,13 @@
 	var editor = ref({});
 
 	// Refresh UI when game object dispatches custom events
-	window.addEventListener('updateScene', function(e) {
+	window.addEventListener('updateEditor', function(e) {
 		editor.value = e.detail;
-		updateScene();
+		updateSceneList();
 	});
 
 	// Refresh Vue list
-	function updateScene() {
+	function updateSceneList() {
 		sceneList.value.children = editor.value.getSceneChildren();
 		sceneKey.value++;
 	}
@@ -44,14 +44,14 @@
 		editor.value.attachControls();
 
 		// Refresh scene list if it selected an object or shiftKey is held
-		if (isSelected == false || shiftKey == true) updateScene();
+		if (isSelected == false || shiftKey == true) updateSceneList();
     }
 	
     // Delete object
     function deleteObject(child) {
 		child.removeFromParent();
 		editor.value.attachControls(); // Hide controls
-        updateScene();
+        updateSceneList();
     }
 
 	// Toggle 3D object visibility
@@ -68,7 +68,7 @@
 	<div class="scene-list">
 		<label>Scene Objects</label>
 		<ul :key="sceneKey">
-			<SceneItem :children="sceneList.children" @update-scene="updateScene" @select-object="selectObject" @delete-object="deleteObject" @toggle-visible="toggleVisible"/>
+			<SceneItem :children="sceneList.children" @update-scene="updateSceneList" @select-object="selectObject" @delete-object="deleteObject" @toggle-visible="toggleVisible"/>
 		</ul>
 		<div class="deselect" @click="selectObject(null, $event.shiftKey)"></div>
 	</div>

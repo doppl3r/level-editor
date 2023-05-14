@@ -1,6 +1,6 @@
 <script setup>
 	import { ref } from 'vue'
-	defineProps(['data']);
+	defineProps(['data', 'object']);
 
 	function increment(data, direction = 1) {
 		var step = data.step || 1;
@@ -36,7 +36,7 @@
 	<!-- Input number type -->
 	<div class="input-number" v-if="data.type == 'number'">
 		<button class="arrow left" @click="increment(data, -1)"><span class="icon icon-left"></span></button>
-		<input v-if="data.element == 'input'" :id="data.name" :type="data.type" v-model="data.value" :max="data.max" :min="data.min" :step="data.step" @change="checkLimit(data)" @focus="$event.target.select()">
+		<input v-if="data.element == 'input'" :id="data.name" :name="data.name" :type="data.type" v-model="data.value" :max="data.max" :min="data.min" :step="data.step" @change="checkLimit(data)" @focus="$event.target.select()">
 		<button class="arrow right" @click="increment(data, 1)"><span class="icon icon-right"></span></button>
 	</div>
 

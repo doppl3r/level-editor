@@ -4,7 +4,21 @@
 	import Field from './Field.vue';
 
 	var selectedTab = ref('Object Properties');
+	var selectedObject = ref({});
 	var properties = ref(json);
+	var object = ref({});
+	var editor = ref({});
+
+	// Refresh UI when game object dispatches custom events
+	window.addEventListener('updateEditor', function(e) {
+		editor.value = e.detail;
+		updateObject();
+	});
+
+	function updateObject() {
+		selectedObject.value = editor.value.selector.collection[0];
+		console.log(selectedObject.value);
+	}
 </script>
 
 <style lang="scss">
@@ -30,7 +44,7 @@
 								<label v-if="!!row.name">{{ row.name }}</label>
 								<div class="row">
 									<div class="col" v-for="field of row.children">
-										<Field :data="field" />
+										<Field :data="field" :object="selectedObject" />
 									</div>
 								</div>
 							</li>
