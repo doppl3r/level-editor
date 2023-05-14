@@ -29,22 +29,23 @@
 
 		// Store isSelected state before sending event
 		var isSelected = child.isSelected == true;
-
-		// Send event to Game editor listener
-		window.dispatchEvent(new CustomEvent('selectObject',
-			{
-				detail: {
-					object: child,
-					shiftKey: shiftKey
-				}
-			})
-		);
+		
+		// Refresh SceneList if it selected an object or shiftKey is held
+		if (isSelected == false || shiftKey == true) {
+			// Dispatch event
+			window.dispatchEvent(new CustomEvent('selectObject',
+				{
+					detail: {
+						object: child,
+						shiftKey: shiftKey
+					}
+				})
+			);
+			updateSceneList();
+		}
 
 		// Select/Deselect 3D controls
 		editor.value.attachControls();
-
-		// Refresh scene list if it selected an object or shiftKey is held
-		if (isSelected == false || shiftKey == true) updateSceneList();
     }
 	
     // Delete object
