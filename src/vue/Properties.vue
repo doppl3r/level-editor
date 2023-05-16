@@ -5,8 +5,8 @@
 
 	var selectedTab = ref('Object Properties');
 	var selectedObject = ref({});
-	var properties = ref(json);
-	var object = ref({});
+	var propertiesList = ref(json);
+	var propertiesKey = ref(0);
 	var editor = ref({});
 
 	// Refresh UI when game object dispatches custom events
@@ -14,10 +14,10 @@
 		editor.value = e.detail;
 		updateObject();
 	});
-
+	
 	function updateObject() {
 		selectedObject.value = editor.value.selector.collection[0];
-		console.log(selectedObject.value);
+		propertiesKey.value++;
 	}
 </script>
 
@@ -29,14 +29,14 @@
 	<div class="properties">
 		<div class="tabs">
 			<ul>
-				<li v-for="tab of properties.children">
+				<li v-for="tab of propertiesList.children">
 					<button :class="{ selected: selectedTab == tab.name }" @click="selectedTab = tab.name"><span class="icon" :class="tab.icon"></span></button>
 				</li>
 			</ul>
 		</div>
 		<div class="tab-content">
-			<div v-for="pane of properties.children">
-				<div class="tab-pane" v-if="selectedTab == pane.name">
+			<div v-for="pane of propertiesList.children">
+				<div class="tab-pane" v-if="selectedTab == pane.name" :key="propertiesKey">
 					<div class="group" v-for="group of pane.children">
 						<button @click="group.selected = !group.selected" :class="{ 'closed': group.selected }"><span class="icon icon-opened"></span>{{ group.name }}</button>
 						<ul v-if="!group.selected">
