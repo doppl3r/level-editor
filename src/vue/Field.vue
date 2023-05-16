@@ -1,6 +1,6 @@
 <script setup>
 	import { ref } from 'vue'
-	defineProps(['data', 'object']);
+	var props = defineProps(['data', 'object']);
 
 	function increment(data, direction = 1) {
 		var step = data.step || 1;

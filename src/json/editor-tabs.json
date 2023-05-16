@@ -18,19 +18,34 @@
                                     "name": "positionX",
                                     "element": "input",
                                     "type": "number",
-                                    "value": 0
+                                    "value": 0,
+                                    "property": {
+                                        "position": {
+                                            "x": 0
+                                        }
+                                    }
                                 },
                                 {
                                     "name": "positionY",
                                     "element": "input",
                                     "type": "number",
-                                    "value": 0
+                                    "value": 0,
+                                    "property": {
+                                        "position": {
+                                            "y": 0
+                                        }
+                                    }
                                 },
                                 {
                                     "name": "positionZ",
                                     "element": "input",
                                     "type": "number",
-                                    "value": 0
+                                    "value": 0,
+                                    "property": {
+                                        "position": {
+                                            "z": 0
+                                        }
+                                    }
                                 }
                             ]
                         },
@@ -42,19 +57,34 @@
                                     "name": "rotationX",
                                     "element": "input",
                                     "type": "number",
-                                    "value": 0
+                                    "value": 0,
+                                    "property": {
+                                        "rotation": {
+                                            "x": 0
+                                        }
+                                    }
                                 },
                                 {
                                     "name": "rotationY",
                                     "element": "input",
                                     "type": "number",
-                                    "value": 0
+                                    "value": 0,
+                                    "property": {
+                                        "rotation": {
+                                            "y": 0
+                                        }
+                                    }
                                 },
                                 {
                                     "name": "rotationZ",
                                     "element": "input",
                                     "type": "number",
-                                    "value": 0
+                                    "value": 0,
+                                    "property": {
+                                        "rotation": {
+                                            "z": 0
+                                        }
+                                    }
                                 }
                             ]
                         },
@@ -66,19 +96,34 @@
                                     "name": "scaleX",
                                     "element": "input",
                                     "type": "number",
-                                    "value": 0
+                                    "value": 0,
+                                    "property": {
+                                        "scale": {
+                                            "x": 0
+                                        }
+                                    }
                                 },
                                 {
                                     "name": "scaleY",
                                     "element": "input",
                                     "type": "number",
-                                    "value": 0
+                                    "value": 0,
+                                    "property": {
+                                        "scale": {
+                                            "y": 0
+                                        }
+                                    }
                                 },
                                 {
                                     "name": "scaleZ",
                                     "element": "input",
                                     "type": "number",
-                                    "value": 0
+                                    "value": 0,
+                                    "property": {
+                                        "scale": {
+                                            "z": 0
+                                        }
+                                    }
                                 }
                             ]
                         },
@@ -89,7 +134,9 @@
                                 {
                                     "name": "userData",
                                     "element": "textarea",
-                                    "value": "{}"
+                                    "property": {
+                                        "userData": {}
+                                    }
                                 }
                             ]
                         }
