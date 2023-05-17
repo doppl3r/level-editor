@@ -1,6 +1,5 @@
 <script setup>
 	var props = defineProps(['data']);
-	var emit = defineEmits(['updateObject']);
 
 	function increment(data, direction = 1) {
 		var step = data.step || 1;
@@ -16,13 +15,14 @@
 
 	function updateNumber(data) {
 		checkLimit(data);
+		data.target[data.key] = data.value;
 	}
 </script>
 
 <template>
-	<div class="input-number" >
+	<div class="input-number">
 		<button class="arrow left" @click="increment(data, -1)"><span class="icon icon-left"></span></button>
-		<input :id="data.name" :name="data.name" type="number" v-model="data.value" :max="data.max" :min="data.min" :step="data.step" @change="updateNumber(data)" @focus="$event.target.select()">
+		<input v-model="data.value" type="number" :max="data.max" :min="data.min" :step="data.step" @change="updateNumber(data)" @focus="$event.target.select()" @keyup.enter="$event.target.blur();">
 		<button class="arrow right" @click="increment(data, 1)"><span class="icon icon-right"></span></button>
 	</div>
 </template>

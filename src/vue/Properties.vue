@@ -10,9 +10,6 @@
 	var propertiesKey = ref(0);
 	var editor = ref({});
 
-	// Object property refs
-	var positionX = ref({ value: 0, step: 1 });
-
 	// Refresh UI when game object dispatches custom events
 	window.addEventListener('updateEditor', function(e) {
 		editor.value = e.detail;
@@ -20,8 +17,9 @@
 	});
 	
 	function updateSelectedObject() {
-		// TODO: Figure out what gets updated (object-to-input, input-to-object)
-		selectedObject.value = editor.value.selector.collection[0];
+		// Update input fields from selectedObject
+		selectedObject.value = editor.value.selector.selectedObjects;
+		//selectedObject.value = editor.value.selector.collection[0];
 		propertiesKey.value++;
 	}
 </script>
@@ -71,12 +69,12 @@
 					<div class="group">
 						<button @click="$event.target.classList.toggle('closed')"><span class="icon icon-opened"></span>Object Properties</button>
 						<ul>
-							<li>
+							<li v-if="selectedObject">
 								<label>Position (XYZ)</label>
 								<div class="row">
-									<div class="col">
-										<InputNumber :data="positionX" @update-selected-object="updateSelectedObject" />
-									</div>
+									<div class="col"><InputNumber :data="{ value: selectedObject.position.x, target: selectedObject.position, key: 'x', step: 1 }" /></div>
+									<div class="col"><InputNumber :data="{ value: selectedObject.position.y, target: selectedObject.position, key: 'y', step: 1 }" /></div>
+									<div class="col"><InputNumber :data="{ value: selectedObject.position.z, target: selectedObject.position, key: 'z', step: 1 }" /></div>
 								</div>
 							</li>
 						</ul>
