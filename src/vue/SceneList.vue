@@ -69,7 +69,7 @@
 	<div class="scene-list">
 		<label>Scene Objects</label>
 		<ul :key="sceneKey">
-			<SceneItem :children="sceneList.children" @update-scene="updateSceneList" @select-object="selectObject" @delete-object="deleteObject" @toggle-visible="toggleVisible"/>
+			<SceneItem v-for="(child, index) of sceneList.children" :data="child" @update-scene="updateSceneList" @select-object="selectObject" @delete-object="deleteObject" @toggle-visible="toggleVisible"/>
 		</ul>
 		<div class="deselect" @click="selectObject(null, $event.shiftKey)"></div>
 	</div>
