@@ -2,7 +2,6 @@
 	import { ref } from 'vue'
 	import json from '../json/editor-tabs.json';
 	import Field from './Field.vue';
-	import InputNumber from './InputNumber.vue';
 
 	var selectedTab = ref('Object Properties');
 	var selectedObject = ref({});
@@ -19,7 +18,6 @@
 	function updateSelectedObject() {
 		// Update input fields from selectedObject
 		selectedObject.value = editor.value.selector.selectedObjects;
-		//selectedObject.value = editor.value.selector.collection[0];
 		propertiesKey.value++;
 	}
 </script>
@@ -35,15 +33,6 @@
 				<li v-for="tab of propertiesList.children">
 					<button :class="{ selected: selectedTab == tab.name }" @click="selectedTab = tab.name"><span class="icon" :class="tab.icon"></span></button>
 				</li>
-				<li>
-					<button :class="{ selected: selectedTab == 'object-properties' }" @click="selectedTab = 'object-properties'"><span class="icon icon-properties"></span></button>
-				</li>
-				<li>
-					<button :class="{ selected: selectedTab == 'object-physics' }" @click="selectedTab = 'object-physics'"><span class="icon icon-physics"></span></button>
-				</li>
-				<li>
-					<button :class="{ selected: selectedTab == 'object-texture' }" @click="selectedTab = 'object-texture'"><span class="icon icon-texture"></span></button>
-				</li>
 			</ul>
 		</div>
 		<div class="tab-content">
@@ -58,23 +47,6 @@
 									<div class="col" v-for="field of row.children">
 										<Field :data="field" :object="selectedObject" />
 									</div>
-								</div>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div>
-				<div class="tab-pane" v-if="selectedTab == 'object-properties'" :key="propertiesKey">
-					<div class="group">
-						<button @click="$event.target.classList.toggle('closed')"><span class="icon icon-opened"></span>Object Properties</button>
-						<ul>
-							<li v-if="selectedObject">
-								<label>Position (XYZ)</label>
-								<div class="row">
-									<div class="col"><InputNumber :data="{ value: selectedObject.position.x, target: selectedObject.position, key: 'x', step: 1 }" /></div>
-									<div class="col"><InputNumber :data="{ value: selectedObject.position.y, target: selectedObject.position, key: 'y', step: 1 }" /></div>
-									<div class="col"><InputNumber :data="{ value: selectedObject.position.z, target: selectedObject.position, key: 'z', step: 1 }" /></div>
 								</div>
 							</li>
 						</ul>

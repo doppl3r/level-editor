@@ -60,13 +60,13 @@ class Editor {
 		// Add basic rectangle
 		var rectangle = new Rectangle();
 		rectangle.setTexture(this.game.assets.textures.cache['grass-fairway']);
-		rectangle.position.set(-1, 1.5, -10.5);
+		rectangle.position.set(-1, 1.5, -0.5);
 		rectangle.rotation.set(0, 0, Math.PI);
 		this.scene.add(rectangle);
 
 		var rectangle = new Rectangle();
 		rectangle.setTexture(this.game.assets.textures.cache['crate']);
-		rectangle.position.set(1, -1, -10);
+		rectangle.position.set(1, -1, 0);
 		this.scene.add(rectangle);
 
 		// Add controls

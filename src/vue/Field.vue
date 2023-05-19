@@ -1,6 +1,46 @@
 <script setup>
-	import { ref, onMounted } from 'vue'
+	import { onMounted, ref } from 'vue'
 	var props = defineProps(['data', 'object']);
+	var target = ref({});
+	var key = ref('');
+
+	onMounted(function() {
+		assignTarget();
+		updateFieldFromTarget();
+	});
+
+	function assignTarget(dataTarget = props['data']['target']) {
+		if (dataTarget) {
+			var dataTargetKey = Object.keys(dataTarget)[0];
+			if (typeof dataTarget[dataTargetKey] == 'object') {
+				// Recursively assign child object
+				key.value = dataTargetKey;
+				assignTarget(dataTarget[dataTargetKey]);
+			}
+			else {
+				// Assign object to ancestor
+				if (props['object'][key.value]) {
+					target.value = props['object'][key.value];
+					if (Object.keys(target.value).length > 0) key.value = dataTargetKey;
+					else target.value = props['object'];
+				}
+			}
+		}
+	}
+
+	function updateTargetFromField(data) {
+		// Update object values from field data
+		target.value[key.value] = data.value;
+	}
+
+	function updateFieldFromTarget() {
+		// Update field value from target object
+		var data = props['data'];
+		if (target.value) {
+			data.value = target.value[key.value];
+			if (typeof data.value == 'object') data.value = JSON.stringify(data.value);
+		}
+	}
 
 	function increment(data, direction = 1) {
 		var step = data.step || 1;
@@ -16,6 +56,7 @@
 
 	function updateNumber(data) {
 		checkLimit(data);
+		updateTargetFromField(data);
 	}
 
 	function changeImage(data, event) {
@@ -31,34 +72,6 @@
 			reader.readAsDataURL(file);
 		}
 	}
-
-	onMounted(function() {
-		if (props['data'] && props['object']) {
-			updateInput('property', props['data'], props['object']);
-		}
-	})
-
-	function updateInput(key, obj1, obj2) {
-		// Bind a single value from obj2 to a predefined value in obj1
-		if (obj1[key]) {
-			
-			// Loop through obj1 keys
-			var keys = Object.keys(obj1[key]);
-			for (var i = 0; i < keys.length; i++) {
-				var k1 = keys[i];
-				if (typeof obj1[key][k1] == 'object' && typeof obj2[k1] == 'object') {
-					// Recursively follow property values
-					updateInput(k1, obj1[key], obj2[k1]);
-				}
-				else {
-					// Bind input value
-					if (obj2[k1] != undefined) {
-						props['data'].value = obj2[k1];
-					}
-				}
-			}
-		}
-	}
 </script>
 
 <template>
@@ -68,7 +81,7 @@
 	<!-- Input number type -->
 	<div class="input-number" v-if="data.type == 'number'">
 		<button class="arrow left" @click="increment(data, -1)"><span class="icon icon-left"></span></button>
-		<input v-if="data.element == 'input'" :id="data.name" :name="data.name" :type="data.type" v-model="data.value" :max="data.max" :min="data.min" :step="data.step" @change="updateNumber(data)" @focus="$event.target.select()">
+		<input v-if="data.element == 'input'" :id="data.name" :name="data.name" :type="data.type" v-model="data.value" :max="data.max" :min="data.min" :step="data.step" @change="updateNumber(data)" @focus="$event.target.select()" @keyup.enter="$event.target.blur();">
 		<button class="arrow right" @click="increment(data, 1)"><span class="icon icon-right"></span></button>
 	</div>
 

@@ -18,8 +18,7 @@
                                     "name": "positionX",
                                     "element": "input",
                                     "type": "number",
-                                    "value": 0,
-                                    "property": {
+                                    "target": {
                                         "position": {
                                             "x": 0
                                         }
@@ -29,8 +28,7 @@
                                     "name": "positionY",
                                     "element": "input",
                                     "type": "number",
-                                    "value": 0,
-                                    "property": {
+                                    "target": {
                                         "position": {
                                             "y": 0
                                         }
@@ -40,8 +38,7 @@
                                     "name": "positionZ",
                                     "element": "input",
                                     "type": "number",
-                                    "value": 0,
-                                    "property": {
+                                    "target": {
                                         "position": {
                                             "z": 0
                                         }
@@ -57,8 +54,7 @@
                                     "name": "rotationX",
                                     "element": "input",
                                     "type": "number",
-                                    "value": 0,
-                                    "property": {
+                                    "target": {
                                         "rotation": {
                                             "x": 0
                                         }
@@ -68,8 +64,7 @@
                                     "name": "rotationY",
                                     "element": "input",
                                     "type": "number",
-                                    "value": 0,
-                                    "property": {
+                                    "target": {
                                         "rotation": {
                                             "y": 0
                                         }
@@ -79,8 +74,7 @@
                                     "name": "rotationZ",
                                     "element": "input",
                                     "type": "number",
-                                    "value": 0,
-                                    "property": {
+                                    "target": {
                                         "rotation": {
                                             "z": 0
                                         }
@@ -96,8 +90,7 @@
                                     "name": "scaleX",
                                     "element": "input",
                                     "type": "number",
-                                    "value": 0,
-                                    "property": {
+                                    "target": {
                                         "scale": {
                                             "x": 0
                                         }
@@ -107,8 +100,7 @@
                                     "name": "scaleY",
                                     "element": "input",
                                     "type": "number",
-                                    "value": 0,
-                                    "property": {
+                                    "target": {
                                         "scale": {
                                             "y": 0
                                         }
@@ -118,8 +110,7 @@
                                     "name": "scaleZ",
                                     "element": "input",
                                     "type": "number",
-                                    "value": 0,
-                                    "property": {
+                                    "target": {
                                         "scale": {
                                             "z": 0
                                         }
@@ -134,7 +125,7 @@
                                 {
                                     "name": "userData",
                                     "element": "textarea",
-                                    "property": {
+                                    "target": {
                                         "userData": {}
                                     }
                                 }
