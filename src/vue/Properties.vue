@@ -1,6 +1,6 @@
 <script setup>
 	import { ref } from 'vue'
-	import json from '../json/editor-tabs.json';
+	import json from '../json/properties.json';
 	import Field from './Field.vue';
 
 	var selectedTab = ref('Object Properties');

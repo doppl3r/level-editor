@@ -5,25 +5,29 @@
 	var key = ref('');
 
 	onMounted(function() {
-		assignTarget();
+		assignTargetFromData();
 		updateFieldFromTarget();
 	});
 
-	function assignTarget(dataTarget = props['data']['target']) {
-		if (dataTarget) {
-			var dataTargetKey = Object.keys(dataTarget)[0];
-			if (typeof dataTarget[dataTargetKey] == 'object') {
-				// Recursively assign child object
-				key.value = dataTargetKey;
-				assignTarget(dataTarget[dataTargetKey]);
+	function assignTargetFromData(targetData, targetObject) {
+		// Initialize variables from props if none are provided for recursion
+		if (targetData == null) targetData = props['data']['target'];
+		if (targetObject == null) targetObject = props['object'];
+
+		// Assign target to object by predefined targetData keys
+		if (targetData) {
+			var targetDataKey = Object.keys(targetData)[0];
+
+			// If targetData contains a nested object, recursively assign child object
+			if (Object.keys(targetData[targetDataKey]).length > 0) {
+				key.value = targetDataKey; // Update key before reassignment
+				assignTargetFromData(targetData[targetDataKey], targetObject);
 			}
 			else {
-				// Assign object to ancestor
-				if (props['object'][key.value]) {
-					target.value = props['object'][key.value];
-					if (Object.keys(target.value).length > 0) key.value = dataTargetKey;
-					else target.value = props['object'];
-				}
+				// Set the target to object value
+				if (targetObject[key.value]) target.value = targetObject[key.value];
+				else  target.value = targetObject;
+				key.value = targetDataKey;
 			}
 		}
 	}
