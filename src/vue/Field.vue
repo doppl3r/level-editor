@@ -18,15 +18,15 @@
 		if (targetData) {
 			var targetDataKey = Object.keys(targetData)[0];
 
-			// If targetData contains a nested object, recursively assign child object
-			if (Object.keys(targetData[targetDataKey]).length > 0) {
-				key.value = targetDataKey; // Update key before reassignment
+			if (typeof targetData[targetDataKey] == 'object') {
+				if (Object.keys(targetData[targetDataKey]).length > 0) {
+					key.value = targetDataKey;
+					targetObject = targetObject[targetDataKey];
+				}
 				assignTargetFromData(targetData[targetDataKey], targetObject);
 			}
 			else {
-				// Set the target to object value
-				if (targetObject[key.value]) target.value = targetObject[key.value];
-				else  target.value = targetObject;
+				target.value = targetObject;
 				key.value = targetDataKey;
 			}
 		}

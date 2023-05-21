@@ -126,7 +126,7 @@
                                     "name": "userData",
                                     "element": "textarea",
                                     "target": {
-                                        "userData": {}
+                                        "userData": "{}"
                                     }
                                 }
                             ]
