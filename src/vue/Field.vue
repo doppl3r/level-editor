@@ -20,8 +20,9 @@
 		if (typeof targetData == 'object') {
 			var targetDataKey = Object.keys(targetData)[0];
 
-			if (Object.keys(targetData[targetDataKey]).length > 0) {
-				if (targetObject[targetDataKey]) {
+			// Recursively assign child object or set "target" object and "key"
+			if (Object.keys(targetData[targetDataKey]).length > 0 && typeof targetData[targetDataKey] == 'object') {
+				if (targetData[targetDataKey]) {
 					assignTargetFromData(targetData[targetDataKey], targetObject[targetDataKey]);
 				}
 			}

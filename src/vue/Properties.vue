@@ -18,7 +18,6 @@
 	function updateSelectedObject() {
 		// Update input fields from selectedObject
 		selectedObject.value = editor.value.selector.selectedObjects.children[0];
-		console.log(selectedObject);
 		propertiesKey.value++;
 	}
 </script>
