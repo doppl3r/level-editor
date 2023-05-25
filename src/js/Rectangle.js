@@ -1,4 +1,5 @@
 import { ExtrudeGeometry, Mesh, MeshPhongMaterial, RepeatWrapping, Shape, Vector2, Vector3 } from 'three';
+import { Body } from 'matter-js';
 import { PointObject } from './PointObject';
 
 class Rectangle extends Mesh {
@@ -38,6 +39,9 @@ class Rectangle extends Mesh {
 		this.material = new MeshPhongMaterial({ color: '#ffffff' });
 		this.isSelectable = true;
 		this.updateCenter();
+
+		// Physics properties
+		this.body = Body.create();
 		
 		// Add center point object to this rectangle
 		this.add(this.center);

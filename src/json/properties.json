@@ -126,7 +126,7 @@
                                     "name": "userData",
                                     "element": "textarea",
                                     "target": {
-                                        "userData": "{}"
+                                        "userData": {}
                                     }
                                 }
                             ]
@@ -151,7 +151,12 @@
                                 {
                                     "name": "Static",
                                     "element": "input",
-                                    "type": "checkbox"
+                                    "type": "checkbox",
+                                    "target": {
+                                        "body": {
+                                            "isStatic": false
+                                        }
+                                    }
                                 }
                             ]
                         },

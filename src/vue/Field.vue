@@ -5,8 +5,10 @@
 	var key = ref('');
 
 	onMounted(function() {
-		assignTargetFromData();
-		updateFieldFromTarget();
+		if (props['object']) {
+			assignTargetFromData();
+			updateFieldFromTarget();
+		}
 	});
 
 	function assignTargetFromData(targetData, targetObject) {
@@ -15,21 +17,20 @@
 		if (targetObject == null) targetObject = props['object'];
 
 		// Assign target to object by predefined targetData keys
-		if (targetData) {
+		if (typeof targetData == 'object') {
 			var targetDataKey = Object.keys(targetData)[0];
 
-			if (typeof targetData[targetDataKey] == 'object') {
-				if (Object.keys(targetData[targetDataKey]).length > 0) {
-					key.value = targetDataKey;
-					targetObject = targetObject[targetDataKey];
+			if (Object.keys(targetData[targetDataKey]).length > 0) {
+				if (targetObject[targetDataKey]) {
+					assignTargetFromData(targetData[targetDataKey], targetObject[targetDataKey]);
 				}
-				assignTargetFromData(targetData[targetDataKey], targetObject);
 			}
 			else {
 				target.value = targetObject;
 				key.value = targetDataKey;
 			}
 		}
+
 	}
 
 	function updateTargetFromField(data) {
@@ -97,11 +98,11 @@
 	</div>
 
 	<!-- Input default -->
-	<input v-else-if="data.element == 'input'" :id="data.name" :type="data.type" :checked="data.checked" v-model="data.value">
+	<input v-else-if="data.element == 'input'" :id="data.name" :type="data.type" :checked="data.checked" v-model="data.value" @change="updateTargetFromField(data)">
 	
 	<!-- Append label to checkbox type inputs -->
 	<label v-if="data.type == 'checkbox'" :for="data.name">{{ data.name }}</label>
 	
 	<!-- Textarea element type-->
-	<textarea v-if="data.element == 'textarea'" v-model="data.value"></textarea>
+	<textarea v-if="data.element == 'textarea'" v-model="data.value" @change="updateTargetFromField(data)"></textarea>
 </template>
