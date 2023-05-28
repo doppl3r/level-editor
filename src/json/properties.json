@@ -263,10 +263,43 @@
                             "name": "Texture settings",
                             "children": [
                                 {
-                                    "name": "Wrap",
+                                    "name": "WrapS",
                                     "element": "input",
-                                    "checked": true,
-                                    "type": "checkbox"
+                                    "checked": false,
+                                    "type": "checkbox",
+                                    "condition": {
+                                        "true": 1000,
+                                        "false": 1001
+                                    },
+                                    "target": {
+                                        "material": {
+                                            "map": {
+                                                "wrapS": false
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "row",
+                            "children": [
+                                {
+                                    "name": "WrapT",
+                                    "element": "input",
+                                    "checked": false,
+                                    "type": "checkbox",
+                                    "condition": {
+                                        "true": 1000,
+                                        "false": 1001
+                                    },
+                                    "target": {
+                                        "material": {
+                                            "map": {
+                                                "wrapT": false
+                                            }
+                                        }
+                                    }
                                 }
                             ]
                         },
@@ -281,7 +314,18 @@
                                 {
                                     "name": "Local File",
                                     "element": "input",
-                                    "type": "file"
+                                    "type": "file",
+                                    "target": {
+                                        "material": {
+                                            "map": {
+                                                "source": {
+                                                    "data": {
+                                                        "src": ""
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             ]
                         },
@@ -297,7 +341,12 @@
                                     "name": "Color",
                                     "element": "input",
                                     "value": "#1B1B1B",
-                                    "type": "color"
+                                    "type": "color",
+                                    "target": {
+                                        "material": {
+                                            "color": {}
+                                        }
+                                    }
                                 }
                             ]
                         },
@@ -314,7 +363,14 @@
                                     "element": "input",
                                     "type": "number",
                                     "value": 0,
-                                    "step": 5
+                                    "step": 0.19634954084,
+                                    "target": {
+                                        "material": {
+                                            "map": {
+                                                "rotation": 0
+                                            }
+                                        }
+                                    }
                                 }
                             ]
                         },
@@ -322,23 +378,41 @@
                             "type": "row",
                             "children": [
                                 {
-                                    "name": "Scale",
+                                    "name": "Repeat",
                                     "element": "label",
-                                    "title": "Texture Scale (XY)"
+                                    "title": "How many times the texture is repeated across the surface."
                                 },
                                 {
-                                    "name": "textureScaleX",
+                                    "name": "textureRepeatX",
                                     "element": "input",
                                     "type": "number",
                                     "value": 1,
-                                    "step": 0.1
+                                    "step": 0.1,
+                                    "target": {
+                                        "material": {
+                                            "map": {
+                                                "repeat": {
+                                                    "x": 1
+                                                }
+                                            }
+                                        }
+                                    }
                                 },
                                 {
-                                    "name": "textureScaleY",
+                                    "name": "textureRepeatY",
                                     "element": "input",
                                     "type": "number",
                                     "value": 1,
-                                    "step": 0.1
+                                    "step": 0.1,
+                                    "target": {
+                                        "material": {
+                                            "map": {
+                                                "repeat": {
+                                                    "y": 1
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             ]
                         },
@@ -348,21 +422,39 @@
                                 {
                                     "name": "Offset",
                                     "element": "label",
-                                    "title": "Texture offset (XY)"
+                                    "title": "How much a single repetition of the texture is offset from the beginning."
                                 },
                                 {
                                     "name": "textureOffsetX",
                                     "element": "input",
                                     "type": "number",
                                     "value": 0,
-                                    "step": 0.1
+                                    "step": 0.1,
+                                    "target": {
+                                        "material": {
+                                            "map": {
+                                                "offset": {
+                                                    "x": 1
+                                                }
+                                            }
+                                        }
+                                    }
                                 },
                                 {
                                     "name": "textureOffsetY",
                                     "element": "input",
                                     "type": "number",
                                     "value": 0,
-                                    "step": 0.1
+                                    "step": 0.1,
+                                    "target": {
+                                        "material": {
+                                            "map": {
+                                                "offset": {
+                                                    "y": 1
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             ]
                         },
@@ -372,21 +464,39 @@
                                 {
                                     "name": "Center",
                                     "element": "label",
-                                    "title": "Texture center (XY)"
+                                    "title": "The point around which rotation occurs"
                                 },
                                 {
                                     "name": "textureCenterX",
                                     "element": "input",
                                     "type": "number",
                                     "value": 0,
-                                    "step": 0.1
+                                    "step": 0.1,
+                                    "target": {
+                                        "material": {
+                                            "map": {
+                                                "center": {
+                                                    "x": 0
+                                                }
+                                            }
+                                        }
+                                    }
                                 },
                                 {
                                     "name": "textureCenterY",
                                     "element": "input",
                                     "type": "number",
                                     "value": 0,
-                                    "step": 0.1
+                                    "step": 0.1,
+                                    "target": {
+                                        "material": {
+                                            "map": {
+                                                "center": {
+                                                    "y": 0
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             ]
                         }

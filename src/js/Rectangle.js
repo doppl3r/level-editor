@@ -1,4 +1,4 @@
-import { ExtrudeGeometry, Mesh, MeshPhongMaterial, RepeatWrapping, Shape, Vector2, Vector3 } from 'three';
+import { ExtrudeGeometry, Mesh, MeshPhongMaterial, RepeatWrapping, Shape, TextureLoader, Vector2, Vector3 } from 'three';
 import { Body } from 'matter-js';
 import { PointObject } from './PointObject';
 
@@ -13,6 +13,7 @@ class Rectangle extends Mesh {
 			},
 			texture: {
 				center: new Vector2(0, 0),
+				magFilter: 1003, // 1003 = nearest neighbor, 1006 = Default smoothing
 				offset: new Vector2(0.5, 0.5),
 				repeat: new Vector2(1, 1),
 				rotation: 0,
@@ -71,6 +72,30 @@ class Rectangle extends Mesh {
 	setTexture(texture) {
 		Object.assign(texture, this.settings.texture);
 		this.material.map = texture;
+	}
+
+	setTextureSource(data) {
+		var _this = this;
+		function updateMaterial() {
+			// Update material with current settings
+			Object.assign(_this.material.map, _this.settings.texture);
+			_this.material.map.source.data.src = data;
+			_this.material.map.needsUpdate = true;
+			_this.material.needsUpdate = true;
+		}
+		if (this.material.map == null) {
+			// Create a new material asynchronously if it is null
+			this.material.map = new TextureLoader().load(data, updateMaterial);
+		}
+		else {
+			// Replace material immediately
+			updateMaterial();
+		}
+	}
+
+	removeTexture() {
+		this.material.map = null;
+		this.material.needsUpdate = true;
 	}
 }
 
