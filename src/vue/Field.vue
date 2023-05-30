@@ -122,9 +122,9 @@
 	
 	<!-- Input number type -->
 	<div class="input-number" v-if="data.type == 'number'">
-		<button class="arrow left" @click="increment(data, -1)"><span class="icon icon-left"></span></button>
+		<button class="arrow left" @click="increment(data, -1)" tabindex="-1"><span class="icon icon-left"></span></button>
 		<input v-if="data.element == 'input'" :id="data.name" :name="data.name" :type="data.type" v-model="data.value" :max="data.max" :min="data.min" :step="data.step" @change="updateNumber(data)" @focus="$event.target.select()" @keyup.enter="$event.target.blur();">
-		<button class="arrow right" @click="increment(data, 1)"><span class="icon icon-right"></span></button>
+		<button class="arrow right" @click="increment(data, 1)" tabindex="-1"><span class="icon icon-right"></span></button>
 	</div>
 
 	<!-- Input file image type -->

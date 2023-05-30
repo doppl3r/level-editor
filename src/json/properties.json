@@ -307,6 +307,42 @@
                             "type": "row",
                             "children": [
                                 {
+                                    "name": "Alpha",
+                                    "element": "input",
+                                    "checked": false,
+                                    "type": "checkbox",
+                                    "target": {
+                                        "material": {
+                                            "transparent": false
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "row",
+                            "children": [
+                                {
+                                    "name": "Double Sided",
+                                    "element": "input",
+                                    "checked": false,
+                                    "type": "checkbox",
+                                    "condition": {
+                                        "true": 2,
+                                        "false": 0
+                                    },
+                                    "target": {
+                                        "material": {
+                                            "side": 0
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "row",
+                            "children": [
+                                {
                                     "name": "Image",
                                     "element": "label",
                                     "title": "Local image (16x16)"

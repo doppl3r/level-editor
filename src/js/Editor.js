@@ -1,7 +1,7 @@
 import { Color, HemisphereLight, PerspectiveCamera, Scene, Vector3 } from 'three';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { Rectangle } from './Rectangle';
+import { Cube } from './Cube';
 import { Selector } from './Selector';
 import { UI as $ } from './UI';
 
@@ -15,7 +15,7 @@ class Editor {
 	}
 
 	update(renderDelta, renderAlpha, physicsDelta) {
-		//this.scene.getObjectByName('Rectangle').rotation.y += renderDelta * 0.5;
+		//this.scene.getObjectByName('Cube').rotation.y += renderDelta * 0.5;
 	}
 
 	init(game) {
@@ -54,20 +54,13 @@ class Editor {
 
 		// Add basic environment light
 		var hemisphere = new HemisphereLight('#ffffff', '#000000', 1);
-		hemisphere.position.set(0, 0, 2);
+		hemisphere.position.set(0, 1, 2);
 		this.scene.add(hemisphere);
 
-		// Add basic rectangle
-		var rectangle = new Rectangle();
-		rectangle.setTexture(this.game.assets.textures.cache['grass-fairway']);
-		rectangle.position.set(-1, 1.5, -0.5);
-		rectangle.rotation.set(0, 0, Math.PI);
-		this.scene.add(rectangle);
-
-		var rectangle = new Rectangle();
-		rectangle.setTexture(this.game.assets.textures.cache['crate']);
-		rectangle.position.set(1, -1, 0);
-		this.scene.add(rectangle);
+		// Add basic cube
+		var cube = new Cube();
+		cube.setTexture(this.game.assets.textures.cache['grass-fairway']);
+		this.scene.add(cube);
 
 		// Add controls
 		this.scene.add(this.controlsTransform);
