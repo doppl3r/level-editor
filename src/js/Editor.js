@@ -189,13 +189,12 @@ class Editor {
 					object.material.map = object.material.map.clone();
 					object.material.map.needsUpdate = true;
 
-					// Create new texture if function exists (probably a memory hog)
-					if (object.setTextureSource) {
+					// TODO: Add option to duplicate texture source. Default is expensive on memory
+					/* if (object.setTextureSource) {
 						var src = object.material.map.source.data.src;
-						object.setTextureSource(src);
-						// var _this = this;
-						// NOTE: Memory hog = object.setTextureSource(src, true, function() { _this.updateEditor() });
-					}
+						var _this = this;
+						object.setTextureSource(src, true, function() { _this.updateEditor() });
+					} */
 				}
 			}
 
