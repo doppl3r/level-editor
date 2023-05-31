@@ -74,18 +74,30 @@ class Cube extends Mesh {
 		this.material.map = texture;
 	}
 
-	setTextureSource(data) {
+	setTextureSource(src, forceUpdate = false, callback = function(){}) {
 		var _this = this;
+		// Update material with current settings
 		function updateMaterial() {
-			// Update material with current settings
+			// Copy default settings
 			Object.assign(_this.material.map, _this.settings.texture);
-			_this.material.map.source.data.src = data;
-			_this.material.map.needsUpdate = true;
-			_this.material.needsUpdate = true;
+
+			// Deep clone material & map
+			if (_this.material) {
+				_this.material.needsUpdate = true;
+
+				if (_this.material.map) {
+					// Update data src value
+					_this.material.map.source.data.src = src;
+					_this.material.map.source.needsUpdate = true;
+					_this.material.map.needsUpdate = true;
+				}
+			}
+			callback(); // Run callback
 		}
-		if (this.material.map == null) {
-			// Create a new material asynchronously if it is null
-			this.material.map = new TextureLoader().load(data, updateMaterial);
+
+		// Create a new material asynchronously if it is null
+		if (this.material.map == null || forceUpdate == true) {
+			this.material.map = new TextureLoader().load(src, updateMaterial);
 		}
 		else {
 			// Replace material immediately

@@ -157,16 +157,55 @@ class Editor {
 	}
 
 	selectObjectEvent(event) {
-		// Get non-proxy object
+		// Get non-proxy object by uuid
 		var object = this.scene.getObjectByProperty('uuid', event.detail.object.uuid);
 		var shiftKey = event.detail.shiftKey;
 
-		// Spoof 'deselect' by defining object with empty uuid
+		// Spoof 'deselect' behavior by defining object with empty uuid
 		if (object == undefined) object = { uuid: '' };
 		this.selector.select(object, shiftKey);
 
 		// Update Vue SceneList with scene data
 		this.updateEditor();
+	}
+
+	duplicateSelected() {
+		// Capture collection before deselect
+		var collection = this.selector.collection;
+
+		// Deselect selection collection for duplication
+		this.selector.deselectObjects();
+
+		// Loop through collection
+		for (var i = 0; i < collection.length; i++) {
+			var object = collection[i].clone();
+			if (object.material) {
+				// Clone material
+				object.material = object.material.clone();
+				object.material.needsUpdate = true;
+
+				// Clone map
+				if (object.material.map) {
+					object.material.map = object.material.map.clone();
+					object.material.map.needsUpdate = true;
+
+					// Create new texture if function exists (probably a memory hog)
+					if (object.setTextureSource) {
+						var src = object.material.map.source.data.src;
+						object.setTextureSource(src);
+						// var _this = this;
+						// NOTE: Memory hog = object.setTextureSource(src, true, function() { _this.updateEditor() });
+					}
+				}
+			}
+
+			this.scene.add(object);
+			this.selector.addToCollection(object);
+		}
+
+		// Select the new collection
+		this.selector.selectObjectsFromCollection();
+		if (collection.length > 0) this.updateEditor(); // Dispatch refresh to UI
 	}
 
 	attachControls() {
@@ -194,6 +233,10 @@ class Editor {
 		if (e.code == 'KeyS') this.setTransformMode('scale');
 		if (e.code == 'KeyT') this.setTransformMode('translate');
 		if (e.code == 'ControlLeft') this.setSnap(1, 15, 1);
+		if (e.code == 'KeyD' && e.shiftKey == true) {
+			this.duplicateSelected();
+			this.keyDown({ code: 'KeyG' }); // Spoof "transformSelected"
+		}
 		this.keys[e.code] = true;
 	}
 
