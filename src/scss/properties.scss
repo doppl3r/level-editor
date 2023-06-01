@@ -1,12 +1,7 @@
 .properties {
 	background-color: #1D1D1D;
 	color: #DCDCDC;
-	display: grid; 
-	grid-template-columns: min-content 1fr; 
-	grid-template-rows: 1fr; 
-	gap: 0rem 0rem; 
-	grid-template-areas: 
-		"tabs tab-content";
+	display: flex;
 	font-size: 0.75rem;
 	line-height: 0.75rem;
 	position: absolute; // Allow children to scroll
@@ -17,8 +12,8 @@
 	z-index: 1;
 
 	.tabs {
-		grid-area: tabs;
-		overflow-y: overlay;
+		flex-shrink: 0;
+		overflow-y: auto;
 
 		ul {
 			padding: 0;
@@ -71,8 +66,10 @@
 	.tab-content {
 		background-color: #303030;
 		grid-area: tab-content;
-		overflow-y: overlay;
-		padding: 0.5rem;
+		overflow-x: hidden;
+		overflow-y: scroll;
+		padding: 0.5rem 0rem 0.5rem 0.5rem;
+		width: 100%;
 
 		.tab-pane {
 			.group {
