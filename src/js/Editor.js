@@ -10,6 +10,7 @@ class Editor {
 		this.scene = new Scene();
 		this.camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 100);
 		this.camera.position.z = 5;
+		this.clipboard = [];
 		this.keys = { ShiftLeft: false };
 		this.mode = 'object'; // 2 modes: "object" and "edit"
 	}
@@ -207,6 +208,47 @@ class Editor {
 		if (collection.length > 0) this.updateEditor(); // Dispatch refresh to UI
 	}
 
+	deleteSelected() {
+		// Capture collection before deselect
+		var collection = this.selector.collection;
+
+		// Loop through collection
+		for (var i = 0; i < collection.length; i++) {
+			var object = collection[i];
+			this.selector.deselectObject(object);
+			object.removeFromParent();
+		}
+
+		this.controlsTransform.detach();
+		this.updateEditor(); // Dispatch refresh to UI
+		return collection;
+	}
+
+	cutSelected() {
+		this.clipboard = this.deleteSelected();
+	}
+
+	pasteSelected() {
+		if (this.clipboard.length > 0) {
+			// Deselect and set collection to clipboard
+			this.selector.deselectObjects();
+			this.selector.collection = this.clipboard;
+			this.selector.updateCenterPosition();
+	
+			// Loop through clipboard objects
+			for (var i = 0; i < this.clipboard.length; i++) {
+				var object = this.clipboard[i];
+				object.isSelected = true;
+				this.selector.selectedObjects.attach(object);
+			}
+
+			// Reattach controls and empty clipboard
+			this.attachControls();
+			this.clipboard = [];
+			this.updateEditor(); // Dispatch refresh to UI
+		}
+	}
+
 	attachControls() {
 		if (this.selector.selectedObjects.children.length > 0) {
 			this.controlsTransform.attach(this.selector.selectedObjects);
@@ -232,10 +274,9 @@ class Editor {
 		if (e.code == 'KeyS') this.setTransformMode('scale');
 		if (e.code == 'KeyT') this.setTransformMode('translate');
 		if (e.code == 'ControlLeft') this.setSnap(1, 15, 1);
-		if (e.code == 'KeyD' && e.shiftKey == true) {
-			this.duplicateSelected();
-			this.keyDown({ code: 'KeyG' }); // Spoof "transformSelected"
-		}
+		if (e.code == 'KeyD' && e.shiftKey == true) { this.duplicateSelected(); this.keyDown({ code: 'KeyG' }); /* Spoof "transformSelected" */ }
+		if (e.code == 'KeyX' && e.ctrlKey == true) this.cutSelected();
+		if (e.code == 'KeyV' && e.ctrlKey == true) this.pasteSelected();
 		this.keys[e.code] = true;
 	}
 

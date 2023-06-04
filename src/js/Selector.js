@@ -65,10 +65,7 @@ class Selector {
 		// Attach collection objects to selected objects
 		if (this.collection.length > 0) {
 			// Get average position of collection objects
-			var position = new Vector3();
-			for (var i = 0; i < this.collection.length; i++) { position.add(this.collection[i].position); }
-			position.divideScalar(this.collection.length);
-			this.selectedObjects.position.copy(position);
+			this.updateCenterPosition();
 			
 			// Attach collection to selected object after assigning previous parent
 			for (var i = 0; i < this.collection.length; i++) {
@@ -286,6 +283,17 @@ class Selector {
 		this.deselectObjects(true); // Empty collection
 		this.object = object;
 		this.object.attach(this.selectedObjects);
+	}
+
+	getCenterPosition() {
+		var position = new Vector3();
+		for (var i = 0; i < this.collection.length; i++) { position.add(this.collection[i].position); }
+		if (this.collection.length > 0) position.divideScalar(this.collection.length);
+		return position;
+	}
+
+	updateCenterPosition() {
+		this.selectedObjects.position.copy(this.getCenterPosition());
 	}
 
 	getMouse(e) {
