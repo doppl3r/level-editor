@@ -143,7 +143,7 @@ class Editor {
 		// Update selector box and populate collection
 		if (this.pointerIntent == 'select') {
 			this.selector.pointerUp(e);
-			this.selector.select(null, this.keys['ShiftLeft']);
+			this.selector.select(null, this.keys['ShiftLeft']); // Select with null object
 
 			// Attach transform controls to selected object
 			this.attachControls();
@@ -228,6 +228,10 @@ class Editor {
 		this.clipboard = this.deleteSelected();
 	}
 
+	copySelected() {
+		this.clipboard = this.selector.collection;
+	}
+
 	pasteSelected() {
 		if (this.clipboard.length > 0) {
 			// Deselect and set collection to clipboard
@@ -238,6 +242,15 @@ class Editor {
 			// Loop through clipboard objects
 			for (var i = 0; i < this.clipboard.length; i++) {
 				var object = this.clipboard[i];
+
+				// Copied objects must be cloned
+				if (object.parent) {
+					var parent = object.parent; // Store parent before clone
+					object = object.clone();
+					object.parentPrevious = object.parent = parent;
+				}
+
+				// Select pasted object and attach to group
 				object.isSelected = true;
 				this.selector.selectedObjects.attach(object);
 			}
@@ -254,6 +267,8 @@ class Editor {
 			this.controlsTransform.attach(this.selector.selectedObjects);
 		}
 		else {
+			this.selector.selectedObjects.scale.set(1, 1, 1);
+			this.selector.selectedObjects.rotation.set(0, 0, 0);
 			this.controlsTransform.detach();
 		}
 	}
@@ -275,6 +290,7 @@ class Editor {
 		if (e.code == 'KeyT') this.setTransformMode('translate');
 		if (e.code == 'ControlLeft') this.setSnap(1, 15, 1);
 		if (e.code == 'KeyD' && e.shiftKey == true) { this.duplicateSelected(); this.keyDown({ code: 'KeyG' }); /* Spoof "transformSelected" */ }
+		if (e.code == 'KeyC' && e.ctrlKey == true) this.copySelected();
 		if (e.code == 'KeyX' && e.ctrlKey == true) this.cutSelected();
 		if (e.code == 'KeyV' && e.ctrlKey == true) this.pasteSelected();
 		this.keys[e.code] = true;
