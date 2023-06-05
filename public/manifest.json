@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "Boxel Dungeons",
-  "description": "Jump, explore, and loot dungeons.",
+  "name": "Level Editor",
+  "description": "Design 3D platform levels.",
   "version": "0.0.1",
   "action": {
     "default_popup": "index.html",
-    "default_title": "Boxel Dungeons"
+    "default_title": "Level Editor"
   },
   "icons": { 
     "16": "img/png/icon16.png", 

@@ -1,5 +1,7 @@
-# Boxel Dungeons
-Jump, explore, and loot dungeons.
+# Level Editor
+Design 3D platform levels. Built with Vue.js (UI) and Three.js (3D engine). I originally developed this app to help build levels for future games.
+
+![Screenshot](./files/png/screenshot.png)
 
 ## Local Development
 
